@@ -3,13 +3,14 @@ name: Release Workflow
 on:
   push:
     branches:
-      - master
+      - "**"
 jobs:
   release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
       statuses: write
+    if: ${{ !startsWith(github.ref, 'refs/heads/master') && !startsWith(github.ref, 'refs/heads/release') }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
