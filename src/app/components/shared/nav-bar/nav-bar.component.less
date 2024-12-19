@@ -1,246 +1,265 @@
-@import '../styles/media-query.less';
-@import '../styles/colors.less';
+@import "../styles/media-query.less";
+@import "../styles/colors.less";
 
 .navbar {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  padding: 0.5rem 1.5rem;
+  margin: 0;
+  background-color: transparent;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  box-shadow: none;
+  #navbarNav {
+    visibility: hidden;
+    pointer-events: none;
+    height: auto;
+    transform: translate(-50%, 65%);
+    position: fixed;
+  }
+
+  .navbar-brand {
+    margin: 0.5rem;
+    display: none;
+    .logo-image {
+      display: none;
+      width: 30px;
+      height: auto;
+    }
+
+    .logo-image--nome {
+      width: 95px;
+      height: auto;
+    }
+  }
+
+  .navbar-toggler {
+    display: none;
+    height: 1rem;
+  }
+
+  .spacer {
+    flex-grow: 1;
+  }
+
+  .user-area {
     display: flex;
-    // position: absolute;
-    width: 100%;
-    padding: .5rem 1.5rem;
-    margin: 0;
-    background-color: #eff1f5;
     align-items: center;
-    justify-content: center;
-    z-index: 2;
-    box-shadow: none;
+    color: @color-secondary;
 
-    .navbar-brand {
-        margin: .5rem;
-
-        .logo-image {
-            display: none;
-            width: 30px;
-            height: auto;
-        }
-
-        .logo-image--nome {
-            width: 95px;
-            height: auto;
-
-        }
+    mat-icon {
+      font-size: 2rem;
+      height: 2rem;
+      width: 2rem;
+      fill: @color-primary;
+    }
+    .user-menu {
+      display: flex;
+      position: absolute;
+      background-color: #eff1f5;
+      top: 5.7rem;
+      right: 0.5rem;
+      padding: 0.5rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      opacity: 1;
+      transition: opacity 0.5s ease, transform 0.5s ease;
     }
 
-    .navbar-toggler {
-        display: none;
-        height: 1rem;
+    .hidden {
+      display: flex;
+      position: absolute;
+      top: 5.7rem;
+      right: 0.5rem;
+      padding: 0.5rem;
+      opacity: 0;
+      transform: translateY(-20px);
+      pointer-events: none;
+      transition: opacity 0.5s ease, transform 0.5s ease;
     }
 
-    .spacer {
-        flex-grow: 1;
-    }
+    .user-submenu {
+      display: flex;
+      flex-direction: column;
+      list-style-type: none;
+      text-decoration: none;
+      margin: 0;
+      padding: 0;
 
-    .user-area {
+      .nav-item {
         display: flex;
         align-items: center;
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+
+        &:first-child {
+          margin: 0 auto;
+          font-weight: 500;
+        }
 
         mat-icon {
-            font-size: 2rem;
-            height: 2rem;
-            width: 2rem;
-            fill: @color-primary;
-        }
-        .user-menu {
-            display: flex;
-            position: absolute;
-            background-color: #eff1f5;
-            top: 5.7rem;
-            right: .5rem;
-            padding: .5rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            opacity: 1;
-            transition: opacity .5s ease, transform 0.5s ease;
+          font-size: 1.5rem;
+          height: 1.5rem;
+          width: 1.5rem;
         }
 
-        .hidden {
-            display: flex;
-            position: absolute;
-            top: 5.7rem;
-            right: .5rem;
-            padding: .5rem;
-            opacity: 0;
-            transform: translateY(-20px);
-            pointer-events: none;
-            transition: opacity .5s ease, transform 0.5s ease;
+        a {
+          color: @color-primary;
         }
-
-        .user-submenu {
-            display: flex;
-            flex-direction: column;
-            list-style-type: none;
-            text-decoration: none;
-            margin: 0;
-            padding: 0;
-
-            .nav-item {
-                display: flex;
-                align-items: center;
-                margin: 0;
-                padding: 0;
-                cursor: pointer;
-
-                &:first-child {
-                    margin: 0 auto;
-                    font-weight: 500;
-                }
-
-                mat-icon {
-                    font-size: 1.5rem;
-                    height: 1.5rem;
-                    width: 1.5rem;
-                }
-
-                a {
-                    color: @color-primary;
-                }
-            }
-        }
+      }
     }
+  }
 
-    .user-area img {
-        height: 3rem;
+  .user-area img {
+    height: 3rem;
+    border-radius: 50%;
+  }
+
+  .menu {
+    .navbar-menu {
+      list-style-type: none;
+      text-decoration: none;
+      margin: 0;
+      padding: 1rem;
+
+      .nav-item {
+        display: flex;
+        text-decoration: none;
+
+        mat-icon {
+          color: @color-primary;
+          margin: 0 1rem;
+          fill: @color-primary;
+        }
+
+        .nav-link {
+          color: @color-primary;
+          text-decoration: none;
+          margin: 0;
+          padding: 0;
+        }
+      }
+
+      .user-img {
         border-radius: 50%;
+        display: block;
+        width: 1.5rem;
+        height: 1.5rem;
+        margin: 0 1rem;
+        overflow: hidden;
+      }
     }
-
-    .menu {
-        .navbar-menu {
-            list-style-type: none;
-            text-decoration: none;
-            margin: 0;
-            padding: 1rem;
-
-            .nav-item {
-                display: flex;
-                text-decoration: none;
-
-                mat-icon {
-                    color: @color-primary;
-                    margin: 0 1rem;
-                    fill: @color-primary;
-                }
-
-                .nav-link {
-                    color: @color-primary;
-                    text-decoration: none;
-                    margin: 0;
-                    padding: 0;
-                }
-            }
-
-            .user-img {
-                border-radius: 50%;
-                display: block;
-                width: 1.5rem;
-                height: 1.5rem;
-                margin: 0 1rem;
-                overflow: hidden;
-            }
-
-        }
-    }
+  }
 }
 
 @media @mobile {
-    .navbar {
+  .navbar {
+    justify-content: space-between;
+    position: inherit;
 
-        justify-content: space-between;
-
-        .navbar-brand {
-            margin: .5rem;
-
-            .logo-image {
-                display: block;
-            }
-
-            .logo-image--nome {
-                display: none;
-            }
-        }
-
-        .navbar-toggler {
-            display: block;
-            border: none;
-            margin: 0.5rem;
-            padding: 0;
-
-            &:focus {
-                border: none;
-                outline: none;
-            }
-
-            .nav-hamburger {
-                display: block;
-                position: relative;
-                background: black;
-                width: 30px;
-                height: 2px;
-                transition: all 0.3s ease-in-out;
-
-                &::before,
-                &::after {
-                    position: absolute;
-                    background: black;
-                    content: "";
-                    display: block;
-                    width: 100%;
-                    height: 100%;
-                    transition: all 0.3s ease-in-out;
-                }
-
-                &::after {
-                    transform: translateY(10px);
-
-                }
-
-                &::before {
-                    transform: translateY(-10px);
-                }
-            }
-
-            .active {
-                display: block;
-                position: relative;
-                background: rgba(0, 0, 0, 0);
-                width: 30px;
-                height: 2px;
-                transform: rotate(0deg);
-                transition: all 0.3s ease-in-out;
-
-                &::after,
-                &::before {
-                    position: absolute;
-                    background: black;
-                    content: "";
-                    display: block;
-                    width: 100%;
-                    height: 100%;
-                    transition: all 0.3s ease-in-out;
-                }
-
-                &::after {
-                    transform: rotate(45deg) translateY(0px);
-                }
-
-                &::before {
-                    transform: rotate(-45deg) translateY(0px);
-                }
-            }
-        }
-
-        .spacer {
-            display: none;
-        }
-
-        .user-area {
-            display: none;
-        }
+    #navbarNav {
+      &.show {
+        visibility: visible;
+        pointer-events: auto;
+        transform: translate(-10%, 65%);
+        transition: all 0.3s ease;
+        z-index: 3;
+        background: white;
+        width: 115%;
+        display: flex;
+        justify-content: center;
+      }
     }
+    .navbar-brand {
+      margin: 0.5rem;
+      display: inherit;
+
+      .logo-image {
+        display: block;
+      }
+
+      .logo-image--nome {
+        display: none;
+      }
+    }
+
+    .navbar-toggler {
+      display: block;
+      border: none;
+      margin: 0.5rem;
+      padding: 0;
+
+      &:focus {
+        border: none;
+        outline: none;
+      }
+
+      .nav-hamburger {
+        display: block;
+        position: relative;
+        background: black;
+        width: 30px;
+        height: 2px;
+        transition: all 0.3s ease-in-out;
+
+        &::before,
+        &::after {
+          position: absolute;
+          background: black;
+          content: "";
+          display: block;
+          width: 100%;
+          height: 100%;
+          transition: all 0.3s ease-in-out;
+        }
+
+        &::after {
+          transform: translateY(10px);
+        }
+
+        &::before {
+          transform: translateY(-10px);
+        }
+      }
+
+      .active {
+        display: block;
+        position: relative;
+        background: rgba(0, 0, 0, 0);
+        width: 30px;
+        height: 2px;
+        transform: rotate(0deg);
+        transition: all 0.3s ease-in-out;
+
+        &::after,
+        &::before {
+          position: absolute;
+          background: black;
+          content: "";
+          display: block;
+          width: 100%;
+          height: 100%;
+          transition: all 0.3s ease-in-out;
+        }
+
+        &::after {
+          transform: rotate(45deg) translateY(0px);
+        }
+
+        &::before {
+          transform: rotate(-45deg) translateY(0px);
+        }
+      }
+    }
+
+    .spacer {
+      display: none;
+    }
+
+    .user-area {
+      display: none;
+    }
+  }
 }

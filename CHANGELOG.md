@@ -1,3 +1,62 @@
+# 1.0.0 (2024-12-19)
+
+
+### Bug Fixes
+
+* (navbar) Fix merge bugs ([ed5ec24](https://github.com/Rodrigues-Developers/silver-catalog/commit/ed5ec2426ad671994f12784d81a0034202a32ebf)), closes [#5](https://github.com/Rodrigues-Developers/silver-catalog/issues/5)
+* (styles) Fix duplicates ([5d1bd6d](https://github.com/Rodrigues-Developers/silver-catalog/commit/5d1bd6d1898df468d199c1794aab2df10fd59933)), closes [#5](https://github.com/Rodrigues-Developers/silver-catalog/issues/5)
+* <nav-bar> Corrections on layout code. ([6786a3d](https://github.com/Rodrigues-Developers/silver-catalog/commit/6786a3df2b4999c53c6ff2a0d27cc1ddb5011495)), closes [#5](https://github.com/Rodrigues-Developers/silver-catalog/issues/5)
+* <nav-bar> Corrections on layout code. ([d7ee079](https://github.com/Rodrigues-Developers/silver-catalog/commit/d7ee079dbeba36b31545dbd1e8014d7e79f102a6)), closes [#5](https://github.com/Rodrigues-Developers/silver-catalog/issues/5)
+* <nav-bar> Corrections on layout code. ([a4bcb5f](https://github.com/Rodrigues-Developers/silver-catalog/commit/a4bcb5f5990fae3a166afa48e4b582c3c1f88504)), closes [#5](https://github.com/Rodrigues-Developers/silver-catalog/issues/5)
+* <nav-bar> Corrections on layout code. ([1393bc1](https://github.com/Rodrigues-Developers/silver-catalog/commit/1393bc1d1f5cda39ec4e10da482ec3847ac24f4a)), closes [#5](https://github.com/Rodrigues-Developers/silver-catalog/issues/5)
+* responsiveness method changed to CSS ([b164487](https://github.com/Rodrigues-Developers/silver-catalog/commit/b164487a1bb9c16ea6d1a056eac35bfc8c19d346))
+* responsiveness method changed to CSS ([029ac6b](https://github.com/Rodrigues-Developers/silver-catalog/commit/029ac6be896991c30a4aa90bce3e08e91b6f4b65))
+* responsiveness method changed to CSS ([d8e553d](https://github.com/Rodrigues-Developers/silver-catalog/commit/d8e553d5fda196b89f6c82b1d230cb93d4acf225))
+
+
+### Features
+
+* added auto version bump by semantic-release ([a9a0dee](https://github.com/Rodrigues-Developers/silver-catalog/commit/a9a0dee57b49039019b3a52eaa0c722728e7f2f8))
+* added correct post call to request an token and removed old local api ([27cf560](https://github.com/Rodrigues-Developers/silver-catalog/commit/27cf5607e835741c67624e8a1f055231840f3bc2))
+* added get from the product list connected to the backend and removed unnecessary components ([75778c0](https://github.com/Rodrigues-Developers/silver-catalog/commit/75778c09a4c96439534cd08b33d85e3ab9f67edc))
+* basic package.json with react and next ([853b5a4](https://github.com/Rodrigues-Developers/silver-catalog/commit/853b5a4b16425a333d4da946608ac5c956be7c18))
+* Component created on path shared. ([8a00a85](https://github.com/Rodrigues-Developers/silver-catalog/commit/8a00a856be2b8a14a3f5502ac5583807c12208e3))
+* Component created on path shared. ([aec4775](https://github.com/Rodrigues-Developers/silver-catalog/commit/aec4775030a43689ef7e61b9c94a2172387fd0ef))
+* Component created on path shared. ([bac80c9](https://github.com/Rodrigues-Developers/silver-catalog/commit/bac80c9f92a33f94a30255537f6ee36cb988da03))
+* Component created on path shared. ([4347002](https://github.com/Rodrigues-Developers/silver-catalog/commit/4347002956e07b8c2389544c45555c41bcc96b94))
+* Component shared moved to shared path ([bef2f6d](https://github.com/Rodrigues-Developers/silver-catalog/commit/bef2f6d40211de4cc28209cfdf3715ba4ca93522))
+* Component shared moved to shared path ([9923540](https://github.com/Rodrigues-Developers/silver-catalog/commit/9923540b1356af757f96ba5280a25a956082a394))
+* Component shared moved to shared path ([a60dbcd](https://github.com/Rodrigues-Developers/silver-catalog/commit/a60dbcd2005e06ed62aa6c21e7a0f0d1b1fb96fc))
+* created media query defalt sizes. ([41d3254](https://github.com/Rodrigues-Developers/silver-catalog/commit/41d3254d18dfc63f3f757b0b1fed2fee979ffe2c))
+* created media query defalt sizes. ([dfb757a](https://github.com/Rodrigues-Developers/silver-catalog/commit/dfb757a4677a08cc226896c57e080366a53e41b6))
+* created media query defalt sizes. ([3614d54](https://github.com/Rodrigues-Developers/silver-catalog/commit/3614d54d3a2f97dcb4b2d41c45cd9ea0ab5327cc))
+* created media query defalt sizes. ([82de5a9](https://github.com/Rodrigues-Developers/silver-catalog/commit/82de5a9b8d71169dbf5be1f0362dd0a5a15ae61b))
+* Favicon changed. ([caf5c74](https://github.com/Rodrigues-Developers/silver-catalog/commit/caf5c74a5d239b085b8003a147e5abb06a683830))
+* Favicon changed. ([ba171e0](https://github.com/Rodrigues-Developers/silver-catalog/commit/ba171e03e7005b337dc4f68b7f9491c337b1853e))
+* initial 1.0.0 ([bed8ff8](https://github.com/Rodrigues-Developers/silver-catalog/commit/bed8ff8d721da112b234dfb3cae306ab096520e9))
+* initial corrected version ([507507f](https://github.com/Rodrigues-Developers/silver-catalog/commit/507507feac57551dc149873bd56b43366bfdfdb5))
+* initial react and next.js config with routes and sub-routes ([2a5f5d6](https://github.com/Rodrigues-Developers/silver-catalog/commit/2a5f5d62b5d79e8aa5ef4b0049bdea322aa8cb73))
+* Navbar mobile partially completed. ([28b88c2](https://github.com/Rodrigues-Developers/silver-catalog/commit/28b88c21c7a4d9e9d690c777691f600d473f63b8))
+* Navbar mobile partially completed. ([8a42258](https://github.com/Rodrigues-Developers/silver-catalog/commit/8a4225812479032f8e09564935aa6109332da9f9))
+* product list style ([7eee0d3](https://github.com/Rodrigues-Developers/silver-catalog/commit/7eee0d3e443ea11bbd27ca37adbb8f24e27627d2))
+* removed token post request and added the correct request using the bearer with the correct audience of the API in the auth file ([6a9a2bf](https://github.com/Rodrigues-Developers/silver-catalog/commit/6a9a2bf209c016cd2cebde0169d83dfbf8eda50e))
+* stylized hamburger menu ([316062e](https://github.com/Rodrigues-Developers/silver-catalog/commit/316062e6c28580a2608403e6b06defd875ee1d1f))
+* stylized hamburger menu ([c9fbfc9](https://github.com/Rodrigues-Developers/silver-catalog/commit/c9fbfc985ad75fafd1671dde2a0fd7b4d1286fc5))
+* stylized hamburger menu ([13aeb7d](https://github.com/Rodrigues-Developers/silver-catalog/commit/13aeb7dc042cd68a0f92a50747a683db4c03d34f))
+* The layout changes from sidebar to navbar depending on the size of the screen. ([4604a78](https://github.com/Rodrigues-Developers/silver-catalog/commit/4604a789474f382242cc90fcb4ee1a232d49a0f2))
+* The layout changes from sidebar to navbar depending on the size of the screen. ([bf80cee](https://github.com/Rodrigues-Developers/silver-catalog/commit/bf80ceecca8f98a386e1607a690b4175480fb113))
+* The layout changes from sidebar to navbar depending on the size of the screen. ([622ec89](https://github.com/Rodrigues-Developers/silver-catalog/commit/622ec8995a282b0faa64b51828168660aced3906))
+* The layout changes from sidebar to navbar depending on the size of the screen. ([04e7fb1](https://github.com/Rodrigues-Developers/silver-catalog/commit/04e7fb1045b344682d025303aa8a2bebb825267c))
+* update branch name ([43cc226](https://github.com/Rodrigues-Developers/silver-catalog/commit/43cc226faf9d4f51d292a7629e6dd37d6a079b4b))
+* update node version ([80ca349](https://github.com/Rodrigues-Developers/silver-catalog/commit/80ca349c721128f5d19b5583817c1412ae434780))
+* update permission ([9012c9c](https://github.com/Rodrigues-Developers/silver-catalog/commit/9012c9c255b98e658ddfe1690a4af87558bfeed5))
+* update status check ([c8d05db](https://github.com/Rodrigues-Developers/silver-catalog/commit/c8d05db4f991838044f0f2c78d3061d9adb8e1c1))
+* update to exclude master and release branches ([8462986](https://github.com/Rodrigues-Developers/silver-catalog/commit/8462986a7ffd25508363284b420d4345f3933651))
+* update to exclude master and release branches ([d68fcdc](https://github.com/Rodrigues-Developers/silver-catalog/commit/d68fcdc93def4fb4d792f7e901df9428ca5e5589))
+* update to run on any branch ([b0355f4](https://github.com/Rodrigues-Developers/silver-catalog/commit/b0355f42a40a6c56d6b76857d142c891d4c835b5))
+* updated dependencies and added less support ([d537d01](https://github.com/Rodrigues-Developers/silver-catalog/commit/d537d01d3cc6a2aa97c970cad83d424e57a667d5))
+* updated prod to use env variables in vercel ([65b3b76](https://github.com/Rodrigues-Developers/silver-catalog/commit/65b3b7644b0db420ab01e6e33d84f2e0b0215873))
+
 # 1.0.0 (2024-12-18)
 
 
