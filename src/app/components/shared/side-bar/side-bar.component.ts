@@ -4,14 +4,13 @@ import { AuthService } from "@auth0/auth0-angular";
 import { faUser, faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import { AsyncPipe, DOCUMENT, NgIf } from "@angular/common";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { NgbDropdown, NgbDropdownMenu, NgbDropdownToggle } from "@ng-bootstrap/ng-bootstrap";
 import { RouterLink } from "@angular/router";
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-side-bar',
   standalone: true,
-  imports: [FontAwesomeModule, MatIconModule, NgbDropdownToggle, NgbDropdownMenu, NgbDropdown, AsyncPipe, NgIf, RouterLink, CommonModule,],
+  imports: [FontAwesomeModule, MatIconModule, AsyncPipe, NgIf, RouterLink, CommonModule,],
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.less'
 })
