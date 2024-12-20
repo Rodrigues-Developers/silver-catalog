@@ -6,8 +6,8 @@
     <img src="../../../../assets/logo-ags-nome.png" alt="logo image" class="logo-image--nome" routerLink="/" />
   </div>
 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
-    [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation" (click)="isCollapsed = !isCollapsed">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" [attr.aria-expanded]="!isCollapsed"
+    aria-label="Toggle navigation" (click)="isCollapsed = !isCollapsed">
     <span [ngClass]="{'nav-hamburger': isCollapsed, 'active': !isCollapsed}"></span>
 
   </button>
@@ -54,6 +54,10 @@
       <li class="nav-item">
         <mat-icon>perm_phone_msg</mat-icon>
         <a routerLink="/" class="nav-link" (click)="isCollapsed = !isCollapsed">Contato</a>
+      </li>
+      <li class="nav-item" *ngIf="(auth.isAuthenticated$ | async)">
+        <mat-icon>edit</mat-icon>
+        <a routerLink="product-management" class="nav-link">Gerenciar Produtos</a>
       </li>
       @if ((auth.isAuthenticated$ | async) === false ) {
       <li class="nav-item">

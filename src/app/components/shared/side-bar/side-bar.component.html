@@ -4,7 +4,7 @@
     </div>
     <ul class="sidebar-menu">
         <li class="nav-item" routerLink="/">
-            <mat-icon>home</mat-icon> 
+            <mat-icon>home</mat-icon>
             <a routerLink="/" class="nav-link">Home</a>
         </li>
         <li class="nav-item" routerLink="external-api">
@@ -19,6 +19,10 @@
             <mat-icon>account_circle</mat-icon>
             <a id="login-btn" class="nav-link" (click)="loginWithRedirect()">Log in</a>
         </li>
-        
+        <li class="nav-item" *ngIf="(auth.isAuthenticated$ | async)">
+            <mat-icon>edit</mat-icon>
+            <a routerLink="product-management" class="nav-link">Gerenciar Produtos</a>
+        </li>
+
     </ul>
 </div>
