@@ -1,5 +1,6 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 auth_config.json
+firebase_config.json
 
 # compiled output
 /dist

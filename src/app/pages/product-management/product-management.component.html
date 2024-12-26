@@ -33,6 +33,14 @@
         <input id="category" type="text" formControlName="category" placeholder="Separado por vírgulas (ex. pulseira, colar)" />
       </div>
 
+      <div class="form-group">
+        <label for="image">Imagem:</label>
+        <input id="image" type="file" formControlName="image" (change)="onImageChange($event)" accept="image/*" />
+      </div>
+      <div *ngIf="imagePreview" class="image-preview">
+        <img [src]="imagePreview" alt="Preview da Imagem" />
+      </div>
+
       <button type="submit" class="btn btn-primary">
         {{ editingProduct ? "Atualizar" : "Criar" }}
       </button>

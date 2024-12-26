@@ -41,6 +41,7 @@ export class ProductListComponent {
       price: 180.5,
       availability: true,
       category: ["bracelet"],
+      image: "https://example.com/image.jpg",
     };
 
     this.api.createProduct(newProduct).subscribe({
