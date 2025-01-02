@@ -7,10 +7,19 @@ body {
   font-family: Arial, sans-serif;
 }
 
+ul,
+li {
+  list-style-type: none;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+}
+
 html,
 body {
   height: 100%;
 }
+
 mat-icon {
   fill: @text-color;
 }
@@ -18,34 +27,48 @@ mat-icon {
 /* Parent toast container styles */
 .toast-container {
   position: absolute;
-  top: 50%; /* Center vertically */
-  left: 50%; /* Center horizontally */
-  transform: translate(-50%, -50%); /* Centering adjustment */
-  z-index: 3; /* Ensure it appears above other content */
-  pointer-events: none; /* Prevent blocking page interaction */
+  top: 50%;
+  /* Center vertically */
+  left: 50%;
+  /* Center horizontally */
+  transform: translate(-50%, -50%);
+  /* Centering adjustment */
+  z-index: 3;
+  /* Ensure it appears above other content */
+  pointer-events: none;
+  /* Prevent blocking page interaction */
 
   /* Child toasts */
-  > div {
-    background: rgba(50, 50, 50, 0.8); /* Semi-transparent dark background */
-    border-radius: 12px; /* Smooth corners */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Subtle depth effect */
-    backdrop-filter: blur(10px); /* Modern blur effect */
-    color: #ffffff; /* White text for contrast */
+  >div {
+    background: rgba(50, 50, 50, 0.8);
+    /* Semi-transparent dark background */
+    border-radius: 12px;
+    /* Smooth corners */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    /* Subtle depth effect */
+    backdrop-filter: blur(10px);
+    /* Modern blur effect */
+    color: #ffffff;
+    /* White text for contrast */
     padding: 16px;
     font-family: "Arial", sans-serif;
     font-size: 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: auto; /* Dynamically adjust width */
-    animation: fade-in 0.5s ease, fade-out 0.5s 3s ease forwards; /* Entry & exit animations */
+    width: auto;
+    /* Dynamically adjust width */
+    animation: fade-in 0.5s ease, fade-out 0.5s 3s ease forwards;
+    /* Entry & exit animations */
 
     &.toast-success {
-      border-left: 6px solid #4caf50; /* Green border for success */
+      border-left: 6px solid #4caf50;
+      /* Green border for success */
     }
 
     &.toast-error {
-      border-left: 6px solid #f44336; /* Red border for errors */
+      border-left: 6px solid #f44336;
+      /* Red border for errors */
     }
 
     /* Close button customization */
@@ -65,8 +88,10 @@ mat-icon {
 @keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(-10px); /* Slide in from above */
+    transform: translateY(-10px);
+    /* Slide in from above */
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -78,8 +103,10 @@ mat-icon {
     opacity: 1;
     transform: translateY(0);
   }
+
   to {
     opacity: 0;
-    transform: translateY(10px); /* Slide down slightly */
+    transform: translateY(10px);
+    /* Slide down slightly */
   }
 }

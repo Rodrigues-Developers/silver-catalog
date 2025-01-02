@@ -6,12 +6,17 @@
     grid-template-rows: 0fr 1fr 0fr;
     gap: 0px;
     grid-template-areas:
-        "Navbar Navbar Navbar"
-        "Sidebar Body Body"
-        "Footer Footer Footer";
+        "Navbar"
+        "Body"
+        "Footer";
 
     .nav-bar-section {
         grid-area: Navbar;
+    }
+
+    .navbar-component {
+        display: block;
+        height: 7rem;
     }
 
     .sidebar-component {

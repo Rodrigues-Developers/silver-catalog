@@ -1,19 +1,50 @@
 <nav class="navbar">
-  <div class="spacer"></div>
+  <div class="search">
+    <mat-icon>search</mat-icon>
+    <mat-icon *ngIf="isAuthenticated" routerLink="product-management">edit</mat-icon>
+    <!-- Barra de pesquisa -->
+  </div>
+  <div class="side-menu">
+    <ul class="navbar-menu">
+      <li class="nav-item">
+        <a routerLink="/" class="nav-link">Home</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="external-api" class="nav-link">Loja</a>
+      </li>
+    </ul>
+  </div>
 
   <div class="navbar-brand">
     <img src="../../../../assets/logo-ags.png" alt="logo image" class="logo-image" routerLink="/" />
     <img src="../../../../assets/logo-ags-nome.png" alt="logo image" class="logo-image--nome" routerLink="/" />
   </div>
 
-  <button class="navbar-toggler" type="button" [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation" (click)="isCollapsed = !isCollapsed">
+  <button class="navbar-toggler" type="button" [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation"
+    (click)="isCollapsed = !isCollapsed">
     <span [class.nav-hamburger]="isCollapsed" [class.active]="!isCollapsed"></span>
   </button>
 
-  <div class="spacer"></div>
+  <div class="side-menu">
+    <ul class="navbar-menu">
+      <li class="nav-item">
+        <a routerLink="/" class="nav-link">Contato</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="external-api" class="nav-link">Loja</a>
+      </li>
+    </ul>
+  </div>
 
-  <div class="user-area">
+  <div class="user-dashboard">
     <!-- If user is not authenticated, show login button -->
+    <div>
+      <mat-icon>star</mat-icon>
+    </div>
+    <div>
+      <mat-icon>shopping_cart</mat-icon>
+    </div>
+
     <div *ngIf="!isAuthenticated" class="user-area" (click)="loginWithRedirect()">
       <mat-icon>account_circle</mat-icon>
     </div>
@@ -38,9 +69,10 @@
         </ul>
       </div>
     </div>
+
   </div>
 
-  <div class="menu navbar-collapse" [class.collapse]="isCollapsed">
+  <div class="menu " [class.active]="!isCollapsed">
     <ul class="navbar-menu">
       <li class="nav-item">
         <mat-icon>home</mat-icon>
@@ -56,7 +88,7 @@
       </li>
       <li class="nav-item" *ngIf="isAuthenticated">
         <mat-icon>edit</mat-icon>
-        <a routerLink="product-management" class="nav-link">Gerenciar Produtos</a>
+        <a routerLink="product-management" class="nav-link" (click)="isCollapsed = !isCollapsed">Gerenciar Produtos</a>
       </li>
       <li *ngIf="!isAuthenticated" class="nav-item">
         <mat-icon>account_circle</mat-icon>
