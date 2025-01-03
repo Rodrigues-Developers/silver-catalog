@@ -20,10 +20,10 @@
     <img src="../../../../assets/logo-ags-nome.png" alt="logo image" class="logo-image--nome" routerLink="/" />
   </div>
 
-  <button class="navbar-toggler" type="button" [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation"
-    (click)="isCollapsed = !isCollapsed">
+  <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed" title="Menu button">
     <span [class.nav-hamburger]="isCollapsed" [class.active]="!isCollapsed"></span>
   </button>
+
 
   <div class="side-menu">
     <ul class="navbar-menu">
@@ -45,9 +45,11 @@
       <mat-icon>shopping_cart</mat-icon>
     </div>
 
-    <div *ngIf="!isAuthenticated" class="user-area" (click)="loginWithRedirect()">
+    @if (!isAuthenticated) {
+    <div class="user-area" (click)="loginWithRedirect()">
       <mat-icon>account_circle</mat-icon>
     </div>
+    }
 
     <!-- If user is authenticated and profile exists, show profile picture and menu -->
     <div *ngIf="isAuthenticated && user" class="user-area" (click)="userCollapsed = !userCollapsed">
