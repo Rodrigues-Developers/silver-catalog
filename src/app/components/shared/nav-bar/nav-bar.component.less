@@ -1,5 +1,6 @@
 @import "../styles/media-query.less";
 @import "../styles/colors.less";
+@import "../../../shared/styles/global_colors.less";
 @import "../../../shared/styles/top-left-text.less";
 
 .navbar {
@@ -23,7 +24,6 @@
       font-size: 2rem;
       height: 2rem;
       width: 2rem;
-      fill: @color-primary;
     }
   }
 
@@ -96,8 +96,6 @@
       font-size: 2rem;
       height: 2rem;
       width: 2rem;
-      fill: @color-primary;
-      color: @color-primary;
     }
 
     .user-area {
@@ -148,8 +146,7 @@
             font-size: 1.5rem;
             height: 1.5rem;
             width: 1.5rem;
-            fill: @color-primary;
-            color: @color-primary;
+            color: @text-color;
           }
 
           a {
@@ -186,9 +183,7 @@
         text-decoration: none;
 
         mat-icon {
-          color: @color-primary;
           margin: 0 1rem;
-          fill: @color-primary;
         }
 
         .nav-link {
