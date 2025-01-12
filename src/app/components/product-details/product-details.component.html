@@ -1,22 +1,35 @@
-<div class="product-details">
-  <section class="sidebar-section">
-    <app-side-bar class="sidebar-component"></app-side-bar>
+<div class="product-details-container">
+  <section class="product-details">
+    <!-- Left Section: Images -->
+    <div class="product-images">
+      <img [src]="product?.image" alt="Product Image" class="main-image" />
+      <div class="foreground-overlay"></div>
+      <div class="additional-images">
+        @for (image of additionalImages; track $index) {
+        <div class="thumbnail">
+          <img [src]="image" alt="Thumbnail" />
+          <div class="foreground-overlay"></div>
+
+        </div>
+        }
+      </div>
+    </div>
+
+    <!-- Right Section: Details -->
+    <div class="product-info">
+      <h1>{{ product?.name }}</h1>
+      <p class="price">{{ product?.price | currency: 'BRL' }}</p>
+      <p class="description">{{ product?.description }}</p>
+    </div>
+
   </section>
 
-  <!-- Left Section: Images -->
-  <div class="product-images">
-    <img [src]="product?.image" alt="Product Image" class="main-image" />
-    <div class="additional-images">
-      @for (image of additionalImages; track $index) {
-      <img [src]="image" alt="Thumbnail" class="thumbnail" />
-      }
-    </div>
-  </div>
 
-  <!-- Right Section: Details -->
-  <div class="product-info">
-    <h1>{{ product?.name }}</h1>
-    <p class="price">{{ product?.price | currency: 'BRL' }}</p>
-    <p class="description">{{ product?.description }}</p>
-  </div>
+  <h3> Veja Também</h3>
+  <section class="related-products">
+    <div class="sidebar-section">
+      <app-side-bar class="sidebar-component"></app-side-bar>
+    </div>
+    <app-product-list></app-product-list>
+  </section>
 </div>
