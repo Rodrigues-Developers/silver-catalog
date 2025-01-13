@@ -3,13 +3,10 @@
     <!-- Left Section: Images -->
     <div class="product-images">
       <img [src]="product?.image" alt="Product Image" class="main-image" />
-      <div class="foreground-overlay"></div>
       <div class="additional-images">
         @for (image of additionalImages; track $index) {
         <div class="thumbnail">
           <img [src]="image" alt="Thumbnail" />
-          <div class="foreground-overlay"></div>
-
         </div>
         }
       </div>
@@ -30,6 +27,8 @@
     <div class="sidebar-section">
       <app-side-bar class="sidebar-component"></app-side-bar>
     </div>
-    <app-product-list></app-product-list>
+    <div class="product-list">
+      <app-product-list></app-product-list>
+    </div>
   </section>
 </div>
