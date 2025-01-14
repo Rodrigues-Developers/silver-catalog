@@ -4,13 +4,14 @@ import { ApiService } from "src/app/api.service";
 import { Product } from "src/app/interfaces/products.interface";
 import { CommonModule } from "@angular/common";
 import { SideBarComponent } from "../shared/side-bar/side-bar.component";
+import { ProductListComponent } from "../product-list/product-list.component";
 
 @Component({
   selector: "app-product-details",
   templateUrl: "./product-details.component.html",
   styleUrls: ["./product-details.component.less"],
   standalone: true,
-  imports: [CommonModule, SideBarComponent],
+  imports: [CommonModule, SideBarComponent, ProductListComponent],
 })
 export class ProductDetailsComponent implements OnInit {
   productId: string | null = null;

@@ -97,7 +97,7 @@
         <a routerLink="/" class="nav-link" (click)="isCollapsed = !isCollapsed">Contato</a>
       </li>
       <li class="nav-item" *ngIf="isAuthenticated">
-        <mat-icon>edit</mat-icon>
+        <mat-icon>settings</mat-icon>
         <a routerLink="product-management" class="nav-link" (click)="isCollapsed = !isCollapsed">Gerenciar Produtos</a>
       </li>
       <li *ngIf="!isAuthenticated" class="nav-item">

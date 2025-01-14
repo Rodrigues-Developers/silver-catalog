@@ -1,4 +1,5 @@
-// Variables
+@import "../shared/styles/media-query.less";
+
 @main-color: #007b00;
 @text-color: #666;
 @spacing: 1rem;
@@ -23,10 +24,19 @@
     max-width: 500px;
 
     .main-image {
-      width: 100%;
-      max-width: 500px;
+      width: 500px;
+      height: 500px;
       object-fit: cover;
       margin-bottom: @spacing;
+    }
+
+    .foreground-overlay {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background-color: rgb(0 0 0 / 5%); /* Black translucent effect */
+      pointer-events: none; /* Allows interaction with the image behind */
+      z-index: 2;
     }
 
     .additional-images {
@@ -34,11 +44,18 @@
       justify-content: flex-start;
       gap: @thumbnail-spacing;
       width: 100%;
-
       .thumbnail {
-        flex: 1;
         max-width: calc((100% - 3 * @thumbnail-spacing) / 4); // Dynamic width for 4 thumbnails
-        object-fit: cover;
+        flex: 1;
+        img {
+          object-fit: cover;
+          width: 100%;
+        }
+        .foreground-overlay {
+          width: 107px;
+          height: 107px;
+          transform: translate(0, -100%); // Slight shift to align with main image
+        }
         cursor: pointer;
         transition: transform 0.3s ease;
 
@@ -68,5 +85,22 @@
       font-size: 1rem;
       color: @text-color;
     }
+  }
+
+  @media @mobile {
+    flex-direction: column;
+  }
+}
+
+.product-details-container {
+  margin: 5rem;
+  h3 {
+    margin-top: 2rem;
+    text-align: center;
+  }
+  .related-products {
+    gap: 5%;
+    display: flex;
+    justify-content: center;
   }
 }
