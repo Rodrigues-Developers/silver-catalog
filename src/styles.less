@@ -18,6 +18,7 @@ li {
 html,
 body {
   height: 100%;
+  background: rgb(237 237 237);
 }
 
 mat-icon {
@@ -26,20 +27,17 @@ mat-icon {
 
 /* Parent toast container styles */
 .toast-container {
-  position: absolute;
-  top: 50%;
-  /* Center vertically */
-  left: 50%;
-  /* Center horizontally */
-  transform: translate(-50%, -50%);
-  /* Centering adjustment */
-  z-index: 3;
-  /* Ensure it appears above other content */
-  pointer-events: none;
-  /* Prevent blocking page interaction */
+  position: fixed !important;
+  top: 0px;
+  left: 0;
+  width: 100% !important;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   /* Child toasts */
-  >div {
+  > div {
     background: rgba(50, 50, 50, 0.8);
     /* Semi-transparent dark background */
     border-radius: 12px;

@@ -1,4 +1,5 @@
 @import "../shared/styles/media-query.less";
+@import "../shared/styles/colors.less";
 
 @main-color: #007b00;
 @text-color: #666;
@@ -6,9 +7,11 @@
 @thumbnail-spacing: 1.5rem;
 
 .product-details {
-  margin: 5rem;
+  margin: 0 5rem;
   display: flex;
   gap: 2rem;
+  background: @color-secondary;
+  padding: 1rem;
 
   .sidebar-component {
     display: block;
@@ -17,7 +20,6 @@
 
   // Images Section
   .product-images {
-    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,15 +30,9 @@
       height: 500px;
       object-fit: cover;
       margin-bottom: @spacing;
-    }
-
-    .foreground-overlay {
-      position: absolute;
-      width: 500px;
-      height: 500px;
-      background-color: rgb(0 0 0 / 5%); /* Black translucent effect */
-      pointer-events: none; /* Allows interaction with the image behind */
-      z-index: 2;
+      border: 1px solid #e0e0e0; /* Light border for separation */
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     }
 
     .additional-images {
@@ -50,11 +46,8 @@
         img {
           object-fit: cover;
           width: 100%;
-        }
-        .foreground-overlay {
-          width: 107px;
-          height: 107px;
-          transform: translate(0, -100%); // Slight shift to align with main image
+          border-radius: 8px;
+          box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
         }
         cursor: pointer;
         transition: transform 0.3s ease;
@@ -68,8 +61,6 @@
 
   // Product Info Section
   .product-info {
-    flex: 1;
-
     h1 {
       margin-bottom: @spacing / 2;
       font-size: 2rem;
@@ -95,12 +86,13 @@
 .product-details-container {
   margin: 5rem;
   h3 {
-    margin-top: 2rem;
+    margin: 2rem 0;
     text-align: center;
   }
   .related-products {
     gap: 5%;
     display: flex;
     justify-content: center;
+    margin: 0 5rem;
   }
 }
