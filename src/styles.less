@@ -15,14 +15,24 @@ li {
   padding: 0;
 }
 
+ul,
+li {
+  list-style-type: none;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+}
+
 html,
 body {
   height: 100%;
   background: rgb(237 237 237);
 }
 
+
 mat-icon {
   fill: @text-color;
+  color: @text-color;
   color: @text-color;
 }
 
@@ -60,13 +70,21 @@ mat-icon {
     /* Dynamically adjust width */
     animation: fade-in 0.5s ease, fade-out 0.5s 3s ease forwards;
     /* Entry & exit animations */
+    width: auto;
+    /* Dynamically adjust width */
+    animation: fade-in 0.5s ease, fade-out 0.5s 3s ease forwards;
+    /* Entry & exit animations */
 
     &.toast-success {
+      border-left: 6px solid #4caf50;
+      /* Green border for success */
       border-left: 6px solid #4caf50;
       /* Green border for success */
     }
 
     &.toast-error {
+      border-left: 6px solid #f44336;
+      /* Red border for errors */
       border-left: 6px solid #f44336;
       /* Red border for errors */
     }
@@ -90,7 +108,10 @@ mat-icon {
     opacity: 0;
     transform: translateY(-10px);
     /* Slide in from above */
+    transform: translateY(-10px);
+    /* Slide in from above */
   }
+
 
   to {
     opacity: 1;
@@ -104,8 +125,11 @@ mat-icon {
     transform: translateY(0);
   }
 
+
   to {
     opacity: 0;
+    transform: translateY(10px);
+    /* Slide down slightly */
     transform: translateY(10px);
     /* Slide down slightly */
   }

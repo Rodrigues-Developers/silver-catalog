@@ -22,97 +22,105 @@
   </div>
 
   <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed" title="Menu button">
-    <span [class.nav-hamburger]="isCollapsed" [class.active]="!isCollapsed"></span>
-  </button>
+    <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed" title="Menu button">
+      <span [class.nav-hamburger]="isCollapsed" [class.active]="!isCollapsed"></span>
+    </button>
 
 
-  <div class="side-menu">
-    <ul class="navbar-menu-right">
-      <li class="nav-item left-right-effect">
-        <a routerLink="/" class="nav-link">Contato</a>
-      </li>
-      <li class="nav-item left-right-effect">
-        <a routerLink="external-api" class="nav-link">Sobre Nós</a>
-      </li>
-    </ul>
-  </div>
-  <div class="user-dashboard">
-    @if (isAuthenticated && isUserAdmin) {
-    <div>
-      <mat-icon>star</mat-icon>
+    <div class="side-menu">
+      <ul class="navbar-menu-right">
+        <li class="nav-item left-right-effect">
+          <a routerLink="/" class="nav-link">Contato</a>
+        </li>
+        <li class="nav-item left-right-effect">
+          <a routerLink="external-api" class="nav-link">Sobre Nós</a>
+        </li>
+      </ul>
     </div>
-    <div>
-      <mat-icon>shopping_cart</mat-icon>
+    <div class="user-dashboard">
+      @if (isAuthenticated && isUserAdmin) {
+      <div>
+        <mat-icon>star</mat-icon>
+      </div>
+      <div>
+        <mat-icon>shopping_cart</mat-icon>
+      </div>
+      }
+
+
+      @if (!isAuthenticated) {
+      <div class="user-area" (click)="loginWithRedirect()">
+        <mat-icon>account_circle</mat-icon>
+      </div>
+      }
+
+
+      <!-- If user is authenticated and profile exists, show profile picture and menu -->
+      <div *ngIf="isAuthenticated && user" class="user-area" (click)="userCollapsed = !userCollapsed">
+        <!-- Profile picture -->
+        <img [src]="user?.photoURL" alt="Profile picture" class="user-img" />
+        <div [class.hidden]="userCollapsed" [class.user-menu]="!userCollapsed">
+          <ul class="user-submenu">
+            <li class="nav-item">
+              <a href="" class="nav-link">{{ user?.displayName }}</a>
+            </li>
+            <li routerLink="/profile" class="nav-item">
+            <li routerLink="/profile" class="nav-item">
+              <mat-icon>person</mat-icon>
+              <a routerLink="/profile" class="nav-link">Perfil</a>
+            </li>
+            @if(isAuthenticated && isUserAdmin){
+            <li class="nav-item">
+              <mat-icon routerLink="product-management">settings</mat-icon>
+              <a routerLink="/product-management" class="nav-link">Gerenciar Produtos</a>
+            </li>
+            }
+            <li class="nav-item" (click)="logout()">
+              <mat-icon>logout</mat-icon>
+              <a class="nav-link">Log out</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+
     </div>
-    }
 
-
-    @if (!isAuthenticated) {
-    <div class="user-area" (click)="loginWithRedirect()">
-      <mat-icon>account_circle</mat-icon>
-    </div>
-    }
-
-    <!-- If user is authenticated and profile exists, show profile picture and menu -->
-    <div *ngIf="isAuthenticated && user" class="user-area" (click)="userCollapsed = !userCollapsed">
-      <!-- Profile picture -->
-      <img [src]="user?.photoURL" alt="Profile picture" class="user-img" />
-      <div [class.hidden]="userCollapsed" [class.user-menu]="!userCollapsed">
-        <ul class="user-submenu">
+    <div class="menu " [class.active]="!isCollapsed">
+      <div class="menu " [class.active]="!isCollapsed">
+        <ul class="navbar-menu">
           <li class="nav-item">
-            <a href="" class="nav-link">{{ user?.displayName }}</a>
+            <mat-icon>home</mat-icon>
+            <a routerLink="/" class="nav-link" (click)="isCollapsed = !isCollapsed">Home</a>
           </li>
-          <li routerLink="/profile" class="nav-item">
-            <mat-icon>person</mat-icon>
-            <a routerLink="/profile" class="nav-link">Perfil</a>
-          </li>
-          @if(isAuthenticated && isUserAdmin){
           <li class="nav-item">
-            <mat-icon routerLink="product-management">settings</mat-icon>
-            <a routerLink="/product-management" class="nav-link">Gerenciar Produtos</a>
+            <mat-icon>shopping_cart</mat-icon>
+            <a routerLink="external-api" class="nav-link" (click)="isCollapsed = !isCollapsed">Loja</a>
           </li>
-          }
-          <li class="nav-item" (click)="logout()">
+          <li class="nav-item">
+            <mat-icon>perm_phone_msg</mat-icon>
+            <a routerLink="/" class="nav-link" (click)="isCollapsed = !isCollapsed">Contato</a>
+          </li>
+          <li class="nav-item" *ngIf="isAuthenticated">
+            <mat-icon>settings</mat-icon>
+            <a routerLink="product-management" class="nav-link" (click)="isCollapsed = !isCollapsed">Gerenciar
+              Produtos</a>
+          </li>
+          <li *ngIf="!isAuthenticated" class="nav-item">
+            <mat-icon>account_circle</mat-icon>
+            <a class="nav-link" (click)="loginWithPopup()">Log in</a>
+          </li>
+          <!-- User profile and logout links if authenticated -->
+          <li *ngIf="isAuthenticated && user" class="nav-item">
+            <img [src]="user?.photoURL" alt="Profile picture" class="user-img" />
+            <a routerLink="/profile" class="nav-link">{{ user?.displayName }}</a>
+          </li>
+          <li *ngIf="isAuthenticated && user" class="nav-item">
             <mat-icon>logout</mat-icon>
-            <a class="nav-link">Log out</a>
+            <a class="nav-link" (click)="logout()">Log out</a>
           </li>
         </ul>
       </div>
     </div>
-
-  </div>
-
-  <div class="menu " [class.active]="!isCollapsed">
-    <ul class="navbar-menu">
-      <li class="nav-item">
-        <mat-icon>home</mat-icon>
-        <a routerLink="/" class="nav-link" (click)="isCollapsed = !isCollapsed">Home</a>
-      </li>
-      <li class="nav-item">
-        <mat-icon>shopping_cart</mat-icon>
-        <a routerLink="external-api" class="nav-link" (click)="isCollapsed = !isCollapsed">Loja</a>
-      </li>
-      <li class="nav-item">
-        <mat-icon>perm_phone_msg</mat-icon>
-        <a routerLink="/" class="nav-link" (click)="isCollapsed = !isCollapsed">Contato</a>
-      </li>
-      <li class="nav-item" *ngIf="isAuthenticated">
-        <mat-icon>settings</mat-icon>
-        <a routerLink="product-management" class="nav-link" (click)="isCollapsed = !isCollapsed">Gerenciar Produtos</a>
-      </li>
-      <li *ngIf="!isAuthenticated" class="nav-item">
-        <mat-icon>account_circle</mat-icon>
-        <a class="nav-link" (click)="loginWithPopup()">Log in</a>
-      </li>
-      <!-- User profile and logout links if authenticated -->
-      <li *ngIf="isAuthenticated && user" class="nav-item">
-        <img [src]="user?.photoURL" alt="Profile picture" class="user-img" />
-        <a routerLink="/profile" class="nav-link">{{ user?.displayName }}</a>
-      </li>
-      <li *ngIf="isAuthenticated && user" class="nav-item">
-        <mat-icon>logout</mat-icon>
-        <a class="nav-link" (click)="logout()">Log out</a>
-      </li>
-    </ul>
-  </div>
+  </button>
 </nav>
