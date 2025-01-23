@@ -19,7 +19,6 @@ export class NavBarComponent implements OnInit {
   isUserAdmin = false; // Default to false
 
   constructor(private authService: AuthService, private eRef: ElementRef) {}
-
   ngOnInit(): void {
     // Directly subscribe to user from AuthService using signal
     this.authService.user$.subscribe((user) => {
