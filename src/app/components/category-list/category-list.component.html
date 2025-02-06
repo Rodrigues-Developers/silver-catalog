@@ -1,0 +1,12 @@
+<div class="category-container">
+  <div class="category-list">
+    @for (category of categories; track $index) {
+    <div class="item-container">
+      <div class="category-item">
+        <img src="assets/ring_category.jpg" [alt]="'Imagem da categoria de ' + category" />
+      </div>
+      {{ category }}
+    </div>
+    }
+  </div>
+</div>
