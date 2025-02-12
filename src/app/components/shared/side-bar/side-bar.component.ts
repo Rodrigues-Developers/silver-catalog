@@ -2,15 +2,15 @@ import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../../../core/services/auth.service";
 import { User } from "firebase/auth"; // Import User type from Firebase
 import { CommonModule } from "@angular/common";
-import { RouterLink } from "@angular/router";
 import { MatIconModule } from "@angular/material/icon";
+// import { RouterLink } from "@angular/router";
 
 @Component({
   selector: "app-side-bar",
   templateUrl: "./side-bar.component.html",
   styleUrls: ["./side-bar.component.less"],
   standalone: true,
-  imports: [MatIconModule, RouterLink, CommonModule], // Import required modules
+  imports: [MatIconModule, CommonModule], // Import required modules
 })
 export class SideBarComponent implements OnInit {
   isCollapsed = true;

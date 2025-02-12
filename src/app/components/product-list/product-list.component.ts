@@ -21,7 +21,7 @@ export class ProductListComponent {
       next: (res) => {
         this.hasApiError = false;
         this.productsList = res as Product[];
-        //duplicate product lsit
+        //duplicate product list
         // this.productsList = [...this.productsList, ...this.productsList];
       },
       error: () => (this.hasApiError = true),
