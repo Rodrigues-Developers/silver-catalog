@@ -3,7 +3,8 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { from } from "rxjs";
 import { switchMap } from "rxjs/operators";
-import { Product } from "src/app/interfaces/products.interface";
+import { Product } from "../app/interfaces/products.interface";
+import { Category } from "../app/interfaces/category.interface"; // Import the Category interface
 import { AuthService } from "../app/core/services/auth.service"; // Import the AuthService
 import { environment } from "../environments/environment";
 
@@ -70,5 +71,13 @@ export class ApiService {
         })
       )
     );
+  }
+
+  getCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(`${this.config.apiUri}/api/Category`);
+  }
+
+  getCategory(categoryId: string): Observable<Category> {
+    return this.http.get<Category>(`${this.config.apiUri}/api/Category/${categoryId}`);
   }
 }
