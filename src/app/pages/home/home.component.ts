@@ -7,13 +7,14 @@ import { ProductListComponent } from "../../components/product-list/product-list
 import { MainBannerComponent } from "../../components/main-banner/main-banner.component";
 import { firstValueFrom } from "rxjs"; // For async-await observable handling
 import { DynamicTextComponent } from "src/app/components/dynamic-text/dynamic-text.component";
+import { CategoryListComponent } from "../../components/category-list/category-list.component";
 
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.less"],
   standalone: true,
-  imports: [CommonModule, LoadingComponent, MainBannerComponent, ProductListComponent, DynamicTextComponent],
+  imports: [CommonModule, LoadingComponent, MainBannerComponent, ProductListComponent, DynamicTextComponent, CategoryListComponent],
 })
 export class HomeComponent implements OnInit {
   user: User | null = null;

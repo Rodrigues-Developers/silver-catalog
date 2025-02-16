@@ -15,6 +15,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard], // Protect the route with AuthGuard if needed
   },
   {
+    path: "category/:id", // Dynamic route with "id" as a parameter
+    component: ProductDetailsComponent,
+    canActivate: [AuthGuard], // Protect the route with AuthGuard if needed
+  },
+  {
     path: "profile",
     component: ProfileComponent,
     canActivate: [AuthGuard], // Apply the custom AuthGuard
