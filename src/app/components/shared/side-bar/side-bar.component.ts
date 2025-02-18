@@ -3,7 +3,7 @@ import { AuthService } from "../../../core/services/auth.service";
 import { User } from "firebase/auth"; // Import User type from Firebase
 import { CommonModule } from "@angular/common";
 import { MatIconModule } from "@angular/material/icon";
-// import { RouterLink } from "@angular/router";
+import { FilterService } from "src/app/services/filter.service";
 
 @Component({
   selector: "app-side-bar",
@@ -15,13 +15,13 @@ import { MatIconModule } from "@angular/material/icon";
 export class SideBarComponent implements OnInit {
   isCollapsed = true;
   user: User | null = null; // Default user to null to reflect unauthenticated state
-  baseMinPrice = 150; // Absolute minimum
+  baseMinPrice = 50; // Absolute minimum
   baseMaxPrice = 2500; // Absolute maximum
-  minPrice = 150; // Dynamic minimum value
+  minPrice = 50; // Dynamic minimum value
   maxPrice = 2500; // Dynamic maximum value
   priceGap = 200; // Minimum gap between minPrice and maxPrice
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private FilterService: FilterService) {}
 
   ngOnInit(): void {
     // Access the user signal from AuthService, subscribing to changes in user state
@@ -39,6 +39,7 @@ export class SideBarComponent implements OnInit {
       // Force the slider back if it overlaps
       (event.target as HTMLInputElement).value = this.minPrice.toString();
     }
+    this.FilterService.setMinPrice(this.minPrice);
   }
 
   // Handler for max price slider
@@ -51,6 +52,7 @@ export class SideBarComponent implements OnInit {
       // Force the slider back if it overlaps
       (event.target as HTMLInputElement).value = this.maxPrice.toString();
     }
+    this.FilterService.setMaxPrice(this.maxPrice);
   }
 
   // Login method using the AuthService's Google login
