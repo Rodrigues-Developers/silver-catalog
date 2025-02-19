@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ApiService } from "src/app/api.service";
 import { Product } from "src/app/interfaces/products.interface";
 import { CommonModule } from "@angular/common";
@@ -19,7 +19,7 @@ export class ProductDetailsComponent implements OnInit {
   images: string[] = [];
   additionalImages: string[] = [];
 
-  constructor(private route: ActivatedRoute, private api: ApiService) {}
+  constructor(private route: ActivatedRoute, private api: ApiService, private router: Router) {}
 
   ngOnInit(): void {
     this.productId = this.route.snapshot.paramMap.get("id");
@@ -32,5 +32,9 @@ export class ProductDetailsComponent implements OnInit {
       },
       error: () => console.error("Error fetching product details"),
     });
+  }
+
+  navigateToProductDetails(product: Product) {
+    this.router.navigate(["/product", product.id]);
   }
 }
