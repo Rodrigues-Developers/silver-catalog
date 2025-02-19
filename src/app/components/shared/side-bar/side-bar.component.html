@@ -2,6 +2,7 @@
   <h3> CATEGORIAS </h3>
   <ul class="category-list">
     <li class="category-item" *ngFor="let category of categories">
+      <input type="checkbox" [value]="category.id" (change)="onCategoryChange($event)" title="Select {{ category.name }}" />
       <label> {{ category.name }} </label>
       <div class="amount"> {{ category.amount }} </div>
     </li>

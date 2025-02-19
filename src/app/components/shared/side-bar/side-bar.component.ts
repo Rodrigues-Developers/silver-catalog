@@ -4,7 +4,7 @@ import { User } from "firebase/auth"; // Import User type from Firebase
 import { CommonModule } from "@angular/common";
 import { MatIconModule } from "@angular/material/icon";
 import { FilterService } from "src/app/core/services/filter.service";
-import { ApiService } from "src/app/api.service";
+import { ApiService } from "../../../api.service";
 
 @Component({
   selector: "app-side-bar",
@@ -22,6 +22,7 @@ export class SideBarComponent implements OnInit {
   maxPrice = 2500; // Dynamic maximum value
   priceGap = 200; // Minimum gap between minPrice and maxPrice
   categories: any[] = [];
+  selectedCategories: Set<string> = new Set();
 
   constructor(private authService: AuthService, private filterService: FilterService, private apiService: ApiService) {}
 
@@ -34,6 +35,16 @@ export class SideBarComponent implements OnInit {
     this.apiService.getCategories().subscribe((categories) => {
       this.categories = categories;
     });
+  }
+
+  onCategoryChange(event: Event): void {
+    const checkbox = event.target as HTMLInputElement;
+    if (checkbox.checked) {
+      this.selectedCategories.add(checkbox.value);
+    } else {
+      this.selectedCategories.delete(checkbox.value);
+    }
+    this.filterService.setSelectedCategories(Array.from(this.selectedCategories));
   }
 
   onMinPriceChange(event: Event): void {

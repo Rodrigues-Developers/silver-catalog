@@ -23,8 +23,6 @@ export class ProductListComponent implements OnInit {
       next: (res) => {
         this.hasApiError = false;
         this.productsList = res as Product[];
-        //duplicate product list
-        // this.productsList = [...this.productsList, ...this.productsList];
         this.filteredProductsList = this.productsList;
       },
       error: () => (this.hasApiError = true),
@@ -39,14 +37,21 @@ export class ProductListComponent implements OnInit {
     this.filterService.maxPrice$.subscribe(() => {
       this.applyFilters();
     });
+
+    this.filterService.selectedCategories$.subscribe(() => {
+      this.applyFilters();
+    });
   }
 
   applyFilters() {
     const minPrice = this.filterService.getMinPriceSubject().getValue();
     const maxPrice = this.filterService.getMaxPriceSubject().getValue();
+    const selectedCategories = this.filterService.getSelectedCategoriesSubject().getValue();
 
     this.filteredProductsList = this.productsList.filter((product) => {
-      return product.price >= minPrice && product.price <= maxPrice;
+      const isWithinPriceRange = product.price >= minPrice && product.price <= maxPrice;
+      const isInSelectedCategories = selectedCategories.length === 0 || selectedCategories.some(category => product.category.includes(category));
+      return isWithinPriceRange && isInSelectedCategories;
     });
   }
 
