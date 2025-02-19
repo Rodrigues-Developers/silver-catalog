@@ -1,13 +1,9 @@
 <div class="sidebar-container">
   <h3> CATEGORIAS </h3>
   <ul class="category-list">
-    <li class="category-item">
-      <label> Anéis </label>
-      <div class="amount"> 20</div>
-    </li>
-    <li class="category-item">
-      <label> Colares </label>
-      <div class="amount"> 13</div>
+    <li class="category-item" *ngFor="let category of categories">
+      <label> {{ category.name }} </label>
+      <div class="amount"> {{ category.amount }} </div>
     </li>
   </ul>
 

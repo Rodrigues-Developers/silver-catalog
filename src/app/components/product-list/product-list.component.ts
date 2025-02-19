@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ApiService } from "src/app/api.service";
 import { Product } from "src/app/interfaces/products.interface";
 import { CapitalizePipe } from "src/app/shared/pipes/capitalize.pipe";
 import { Router } from "@angular/router";
-import { FilterService } from 'src/app/services/filter.service';
+import { FilterService } from "src/app/core/services/filter.service";
 
 @Component({
   selector: "app-product-list",
@@ -32,11 +32,11 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.filterService.minPrice$.subscribe(minPrice => {
+    this.filterService.minPrice$.subscribe(() => {
       this.applyFilters();
     });
 
-    this.filterService.maxPrice$.subscribe(maxPrice => {
+    this.filterService.maxPrice$.subscribe(() => {
       this.applyFilters();
     });
   }
@@ -45,7 +45,7 @@ export class ProductListComponent implements OnInit {
     const minPrice = this.filterService.getMinPriceSubject().getValue();
     const maxPrice = this.filterService.getMaxPriceSubject().getValue();
 
-    this.filteredProductsList = this.productsList.filter(product => {
+    this.filteredProductsList = this.productsList.filter((product) => {
       return product.price >= minPrice && product.price <= maxPrice;
     });
   }
