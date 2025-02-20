@@ -28,9 +28,31 @@
       </div>
 
       <div class="form-group">
-        <label for="category">Categoria:</label>
-        <input id="category" type="text" formControlName="category" placeholder="Separado por vírgulas (ex. pulseira, colar)" />
+        <label for="categories">Categorias:</label>
+        @for (category of selectedCategories; track $index) {
+        <div class="selected-category">
+          <div *ngIf="editingIndex !== $index">{{ category.name | capitalize }}</div>
+          <input *ngIf="editingIndex === $index" [value]="editName" (input)="editName = $event.target.value" (blur)="saveEdit($index)" (keydown.enter)="saveEdit($index)" />
+
+          <div class="category-actions">
+            <mat-icon class="btn btn-warning-icon" (click)="startEdit($index, category.name)">edit</mat-icon>
+            <mat-icon class="btn btn-danger-icon" (click)="removeCategory($index)">delete_outline</mat-icon>
+          </div>
+        </div>
+        }
+
+        <div class="add-category-container">
+          <mat-icon type="button" class="add-category" (click)="showCategorySelect = !showCategorySelect">add</mat-icon>
+          <div *ngIf="showCategorySelect">
+            <select (change)="addCategory($event.target.value)">
+              @for (category of categories; track category.id) {
+              <option [value]="category.id">{{ category.name }}</option>
+              }
+            </select>
+          </div>
+        </div>
       </div>
+
 
       <div class="form-group">
         <label for="image">Imagem:</label>
@@ -73,10 +95,10 @@
           <td>{{ product.description }}</td>
           <td>{{ product.price | currency:'BRL' }}</td>
           <td>{{ product.availability ? "Sim" : "Não" }}</td>
-          <td>{{ product.category.join(", ") }}</td>
+          <td>{{showProductCategoryName(product.category) | capitalize }}</td>
           <td><img
-              src="{{ product.image? product.image: 'https://firebasestorage.googleapis.com/v0/b/rodriguesdev-2d63d.appspot.com/o/images%2Fno_image.png?alt=media&token=4af2c1c2-3f7c-439a-8f43-26183123748d'}}">
-          </td>
+              [src]="product.image || 'https://firebasestorage.googleapis.com/v0/b/rodriguesdev-2d63d.appspot.com/o/images%2Fno_image.png?alt=media&token=4af2c1c2-3f7c-439a-8f43-26183123748d'"
+              alt="Imagem do Produto"></td>
           <td>
             <mat-icon class="btn btn-warning-icon" (click)="onEditProduct(product)">edit</mat-icon>
             <mat-icon class="btn btn-danger-icon" (click)="onDeleteProduct(product)">delete_outline</mat-icon>

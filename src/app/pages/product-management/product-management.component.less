@@ -46,6 +46,29 @@
       input[type="number"]::-webkit-inner-spin-button {
         -webkit-appearance: none; // Remove spinners for Chrome
       }
+
+      .selected-category {
+        display: grid;
+        align-items: center;
+        grid-template-columns: 1fr 18fr;
+      }
+
+      .add-category-container {
+        display: flex;
+        gap: 0.5%;
+        align-items: center;
+        height: 40px;
+        .add-category {
+          background: cornflowerblue;
+          color: white;
+          border-radius: 15%;
+          width: 36px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-left: 0;
+        }
+      }
     }
 
     .image-preview {
@@ -127,34 +150,33 @@
             }
           }
         }
+      }
+    }
+  }
+  .mat-icon {
+    cursor: pointer;
+    font-size: 24px;
+    padding: 5px;
+    margin: 0 5px;
+    transition: color 0.2s, transform 0.2s;
+    height: auto;
+    width: auto;
 
-        .mat-icon {
-          cursor: pointer;
-          font-size: 24px;
-          padding: 5px;
-          margin: 0 5px;
-          transition: color 0.2s, transform 0.2s;
-          height: auto;
-          width: auto;
+    &.btn-warning-icon {
+      color: #ffc107;
 
-          &.btn-warning-icon {
-            color: #ffc107;
+      &:hover {
+        color: #e0a800;
+        transform: scale(1.1);
+      }
+    }
 
-            &:hover {
-              color: #e0a800;
-              transform: scale(1.1);
-            }
-          }
+    &.btn-danger-icon {
+      color: #dc3545;
 
-          &.btn-danger-icon {
-            color: #dc3545;
-
-            &:hover {
-              color: #c82333;
-              transform: scale(1.1);
-            }
-          }
-        }
+      &:hover {
+        color: #c82333;
+        transform: scale(1.1);
       }
     }
   }
