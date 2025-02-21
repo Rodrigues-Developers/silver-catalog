@@ -69,7 +69,7 @@ export class ProductManagementComponent implements OnInit {
   onSubmitProductForm() {
     const product: Product = {
       ...this.productForm.value,
-      category: this.selectedCategories ? this.productForm.value.category.split(",").map((c: string) => c.trim()) : [],
+      category: this.selectedCategories.map((cat) => cat.id),
     };
 
     if (this.productForm.valid) {

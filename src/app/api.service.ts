@@ -73,11 +73,51 @@ export class ApiService {
     );
   }
 
+  checkIfProductHasCategory(categoryId: string): Observable<boolean> {
+    return this.getFirebaseToken().pipe(
+      switchMap((token) =>
+        this.http.get<boolean>(`${this.config.apiUri}/api/Product/has-category/${categoryId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+      )
+    );
+  }
+
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(`${this.config.apiUri}/api/Category`);
   }
 
   getCategory(categoryId: string): Observable<Category> {
     return this.http.get<Category>(`${this.config.apiUri}/api/Category/${categoryId}`);
+  }
+
+  createCategory(category: Category): Observable<Category> {
+    return this.getFirebaseToken().pipe(
+      switchMap((token) =>
+        this.http.post<Category>(`${this.config.apiUri}/api/Category`, category, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+      )
+    );
+  }
+
+  updateCategory(categoryId: string, category: Partial<Category>): Observable<Category> {
+    return this.getFirebaseToken().pipe(
+      switchMap((token) =>
+        this.http.put<Category>(`${this.config.apiUri}/api/Category/${categoryId}`, category, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+      )
+    );
+  }
+
+  deleteCategory(categoryId: string): Observable<void> {
+    return this.getFirebaseToken().pipe(
+      switchMap((token) =>
+        this.http.delete<void>(`${this.config.apiUri}/api/Category/${categoryId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+      )
+    );
   }
 }
