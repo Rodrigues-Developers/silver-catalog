@@ -23,7 +23,7 @@ export class ProductListComponent implements OnInit {
       next: (res) => {
         this.hasApiError = false;
         this.productsList = res as Product[];
-        this.filteredProductsList = this.productsList;
+        this.applyFilters();
       },
       error: () => (this.hasApiError = true),
     });
@@ -50,7 +50,7 @@ export class ProductListComponent implements OnInit {
 
     this.filteredProductsList = this.productsList.filter((product) => {
       const isWithinPriceRange = product.price >= minPrice && product.price <= maxPrice;
-      const isInSelectedCategories = selectedCategories.length === 0 || selectedCategories.some(category => product.category.includes(category));
+      const isInSelectedCategories = selectedCategories.length === 0 || product.category.some(cat => selectedCategories.includes(cat));
       return isWithinPriceRange && isInSelectedCategories;
     });
   }

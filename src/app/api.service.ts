@@ -39,6 +39,15 @@ export class ApiService {
     return this.http.get<Product[]>(`${this.config.apiUri}/api/Product`);
   }
 
+  getProductsByFilters(minPrice: number, maxPrice: number, categories: string[]): Observable<Product[]> {
+    const params = {
+      minPrice: minPrice.toString(),
+      maxPrice: maxPrice.toString(),
+      categories: categories.join(","),
+    };
+    return this.http.get<Product[]>(`${this.config.apiUri}/api/Product`, { params });
+  }
+
   getProduct(productId: string): Observable<Product> {
     return this.http.get<Product>(`${this.config.apiUri}/api/Product/${productId}`);
   }
