@@ -4,7 +4,7 @@ import { User } from "firebase/auth"; // Import User type from Firebase
 import { CommonModule } from "@angular/common";
 import { MatIconModule } from "@angular/material/icon";
 import { FilterService } from "src/app/core/services/filter.service";
-import { ApiService } from "../../../api.service";
+import { ApiService } from "src/app/api.service";
 
 @Component({
   selector: "app-side-bar",
