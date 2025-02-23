@@ -1,18 +1,21 @@
 <div class="product-list">
-  <ul class="card">
-    @for (product of productsList; track $index) {
-    @if(product.availability){
-    <li (click)="navigateToProductDetails(product)">
-      <img
+  <ul class="card" *ngIf="filteredProductsList.length > 0; else noProducts">
+    @for (product of filteredProductsList; track $index) {
+      <li (click)="navigateToProductDetails(product)">
+        <img
         [src]="product.image || 'https://firebasestorage.googleapis.com/v0/b/rodriguesdev-2d63d.appspot.com/o/images%2Fno_image.png?alt=media&token=4af2c1c2-3f7c-439a-8f43-26183123748d'"
         alt="Imagem do Produto" />
-      <div class="product-details">
-        <h3 class="card-title">{{ product.name | capitalize }}</h3>
-        <p class="card-text">{{ product?.description }}</p>
-        <p class="price">{{ product.price | currency: 'BRL' }}</p>
-      </div>
-    </li>
-    }
+        <div class="product-details">
+          <h3 class="card-title">{{ product.name | capitalize }}</h3>
+          <p class="card-text">{{ product?.description }}</p>
+          <p class="price">{{ product.price | currency: 'BRL' }}</p>
+        </div>
+      </li>
     }
   </ul>
+  <ng-template #noProducts>
+    <div class="no-products-message">
+      <p>Não existem produtos para o filtro selecionado.</p>
+    </div>
+  </ng-template>
 </div>

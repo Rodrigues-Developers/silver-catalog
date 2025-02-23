@@ -1,14 +1,14 @@
 <div class="sidebar-container">
   <h3> CATEGORIAS </h3>
   <ul class="category-list">
+    @for (category of categories; track $index) {
     <li class="category-item">
-      <label> Anéis </label>
-      <div class="amount"> 20</div>
+      <input type="checkbox" [value]="category.id" (change)="onCategoryChange($event)"
+        title="Select {{ category.name }}" />
+      <label> {{ category.name }} </label>
+      <div class="amount"> {{ category.amount }} </div>
     </li>
-    <li class="category-item">
-      <label> Colares </label>
-      <div class="amount"> 13</div>
-    </li>
+    }
   </ul>
 
   <h3>PREÇO</h3>
@@ -17,9 +17,11 @@
       <div class="slider-track"></div>
 
       <!-- Minimum Thumb -->
-      <input type="range" class="slider thumb-min" [min]="baseMinPrice" [max]="baseMaxPrice" [value]="minPrice" (input)="onMinPriceChange($event)" />
+      <input type="range" class="slider thumb-min" [min]="baseMinPrice" [max]="baseMaxPrice" [value]="minPrice"
+        (input)="onMinPriceChange($event)" title="Minimum Price" />
       <!-- Maximum Thumb -->
-      <input type="range" class="slider thumb-max" [min]="baseMinPrice" [max]="baseMaxPrice" [value]="maxPrice" (input)="onMaxPriceChange($event)" />
+      <input type="range" class="slider thumb-max" [min]="baseMinPrice" [max]="baseMaxPrice" [value]="maxPrice"
+        (input)="onMaxPriceChange($event)" title="Maximum Price" />
       <!-- Range Highlight -->
       <div class="slider-range" [style.left.%]="((minPrice - baseMinPrice) / (baseMaxPrice - baseMinPrice)) * 100"
         [style.width.%]="((maxPrice - minPrice) / (baseMaxPrice - baseMinPrice)) * 100"></div>
