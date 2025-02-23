@@ -1,12 +1,14 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
 import { ApiService } from "src/app/api.service";
 import { Product } from "src/app/interfaces/products.interface";
+import { Category } from "src/app/interfaces/category.interface";
 import { CapitalizePipe } from "../../shared/pipes/capitalize.pipe";
 import { MatIconModule } from "@angular/material/icon";
 import { FirebaseStorageService } from "src/app/core/services/firebase-storage.service";
 import { ToastrService } from "ngx-toastr"; // Import ToastrService
+import { getCategory } from "src/app/utils/category";
 
 @Component({
   selector: "app-product-management",
@@ -15,14 +17,19 @@ import { ToastrService } from "ngx-toastr"; // Import ToastrService
   templateUrl: "./product-management.component.html",
   styleUrls: ["./product-management.component.less"],
 })
-export class ProductManagementComponent {
+export class ProductManagementComponent implements OnInit {
   productsList: Product[] = [];
   productForm: FormGroup;
+  categories: Category[] = [];
+  selectedCategories: Category[] = [];
   editingProduct = false;
   editingProductId: string | null = null;
-  imagePreview: string | null = null;
+  imagePreview: string | ArrayBuffer | null = null;
   imageFile: File | null = null;
   oldImage: string | null = null;
+  showCategorySelect = false;
+  editingIndex: number | null = null;
+  editName = "";
 
   constructor(
     private api: ApiService,
@@ -38,8 +45,18 @@ export class ProductManagementComponent {
       category: [""],
       image: [null], // Make this optional during edit
     });
+  }
 
+  ngOnInit(): void {
     this.fetchProducts();
+    this.api.getCategories().subscribe({
+      next: (categories) => {
+        this.categories = categories;
+      },
+      error: (err) => {
+        console.error("Failed to fetch categories", err);
+      },
+    });
   }
 
   fetchProducts() {
@@ -52,7 +69,7 @@ export class ProductManagementComponent {
   onSubmitProductForm() {
     const product: Product = {
       ...this.productForm.value,
-      category: this.productForm.value.category ? this.productForm.value.category.split(",").map((c: string) => c.trim()) : [],
+      category: this.selectedCategories.map((cat) => cat.id),
     };
 
     if (this.productForm.valid) {
@@ -85,11 +102,15 @@ export class ProductManagementComponent {
       description: product.description,
       price: product.price,
       availability: product.availability,
-      category: product.category.join(", "),
+      category: product.category,
       image: product.image,
     });
 
     this.imagePreview = product.image || null;
+    this.selectedCategories = [];
+    for (const categoryID of product.category) {
+      this.selectedCategories.push(getCategory(categoryID, this.categories));
+    }
   }
 
   onDeleteProduct(product: Product) {
@@ -172,6 +193,7 @@ export class ProductManagementComponent {
     this.editingProductId = null;
     this.imagePreview = null;
     this.imageFile = null;
+    this.selectedCategories = [];
   }
 
   onImageChange(event: Event): void {
@@ -195,5 +217,36 @@ export class ProductManagementComponent {
     } else {
       this.toastr.error(message, "", { timeOut: 3000 });
     }
+  }
+
+  addCategory(categoryId: string): void {
+    const category = getCategory(categoryId, this.categories);
+    if (category && !this.selectedCategories.includes(category)) {
+      this.selectedCategories.push(category);
+    }
+  }
+
+  removeCategory(index: number): void {
+    this.selectedCategories.splice(index, 1);
+  }
+
+  startEdit(index: number, category: string): void {
+    this.editingIndex = index;
+    this.editName = category;
+  }
+
+  saveEdit(index: number): void {
+    if (this.editName.trim()) {
+      this.selectedCategories[index].name = this.editName.trim();
+    }
+    this.editingIndex = null;
+  }
+
+  showProductCategoryName(categoryListIDs: string[]): string {
+    const categoryNameList: string[] = [];
+    for (const catID of categoryListIDs) {
+      categoryNameList.push(getCategory(catID, this.categories)?.name || "");
+    }
+    return categoryNameList.join(", ");
   }
 }
