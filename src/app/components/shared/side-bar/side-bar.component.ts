@@ -22,7 +22,7 @@ export class SideBarComponent implements OnInit {
   maxPrice = 2500; // Dynamic maximum value
   priceGap = 200; // Minimum gap between minPrice and maxPrice
   categories: any[] = [];
-  selectedCategories: Set<string> = new Set();
+  selectedCategory: string | null = null;
 
   constructor(private authService: AuthService, private filterService: FilterService, private apiService: ApiService) {}
 
@@ -37,14 +37,13 @@ export class SideBarComponent implements OnInit {
     });
   }
 
-  onCategoryChange(event: Event): void {
-    const checkbox = event.target as HTMLInputElement;
-    if (checkbox.checked) {
-      this.selectedCategories.add(checkbox.value);
+  onCategoryClick(categoryId: string): void {
+    if (this.selectedCategory === categoryId) {
+      this.selectedCategory = null;
     } else {
-      this.selectedCategories.delete(checkbox.value);
+      this.selectedCategory = categoryId;
     }
-    this.filterService.setSelectedCategories(Array.from(this.selectedCategories));
+    this.filterService.setSelectedCategories(this.selectedCategory ? [this.selectedCategory] : []);
   }
 
   onMinPriceChange(event: Event): void {
