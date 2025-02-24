@@ -3,6 +3,7 @@
 
 .sidebar-container {
   width: 15vw;
+
   h3 {
     color: #000;
     padding: 0 0 10px;
@@ -18,22 +19,29 @@
   .category-list {
     padding: 0;
     margin-bottom: 3rem;
+
     .category-item {
       cursor: pointer;
       margin-top: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       label {
         color: #757575;
+        font-weight: normal;
+        text-decoration: none;
+        cursor: pointer;
+
+        &.selected {
+          font-weight: bold;
+          text-decoration: underline;
+        }
       }
+
       .amount {
         width: 25px;
         height: 25px;
-        -webkit-border-radius: 50%;
-        -moz-border-radius: 50%;
-        -ms-border-radius: 50%;
-        -o-border-radius: 50%;
         border-radius: 50%;
         background: #ffffff;
         text-align: center;
@@ -46,7 +54,8 @@
 
   .price-range {
     position: relative;
-    height: 5px; /* Adjust the total height for visual clarity */
+    height: 5px;
+    /* Adjust the total height for visual clarity */
 
     .slider-container {
       position: relative;
@@ -58,11 +67,15 @@
     .slider-track {
       position: absolute;
       height: 5px;
-      background: #ddd; /* Lighter color for contrast */
-      z-index: -1; /* Send it behind everything */
+      background: #ddd;
+      /* Lighter color for contrast */
+      z-index: -1;
+      /* Send it behind everything */
       width: 100%;
-      border-radius: 5px; /* Rounded edges */
-      transform: translateY(-2px); /* Center adjust */
+      border-radius: 5px;
+      /* Rounded edges */
+      transform: translateY(-2px);
+      /* Center adjust */
       pointer-events: none;
     }
 
@@ -71,9 +84,11 @@
       position: absolute;
       height: 5px;
       background: #4d565b;
-      z-index: 1; /* Sit above the track */
+      z-index: 1;
+      /* Sit above the track */
       border-radius: 5px;
-      transform: translateY(-2px); /* Center adjust */
+      transform: translateY(-2px);
+      /* Center adjust */
     }
 
     .slider {

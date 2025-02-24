@@ -2,12 +2,11 @@
   <h3> CATEGORIAS </h3>
   <ul class="category-list">
     @for (category of categories; track $index) {
-    <li class="category-item">
-      <input type="checkbox" [value]="category.id" (change)="onCategoryChange($event)"
-        title="Select {{ category.name }}" />
-      <label> {{ category.name }} </label>
-      <div class="amount"> {{ category.amount }} </div>
+    <li class="category-item" (click)="onCategoryClick(category.id)">
+      <label [class.selected]="selectedCategory === category.id"> {{ category.name }} </label>
+      <!-- <div class="amount"> {{ category.amount }} </div> -->
     </li>
+    <hr class="category-divider">
     }
   </ul>
 
