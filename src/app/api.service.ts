@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { from } from "rxjs";
 import { switchMap } from "rxjs/operators";
@@ -37,15 +37,6 @@ export class ApiService {
 
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.config.apiUri}/api/Product`);
-  }
-
-  getProductsByFilters(minPrice: number, maxPrice: number, categories: string[]): Observable<Product[]> {
-    const params = {
-      minPrice: minPrice.toString(),
-      maxPrice: maxPrice.toString(),
-      categories: categories.join(","),
-    };
-    return this.http.get<Product[]>(`${this.config.apiUri}/api/Product`, { params });
   }
 
   getProduct(productId: string): Observable<Product> {
@@ -90,6 +81,10 @@ export class ApiService {
         })
       )
     );
+  }
+
+  getProductsByCategory(categoryId: string): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.config.apiUri}/api/Product/products-category/${categoryId}`);
   }
 
   getCategories(): Observable<Category[]> {

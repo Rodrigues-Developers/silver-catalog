@@ -7,7 +7,7 @@
   <ul class="category-list">
     @for (category of categories; track $index) {
     <li class="category-item" (click)="onCategoryClick(category.id)">
-      <label [class.selected]="selectedCategory === category.id"> {{ category.name }} </label>
+      <label [class.selected]="selectedCategory === category.id"> {{ category.name | titlecase }} </label>
       <!-- <div class="amount"> {{ category.amount }} </div> -->
     </li>
     <hr class="category-divider">
