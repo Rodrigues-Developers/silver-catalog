@@ -43,16 +43,23 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  applyFilters() {
+  applyFilters() { // TODO: fix the number of requisitions when changing the price list.
     const minPrice = this.filterService.getMinPriceSubject().getValue();
     const maxPrice = this.filterService.getMaxPriceSubject().getValue();
     const selectedCategories = this.filterService.getSelectedCategoriesSubject().getValue();
 
-    this.filteredProductsList = this.productsList.filter((product) => {
-      const isWithinPriceRange = product.price >= minPrice && product.price <= maxPrice;
-      const isInSelectedCategories = selectedCategories.length === 0 || product.category.some(cat => selectedCategories.includes(cat));
-      return isWithinPriceRange && isInSelectedCategories;
-    });
+    if (selectedCategories.length > 0) {
+      this.api.getProductsByCategory(selectedCategories[0]).subscribe({
+        next: (res) => {
+          this.hasApiError = false;
+          this.filteredProductsList = res as Product[];
+          this.filteredProductsList = this.filteredProductsList.filter(product => product.price >= minPrice && product.price <= maxPrice);
+        },
+        error: () => (this.hasApiError = true),
+      });
+    } else {
+      this.filteredProductsList = this.productsList.filter(product => product.price >= minPrice && product.price <= maxPrice);
+    }
   }
 
   navigateToProductDetails(product: Product) {
