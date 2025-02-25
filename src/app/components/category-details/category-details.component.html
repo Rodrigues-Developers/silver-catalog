@@ -1,8 +1,7 @@
-<section id="categories-section">
-  <app-category-list customClass="cat-details"></app-category-list>
+<section>
+  <h2>{{ categorySelected() | capitalize }}</h2>
+  <app-horizontal-slider [items]="categoryList"></app-horizontal-slider>
 </section>
-
-
 
 <section class="related-products">
   <div class="sidebar-section">
