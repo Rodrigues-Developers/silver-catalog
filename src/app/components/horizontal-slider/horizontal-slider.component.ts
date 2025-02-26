@@ -11,8 +11,14 @@ import { MatIconModule } from "@angular/material/icon";
 })
 export class HorizontalSliderComponent {
   @Input() items: { image: string }[] = [];
+  @Input() visibleItems = 4;
+  @Input() itemWidth = 100;
+  @Input() itemWidthUnit: "vw" | "px" = "px";
+  @Input() itemHeight = 100;
+  @Input() translateDistance = 80;
+  @Input() maxWidth = 530;
+  @Input() maxWidthUnit: "vw" | "px" = "px";
   currentIndex = 0;
-  visibleItems = 4; // Number of visible items
 
   get maxIndex() {
     return Math.max(0, this.items.length - this.visibleItems);
@@ -31,6 +37,14 @@ export class HorizontalSliderComponent {
   }
 
   translateItems() {
-    return `translateX(-${this.currentIndex * (80 / this.visibleItems)}%)`;
+    return `translateX(-${this.currentIndex * (this.translateDistance / this.visibleItems)}%)`;
+  }
+
+  getMaxWidth() {
+    return `${this.maxWidth}${this.maxWidthUnit}`;
+  }
+
+  getWidth() {
+    return `${this.itemWidth}${this.maxWidthUnit}`;
   }
 }

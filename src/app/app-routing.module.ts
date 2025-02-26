@@ -8,6 +8,7 @@ import { AuthGuard } from "../app/core/guards/auth.guard"; // Import your custom
 import { ProductDetailsComponent } from "./components/product-details/product-details.component";
 import { CategoryManagementComponent } from "./components/category-management/category-management.component";
 import { CategoryDetailsComponent } from "./components/category-details/category-details.component";
+import { BannerManagementComponent } from "./pages/banner-management/banner-management.component";
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -38,6 +39,12 @@ export const routes: Routes = [
   {
     path: "category-management",
     component: CategoryManagementComponent,
+    data: { role: "role" }, // Admin-only page
+    canActivate: [AuthGuard], // Apply the custom AuthGuard
+  },
+  {
+    path: "banner-management",
+    component: BannerManagementComponent,
     data: { role: "role" }, // Admin-only page
     canActivate: [AuthGuard], // Apply the custom AuthGuard
   },

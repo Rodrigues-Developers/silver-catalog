@@ -8,19 +8,23 @@ import { MainBannerComponent } from "../../components/main-banner/main-banner.co
 import { firstValueFrom } from "rxjs"; // For async-await observable handling
 import { DynamicTextComponent } from "src/app/components/dynamic-text/dynamic-text.component";
 import { CategoryListComponent } from "../../components/category-list/category-list.component";
+import { HorizontalSliderComponent } from "../../components/horizontal-slider/horizontal-slider.component";
+import { ApiService } from "src/app/api.service";
+import { Banner } from "src/app/interfaces/banner.interface";
 
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.less"],
   standalone: true,
-  imports: [CommonModule, LoadingComponent, MainBannerComponent, ProductListComponent, DynamicTextComponent, CategoryListComponent],
+  imports: [CommonModule, LoadingComponent, MainBannerComponent, ProductListComponent, DynamicTextComponent, CategoryListComponent, HorizontalSliderComponent],
 })
 export class HomeComponent implements OnInit {
   user: User | null = null;
   isLoading = true;
-
-  constructor(private authService: AuthService) {}
+  hasApiError = false;
+  bannerList: Banner[] = [];
+  constructor(private authService: AuthService, private api: ApiService) {}
 
   async ngOnInit(): Promise<void> {
     try {
@@ -31,9 +35,21 @@ export class HomeComponent implements OnInit {
     } finally {
       this.isLoading = false;
     }
+
+    this.fetchBanners();
   }
 
   get isAuthenticated(): boolean {
     return this.user !== null;
+  }
+
+  fetchBanners(): void {
+    this.api.getBanners().subscribe({
+      next: (res) => {
+        this.hasApiError = false;
+        this.bannerList = res as Banner[];
+      },
+      error: () => (this.hasApiError = true),
+    });
   }
 }
