@@ -1,0 +1,54 @@
+<div class="admin-banner-page">
+  <h2>Gerenciar Banners</h2>
+  <!-- Form for Creating/Editing Banner -->
+  <div class="banner-form">
+    <h3>{{ editingBanner ? "Editar Banner" : "Criar Banner" }}</h3>
+    <form [formGroup]="bannerForm" (ngSubmit)="onSubmitBannerForm()">
+
+      <div class="form-group">
+        <label for="image">Imagem:</label>
+        <input id="image" type="file" (change)="onImageChange($event)" accept="image/*" /> <!-- Allow image change only during editing -->
+      </div>
+
+      <!-- Display the current image if available -->
+      <div *ngIf="imagePreview" class="image-preview">
+        <img [src]="imagePreview" alt="Imagem do Banner">
+      </div>
+
+      <button type="submit" class="btn btn-primary">
+        {{ editingBanner ? "Atualizar" : "Criar" }}
+      </button>
+      <button *ngIf="editingBanner" type="button" class="btn btn-secondary" (click)="cancelEdit()">
+        Cancel
+      </button>
+    </form>
+  </div>
+
+  <!-- Banner Table -->
+  <div class="banner-table">
+    <h3>Banners existentes</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Imagem</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (banner of bannersList; track $index) {
+        <tr>
+          <td>
+            <img
+              [src]="banner.image || 'https://firebasestorage.googleapis.com/v0/b/rodriguesdev-2d63d.appspot.com/o/images%2Fno_image.png?alt=media&token=4af2c1c2-3f7c-439a-8f43-26183123748d'"
+              alt="Imagem do Banner">
+          </td>
+          <td>
+            <mat-icon class="btn btn-warning-icon" (click)="onEditBanner(banner)">edit</mat-icon>
+            <mat-icon class="btn btn-danger-icon" (click)="onDeleteBanner(banner)">delete_outline</mat-icon>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

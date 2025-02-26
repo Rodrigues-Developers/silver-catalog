@@ -49,11 +49,11 @@ export class CategoryManagementComponent implements OnInit {
   }
 
   onSubmitCategoryForm() {
-    const category: Category = {
-      ...this.categoryForm.value,
-    };
-
     if (this.categoryForm.valid) {
+      const category: Category = {
+        ...this.categoryForm.value,
+      };
+
       if (this.imageFile) {
         this.storageService
           .uploadFile("images/" + this.imageFile.name, this.imageFile)
@@ -80,7 +80,7 @@ export class CategoryManagementComponent implements OnInit {
 
     this.categoryForm.patchValue({
       name: category.name,
-      image: category.image,
+      description: category.description,
     });
 
     this.imagePreview = category.image || null;
@@ -123,20 +123,28 @@ export class CategoryManagementComponent implements OnInit {
   }
 
   saveCategory(category: Category) {
+    if (this.categoryForm.invalid) {
+      console.error("Form is not valid");
+      return;
+    }
+
+    // Flag to check if image changed
+    const isImageUpdated = !!this.imageFile;
+
     if (this.editingCategory) {
       this.api.updateCategory(this.editingCategoryId!, category).subscribe({
         next: () => {
           this.fetchCategories();
-          this.resetForm();
           this.showToast("Categoria atualizada com sucesso!", true);
-          this.storageService
-            .deleteFile(this.oldImage)
-            .then(() => {
-              this.resetForm();
-            })
-            .catch((err) => {
+
+          // ✅ Delete old image **only if the user uploaded a new one**
+          if (isImageUpdated && this.oldImage && category.image !== this.oldImage) {
+            this.storageService.deleteFile(this.oldImage).catch((err) => {
               console.error("Error deleting old image:", err);
             });
+          }
+
+          this.resetForm();
         },
         error: (err) => {
           console.error("Error updating category:", err);
