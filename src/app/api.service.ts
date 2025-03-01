@@ -88,6 +88,11 @@ export class ApiService {
     return this.http.get<Product[]>(`${this.config.apiUri}/api/Product/products-category/${categoryId}`);
   }
 
+  searchProducts(query: string): Observable<Product[]> {
+    const params = new HttpParams().set("name", query);
+    return this.http.get<Product[]>(`${this.config.apiUri}/api/Product/search`, { params });
+  }
+
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(`${this.config.apiUri}/api/Category`);
   }

@@ -1,7 +1,8 @@
 <div class="sidebar-container">
   <div class="search">
-    <input type="text" placeholder="Pesquisar" />
-    <mat-icon>search</mat-icon>
+    <input type="text" placeholder="Pesquisar" (input)="onSearchInput($event.target.value)"
+      (keyup.enter)="onSearchClick()" />
+    <mat-icon (click)="onSearchClick()">search</mat-icon>
   </div>
   <h3> CATEGORIAS </h3>
   <ul class="category-list">

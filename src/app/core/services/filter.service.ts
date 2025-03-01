@@ -8,10 +8,12 @@ export class FilterService {
   private minPriceSubject = new BehaviorSubject<number>(50);
   private maxPriceSubject = new BehaviorSubject<number>(2500);
   private selectedCategoriesSubject = new BehaviorSubject<string[]>([]);
+  private searchQuerySubject = new BehaviorSubject<string>("");
 
   minPrice$ = this.minPriceSubject.asObservable();
   maxPrice$ = this.maxPriceSubject.asObservable();
   selectedCategories$ = this.selectedCategoriesSubject.asObservable();
+  searchQuery$ = this.searchQuerySubject.asObservable();
 
   setMinPrice(price: number) {
     this.minPriceSubject.next(price);
@@ -25,6 +27,10 @@ export class FilterService {
     this.selectedCategoriesSubject.next(categories);
   }
 
+  setSearchQuery(query: string) {
+    this.searchQuerySubject.next(query);
+  }
+
   getMinPriceSubject() {
     return this.minPriceSubject;
   }
@@ -35,5 +41,9 @@ export class FilterService {
 
   getSelectedCategoriesSubject() {
     return this.selectedCategoriesSubject;
+  }
+
+  getSearchQuery(): string {
+    return this.searchQuerySubject.getValue();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, EventEmitter, Output } from "@angular/core";
 import { AuthService } from "../../../core/services/auth.service";
 import { User } from "firebase/auth"; // Import User type from Firebase
 import { CommonModule } from "@angular/common";
@@ -14,6 +14,9 @@ import { ApiService } from "src/app/api.service";
   imports: [MatIconModule, CommonModule], // Import required modules
 })
 export class SideBarComponent implements OnInit {
+  @Output() searchInput = new EventEmitter<string>();
+  @Output() searchClick = new EventEmitter<string>();
+
   isCollapsed = true;
   user: User | null = null; // Default user to null to reflect unauthenticated state
   baseMinPrice = 50; // Absolute minimum
@@ -23,6 +26,7 @@ export class SideBarComponent implements OnInit {
   priceGap = 200; // Minimum gap between minPrice and maxPrice
   categories: any[] = [];
   selectedCategory: string | null = null;
+  searchQuery = "";
 
   constructor(private authService: AuthService, private filterService: FilterService, private apiService: ApiService) {}
 
@@ -84,5 +88,14 @@ export class SideBarComponent implements OnInit {
   // Check if the user is authenticated by checking if user is not null
   get isAuthenticated(): boolean {
     return this.user !== null; // True if user is logged in (user exists)
+  }
+
+  onSearchInput(value: string) {
+    this.searchQuery = value;
+    this.filterService.setSearchQuery(value);
+  }
+
+  onSearchClick() {
+    this.filterService.setSearchQuery(this.searchQuery);
   }
 }
