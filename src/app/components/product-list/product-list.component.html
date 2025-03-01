@@ -1,7 +1,7 @@
 <div class="product-list">
   @if (filteredProductsList.length > 0) {
   <ul class="card">
-    @for (product of filteredProductsList; track $index) {
+    @for (product of filteredProductsList; track trackByProductId) {
     <li (click)="navigateToProductDetails(product)">
       <img
         [src]="product.image || 'https://firebasestorage.googleapis.com/v0/b/rodriguesdev-2d63d.appspot.com/o/images%2Fno_image.png?alt=media&token=4af2c1c2-3f7c-439a-8f43-26183123748d'"
