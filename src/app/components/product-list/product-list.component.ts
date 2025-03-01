@@ -74,7 +74,9 @@ export class ProductListComponent implements OnInit {
     if (value.trim() === "") {
       this.applyFilters();
     } else {
-      this.filteredProductsList = this.productsList.filter((product) => product.name.toLowerCase().includes(value.toLowerCase()));
+      this.filteredProductsList = this.productsList.filter((product) =>
+        product.name.toLowerCase().includes(value.toLowerCase())
+      );
     }
   }
 
@@ -94,5 +96,9 @@ export class ProductListComponent implements OnInit {
 
   navigateToProductDetails(product: Product) {
     this.router.navigate(["/product", product.id]);
+  }
+
+  trackByProductId(index: number, product: Product): string {
+    return product.id;
   }
 }
