@@ -7,7 +7,7 @@ import { Category } from "src/app/interfaces/category.interface";
 import { CapitalizePipe } from "../../shared/pipes/capitalize.pipe";
 import { MatIconModule } from "@angular/material/icon";
 import { FirebaseStorageService } from "src/app/core/services/firebase-storage.service";
-import { ToastrService } from "ngx-toastr"; // Import ToastrService
+import { ToastrService } from "ngx-toastr";
 import { getCategory } from "src/app/utils/category";
 
 @Component({
@@ -31,31 +31,22 @@ export class ProductManagementComponent implements OnInit {
   editingIndex: number | null = null;
   editName = "";
 
-  constructor(
-    private api: ApiService,
-    private fb: FormBuilder,
-    private storageService: FirebaseStorageService,
-    private toastr: ToastrService // Inject ToastrService here
-  ) {
+  constructor(private api: ApiService, private fb: FormBuilder, private storageService: FirebaseStorageService, private toastr: ToastrService) {
     this.productForm = this.fb.group({
       name: ["", [Validators.required, Validators.minLength(2)]],
       description: [""],
       price: [0, [Validators.required, Validators.min(0)]],
       availability: [true, Validators.required],
       category: [""],
-      image: [null], // Make this optional during edit
+      image: [null],
     });
   }
 
   ngOnInit(): void {
     this.fetchProducts();
     this.api.getCategories().subscribe({
-      next: (categories) => {
-        this.categories = categories;
-      },
-      error: (err) => {
-        console.error("Failed to fetch categories", err);
-      },
+      next: (categories) => (this.categories = categories),
+      error: (err) => console.error("Failed to fetch categories", err),
     });
   }
 
@@ -67,28 +58,29 @@ export class ProductManagementComponent implements OnInit {
   }
 
   onSubmitProductForm() {
+    if (this.productForm.invalid) {
+      console.error("Form is not valid");
+      return;
+    }
+
     const product: Product = {
       ...this.productForm.value,
       category: this.selectedCategories.map((cat) => cat.id),
     };
 
-    if (this.productForm.valid) {
-      if (this.imageFile) {
-        this.storageService
-          .uploadFile("images/" + this.imageFile.name, this.imageFile)
-          .then((url) => {
-            product.image = url;
-            this.saveProduct(product);
-          })
-          .catch((err) => {
-            this.showToast("Erro ao fazer upload da imagem do produto.");
-            console.error("Error uploading image:", err);
-          });
-      } else {
-        this.saveProduct(product);
-      }
+    if (this.imageFile) {
+      this.storageService
+        .uploadFile("images/" + this.imageFile.name, this.imageFile)
+        .then((url) => {
+          product.image = url;
+          this.saveProduct(product);
+        })
+        .catch((err) => {
+          this.showToast("Erro ao fazer upload da imagem do produto.");
+          console.error("Error uploading image:", err);
+        });
     } else {
-      console.error("Form is not valid");
+      this.saveProduct(product);
     }
   }
 
@@ -103,7 +95,6 @@ export class ProductManagementComponent implements OnInit {
       price: product.price,
       availability: product.availability,
       category: product.category,
-      image: product.image,
     });
 
     this.imagePreview = product.image || null;
@@ -137,26 +128,27 @@ export class ProductManagementComponent implements OnInit {
             console.error("Error deleting image:", err);
           });
       } else {
-        deleteProduct(); // No image to delete, proceed directly
+        deleteProduct();
       }
     }
   }
 
   saveProduct(product: Product) {
+    const isImageUpdated = !!this.imageFile;
+
     if (this.editingProduct) {
       this.api.updateProduct(this.editingProductId!, product).subscribe({
         next: () => {
           this.fetchProducts();
-          this.resetForm();
           this.showToast("Produto atualizado com sucesso!", true);
-          this.storageService
-            .deleteFile(this.oldImage)
-            .then(() => {
-              this.resetForm();
-            })
-            .catch((err) => {
+
+          if (isImageUpdated && this.oldImage && product.image !== this.oldImage) {
+            this.storageService.deleteFile(this.oldImage).catch((err) => {
               console.error("Error deleting old image:", err);
             });
+          }
+
+          this.resetForm();
         },
         error: (err) => {
           console.error("Error updating product:", err);
@@ -209,7 +201,6 @@ export class ProductManagementComponent implements OnInit {
       reader.readAsDataURL(this.imageFile);
     }
   }
-
   // Show toast message using ngx-toastr
   showToast(message: string, type?: boolean) {
     if (type) {

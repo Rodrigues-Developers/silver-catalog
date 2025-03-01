@@ -1,0 +1,13 @@
+<section>
+  <h2>{{ categorySelected() | capitalize }}</h2>
+  <app-horizontal-slider [items]="categoryList"></app-horizontal-slider>
+</section>
+
+<section class="related-products">
+  <div class="sidebar-section">
+    <app-side-bar class="sidebar-component"></app-side-bar>
+  </div>
+  <div class="product-list">
+    <app-product-list></app-product-list>
+  </div>
+</section>

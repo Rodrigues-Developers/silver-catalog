@@ -7,6 +7,7 @@ import { Product } from "../app/interfaces/products.interface";
 import { Category } from "../app/interfaces/category.interface"; // Import the Category interface
 import { AuthService } from "../app/core/services/auth.service"; // Import the AuthService
 import { environment } from "../environments/environment";
+import { Banner } from "./interfaces/banner.interface";
 
 @Injectable({
   providedIn: "root",
@@ -124,6 +125,40 @@ export class ApiService {
     return this.getFirebaseToken().pipe(
       switchMap((token) =>
         this.http.delete<void>(`${this.config.apiUri}/api/Category/${categoryId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+      )
+    );
+  }
+
+  getBanners(): Observable<Banner[]> {
+    return this.http.get<Banner[]>(`${this.config.apiUri}/api/Banner`);
+  }
+
+  createBanner(banner: Banner): Observable<Banner> {
+    return this.getFirebaseToken().pipe(
+      switchMap((token) =>
+        this.http.post<Banner>(`${this.config.apiUri}/api/Banner`, banner, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+      )
+    );
+  }
+
+  updateBanner(bannerId: string, banner: Partial<Banner>): Observable<Banner> {
+    return this.getFirebaseToken().pipe(
+      switchMap((token) =>
+        this.http.put<Banner>(`${this.config.apiUri}/api/Banner/${bannerId}`, banner, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+      )
+    );
+  }
+
+  deleteBanner(bannerId: string): Observable<void> {
+    return this.getFirebaseToken().pipe(
+      switchMap((token) =>
+        this.http.delete<void>(`${this.config.apiUri}/api/Banner/${bannerId}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
       )
