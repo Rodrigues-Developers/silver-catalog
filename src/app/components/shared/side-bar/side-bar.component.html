@@ -1,13 +1,17 @@
 <div class="sidebar-container">
+  <div class="search">
+    <input type="text" placeholder="Pesquisar" (input)="onSearchInput($event.target.value)"
+      (keyup.enter)="onSearchClick()" />
+    <mat-icon (click)="onSearchClick()">search</mat-icon>
+  </div>
   <h3> CATEGORIAS </h3>
   <ul class="category-list">
     @for (category of categories; track $index) {
-    <li class="category-item">
-      <input type="checkbox" [value]="category.id" (change)="onCategoryChange($event)"
-        title="Select {{ category.name }}" />
-      <label> {{ category.name }} </label>
-      <div class="amount"> {{ category.amount }} </div>
+    <li class="category-item" (click)="onCategoryClick(category.id)">
+      <label [class.selected]="selectedCategory === category.id"> {{ category.name | titlecase }} </label>
+      <!-- <div class="amount"> {{ category.amount }} </div> -->
     </li>
+    
     }
   </ul>
 
