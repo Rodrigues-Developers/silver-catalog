@@ -90,7 +90,7 @@ export class ApiService {
 
   searchProducts(query: string): Observable<Product[]> {
     const params = new HttpParams().set("name", query);
-    return this.http.get<Product[]>(`${this.config.apiUri}/api/Product/search`, { params });
+    return this.http.get<Product[]>(`${this.config.apiUri}/api/Product/product-search`, { params });
   }
 
   getCategories(): Observable<Category[]> {
