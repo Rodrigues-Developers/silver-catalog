@@ -98,7 +98,4 @@ export class ProductListComponent implements OnInit {
     this.router.navigate(["/product", product.id]);
   }
 
-  trackByProductId(index: number, product: Product): string {
-    return product.id;
-  }
 }
