@@ -3,7 +3,8 @@
 </div>
 
 <ng-template #loaded>
-  <app-horizontal-slider [items]="bannerList" [visibleItems]="1" [itemWidth]="90" itemWidthUnit="vw" [itemHeight]="550" maxWidth="90" maxWidthUnit="vw" [translateDistance]="50">
+  <app-horizontal-slider [items]="bannerList" [visibleItems]="1" [itemWidth]="90" itemWidthUnit="vw" [itemHeight]="550" maxWidth="90" maxWidthUnit="vw"
+    [translateDistance]="100/bannerList.length">
   </app-horizontal-slider>
   <app-dynamic-text></app-dynamic-text>
   <app-category-list></app-category-list>

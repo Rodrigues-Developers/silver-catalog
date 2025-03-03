@@ -30,7 +30,7 @@ export class BannerManagementComponent implements OnInit {
     private toastr: ToastrService // Inject ToastrService here
   ) {
     this.bannerForm = this.fb.group({
-      image: [null], // Make this optional during edit
+      image: [null, Validators.required],
     });
   }
 
@@ -66,6 +66,7 @@ export class BannerManagementComponent implements OnInit {
         this.saveBanner(banner);
       }
     } else {
+      this.showToast("Não é possível criar um banner sem uma imagem.");
       console.error("Form is not valid");
     }
   }
