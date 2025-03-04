@@ -4,12 +4,11 @@
     <div class="product-images">
       <img [src]="product?.image" alt="Product Image" class="main-image" />
       <div class="additional-images">
-        @for (image of additionalImages; track $index) {
+        @for (image of product?.additionalImages; track $index) {
         <div class="thumbnail">
           <img [src]="image" alt="Thumbnail" />
         </div>
         }
-
       </div>
     </div>
 
@@ -27,7 +26,7 @@
     <div class="sidebar-section">
       <app-side-bar class="sidebar-component"></app-side-bar>
     </div>
-    <div class="product-list" >
+    <div class="product-list">
       <app-product-list></app-product-list>
     </div>
   </section>

@@ -17,7 +17,6 @@ export class ProductDetailsComponent implements OnInit {
   productId: string | null = null;
   product: Product;
   images: string[] = [];
-  additionalImages: string[] = [];
 
   constructor(private route: ActivatedRoute, private api: ApiService, private router: Router) {}
 
@@ -26,9 +25,6 @@ export class ProductDetailsComponent implements OnInit {
     this.api.getProduct(this.productId).subscribe({
       next: (res) => {
         this.product = res;
-        this.additionalImages = [...this.additionalImages, this.product.image];
-        this.additionalImages = [...this.additionalImages, this.product.image];
-        this.additionalImages = [...this.additionalImages, this.product.image];
       },
       error: () => console.error("Error fetching product details"),
     });
