@@ -2,10 +2,10 @@
   <section class="product-details">
     <!-- Left Section: Images -->
     <div class="product-images">
-      <img [src]="product?.image" alt="Product Image" class="main-image" />
+      <img [src]="selectedImage || product?.image" alt="Product Image" class="main-image" />
       <div class="additional-images">
         @for (image of product?.additionalImages; track $index) {
-        <div class="thumbnail">
+        <div class="thumbnail" (click)="swapImage(image)">
           <img [src]="image" alt="Thumbnail" />
         </div>
         }

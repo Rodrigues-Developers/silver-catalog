@@ -17,6 +17,7 @@ export class ProductDetailsComponent implements OnInit {
   productId: string | null = null;
   product: Product;
   images: string[] = [];
+  selectedImage: string | null = null;
 
   constructor(private route: ActivatedRoute, private api: ApiService, private router: Router) {}
 
@@ -32,5 +33,22 @@ export class ProductDetailsComponent implements OnInit {
 
   navigateToProductDetails(product: Product) {
     this.router.navigate(["/product", product.id]);
+  }
+
+  swapImage(image: string) {
+    if (this.selectedImage === image) {
+      this.selectedImage = null;
+    } else {
+      const mainImage = document.querySelector(".main-image") as HTMLElement;
+      if (mainImage) {
+        mainImage.classList.add("fading");
+        setTimeout(() => {
+          this.selectedImage = image;
+          mainImage.classList.remove("fading");
+        }, 250);
+      } else {
+        this.selectedImage = image;
+      }
+    }
   }
 }
