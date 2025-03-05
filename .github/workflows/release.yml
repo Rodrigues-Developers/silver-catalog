@@ -1,20 +1,23 @@
 name: Release Workflow
 
 on:
-  pull_request:
+  push:
     branches:
-      - master
-      - release*
+      - master # Run when code is merged to master
 
 jobs:
   release:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      statuses: write
+      contents: write # Allow version bump & tag
+      issues: write # Allow release notes
+      pull-requests: write # Allow commenting on PRs
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Needed for semantic-release to analyze commits
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -28,10 +31,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
-
-      - name: Complete Status Check
-        if: always()
-        run: |
-          echo "Setting status to 'success' for Release"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

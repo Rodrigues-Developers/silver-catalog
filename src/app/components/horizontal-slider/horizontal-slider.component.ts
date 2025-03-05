@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MatIconModule } from "@angular/material/icon";
 
@@ -9,7 +9,7 @@ import { MatIconModule } from "@angular/material/icon";
   templateUrl: "./horizontal-slider.component.html",
   styleUrls: ["./horizontal-slider.component.less"],
 })
-export class HorizontalSliderComponent {
+export class HorizontalSliderComponent implements OnInit {
   @Input() items: { image: string }[] = [];
   @Input() visibleItems = 4;
   @Input() itemWidth = 100;
@@ -19,6 +19,10 @@ export class HorizontalSliderComponent {
   @Input() maxWidth = 530;
   @Input() maxWidthUnit: "vw" | "px" = "px";
   currentIndex = 0;
+
+  ngOnInit(): void {
+    this.autoSlide();
+  }
 
   get maxIndex() {
     return Math.max(0, this.items.length - this.visibleItems);
@@ -46,5 +50,14 @@ export class HorizontalSliderComponent {
 
   getWidth() {
     return `${this.itemWidth}${this.maxWidthUnit}`;
+  }
+
+  autoSlide() {
+    setInterval(() => {
+      if (this.currentIndex === this.maxIndex) {
+        this.currentIndex = -1;
+      }
+      this.nextSlide();
+    }, 9000);
   }
 }
