@@ -6,7 +6,7 @@ import { BehaviorSubject } from "rxjs";
 })
 export class FilterService {
   private minPriceSubject = new BehaviorSubject<number>(50);
-  private maxPriceSubject = new BehaviorSubject<number>(2500);
+  private maxPriceSubject = new BehaviorSubject<number>(10000);
   private selectedCategoriesSubject = new BehaviorSubject<string[]>([]);
   private searchQuerySubject = new BehaviorSubject<string>("");
 
@@ -29,6 +29,13 @@ export class FilterService {
 
   setSearchQuery(query: string) {
     this.searchQuerySubject.next(query);
+  }
+
+  resetFilters() {
+    this.minPriceSubject.next(50);
+    this.maxPriceSubject.next(10000);
+    this.selectedCategoriesSubject.next([]);
+    this.searchQuerySubject.next("");
   }
 
   getMinPriceSubject() {
