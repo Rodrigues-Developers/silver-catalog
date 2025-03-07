@@ -6,13 +6,14 @@ import { MatIconModule } from "@angular/material/icon";
 import { FilterService } from "src/app/core/services/filter.service";
 import { ApiService } from "src/app/api.service";
 import { Category } from "src/app/interfaces/category.interface";
+import { ReactiveFormsModule, FormControl } from "@angular/forms";
 
 @Component({
   selector: "app-side-bar",
   templateUrl: "./side-bar.component.html",
   styleUrls: ["./side-bar.component.less"],
   standalone: true,
-  imports: [MatIconModule, CommonModule], // Import required modules
+  imports: [MatIconModule, CommonModule, ReactiveFormsModule], // Import required modules
 })
 export class SideBarComponent implements OnInit {
   private _selectedItem: Category | null = null;
@@ -27,13 +28,13 @@ export class SideBarComponent implements OnInit {
   isCollapsed = true;
   user: User | null = null; // Default user to null to reflect unauthenticated state
   baseMinPrice = 50; // Absolute minimum
-  baseMaxPrice = 2500; // Absolute maximum
+  baseMaxPrice = 10000; // Absolute maximum
   minPrice = 50; // Dynamic minimum value
-  maxPrice = 2500; // Dynamic maximum value
+  maxPrice = 10000; // Dynamic maximum value
   priceGap = 200; // Minimum gap between minPrice and maxPrice
   categories: any[] = [];
   selectedCategory: string | null = null;
-  searchQuery = "";
+  searchQuery = new FormControl("");
 
   constructor(private authService: AuthService, private filterService: FilterService, private apiService: ApiService) {}
 
@@ -97,12 +98,13 @@ export class SideBarComponent implements OnInit {
     return this.user !== null; // True if user is logged in (user exists)
   }
 
-  onSearchInput(value: string) {
-    this.searchQuery = value;
-    this.filterService.setSearchQuery(value);
+  onSearchClick() {
+    this.filterService.setSearchQuery(this.searchQuery.value);
   }
 
-  onSearchClick() {
-    this.filterService.setSearchQuery(this.searchQuery);
+  onSearchKeyPress(event: KeyboardEvent) {
+    if (event.key === "Enter") {
+      this.onSearchClick();
+    }
   }
 }

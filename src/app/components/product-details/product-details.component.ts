@@ -1,6 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ApiService } from "src/app/api.service";
+import { FilterService } from "src/app/core/services/filter.service";
 import { Product } from "src/app/interfaces/products.interface";
 import { CommonModule } from "@angular/common";
 import { SideBarComponent } from "../shared/side-bar/side-bar.component";
@@ -13,13 +14,18 @@ import { ProductListComponent } from "../product-list/product-list.component";
   standalone: true,
   imports: [CommonModule, SideBarComponent, ProductListComponent],
 })
-export class ProductDetailsComponent implements OnInit {
+export class ProductDetailsComponent implements OnInit, OnDestroy {
   productId: string | null = null;
   product: Product;
   images: string[] = [];
   selectedImage: string | null = null;
 
-  constructor(private route: ActivatedRoute, private api: ApiService, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private api: ApiService,
+    private router: Router,
+    private filterService: FilterService
+  ) {}
 
   ngOnInit(): void {
     this.productId = this.route.snapshot.paramMap.get("id");
@@ -29,6 +35,10 @@ export class ProductDetailsComponent implements OnInit {
       },
       error: () => console.error("Error fetching product details"),
     });
+  }
+
+  ngOnDestroy(): void {
+    this.filterService.resetFilters();
   }
 
   navigateToProductDetails(product: Product) {
