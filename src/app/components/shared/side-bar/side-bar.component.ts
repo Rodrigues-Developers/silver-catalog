@@ -1,10 +1,11 @@
-import { Component, OnInit, EventEmitter, Output } from "@angular/core";
+import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
 import { AuthService } from "../../../core/services/auth.service";
 import { User } from "firebase/auth"; // Import User type from Firebase
 import { CommonModule } from "@angular/common";
 import { MatIconModule } from "@angular/material/icon";
 import { FilterService } from "src/app/core/services/filter.service";
 import { ApiService } from "src/app/api.service";
+import { Category } from "src/app/interfaces/category.interface";
 
 @Component({
   selector: "app-side-bar",
@@ -14,8 +15,14 @@ import { ApiService } from "src/app/api.service";
   imports: [MatIconModule, CommonModule], // Import required modules
 })
 export class SideBarComponent implements OnInit {
+  private _selectedItem: Category | null = null;
   @Output() searchInput = new EventEmitter<string>();
   @Output() searchClick = new EventEmitter<string>();
+  @Input()
+  set selectedItem(value: Category | null) {
+    this._selectedItem = value;
+    this.onCategoryClick(value?.id || "");
+  }
 
   isCollapsed = true;
   user: User | null = null; // Default user to null to reflect unauthenticated state
