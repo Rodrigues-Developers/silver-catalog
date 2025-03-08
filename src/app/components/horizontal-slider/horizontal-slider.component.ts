@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MatIconModule } from "@angular/material/icon";
 
@@ -18,6 +18,7 @@ export class HorizontalSliderComponent implements OnInit {
   @Input() translateDistance = 80;
   @Input() maxWidth = 530;
   @Input() maxWidthUnit: "vw" | "px" = "px";
+  @Output() itemClicked = new EventEmitter<any>();
   currentIndex = 0;
 
   ngOnInit(): void {
@@ -59,5 +60,9 @@ export class HorizontalSliderComponent implements OnInit {
       }
       this.nextSlide();
     }, 9000);
+  }
+
+  onItemClicked(item: any) {
+    this.itemClicked.emit(item);
   }
 }

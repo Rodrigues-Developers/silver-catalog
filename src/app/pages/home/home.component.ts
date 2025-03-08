@@ -11,6 +11,7 @@ import { CategoryListComponent } from "../../components/category-list/category-l
 import { HorizontalSliderComponent } from "../../components/horizontal-slider/horizontal-slider.component";
 import { ApiService } from "src/app/api.service";
 import { Banner } from "src/app/interfaces/banner.interface";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-home",
@@ -24,7 +25,7 @@ export class HomeComponent implements OnInit {
   isLoading = true;
   hasApiError = false;
   bannerList: Banner[] = [];
-  constructor(private authService: AuthService, private api: ApiService) {}
+  constructor(private authService: AuthService, private api: ApiService, private router: Router) {}
 
   async ngOnInit(): Promise<void> {
     try {
@@ -51,5 +52,10 @@ export class HomeComponent implements OnInit {
       },
       error: () => (this.hasApiError = true),
     });
+  }
+  onBannerClick(banner: Banner): void {
+    //remove the domain from the link
+    const adaptedLink = banner.link.replace(/^https?:\/\/[^/]+\//, "");
+    this.router.navigate([adaptedLink]);
   }
 }
