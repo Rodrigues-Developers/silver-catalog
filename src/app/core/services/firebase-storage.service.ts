@@ -23,22 +23,91 @@ export class FirebaseStorageService {
   }
 
   /**
+   * Compress an image file to ensure it's under 1MB without losing too much quality
+   * @param file - Original image file
+   * @param maxSizeMB - Maximum size in MB (default: 1MB)
+   * @returns Promise<File> - Compressed image file
+   */
+  async compressImage(file: File, maxSizeMB = 1): Promise<File> {
+    const maxSizeBytes = maxSizeMB * 1024 * 1024;
+
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target?.result as string;
+
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+
+          if (!ctx) {
+            reject(new Error("Failed to get canvas context"));
+            return;
+          }
+
+          let width = img.width;
+          let height = img.height;
+
+          // Scale down if needed
+          const scaleFactor = Math.sqrt(maxSizeBytes / file.size);
+          if (scaleFactor < 1) {
+            width = Math.round(img.width * scaleFactor);
+            height = Math.round(img.height * scaleFactor);
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(img, 0, 0, width, height);
+
+          let quality = 0.9; // Start with high quality
+          const mimeType = file.type === "image/png" ? "image/png" : "image/jpeg";
+
+          const tryCompress = () => {
+            canvas.toBlob(
+              (blob) => {
+                if (blob && blob.size > maxSizeBytes && quality > 0.1) {
+                  quality -= 0.1; // Reduce quality
+                  tryCompress(); // Retry compression
+                } else if (blob) {
+                  resolve(new File([blob], file.name, { type: mimeType }));
+                } else {
+                  reject(new Error("Compression failed"));
+                }
+              },
+              mimeType,
+              quality
+            );
+          };
+
+          tryCompress();
+        };
+      };
+
+      reader.onerror = (error) => reject(error);
+    });
+  }
+
+  /**
    * Upload a file to Firebase Storage
    * @param path - Path in the storage bucket
    * @param file - File to upload
    * @returns Promise<string> - Download URL of the uploaded file
    */
   async uploadFile(path: string, file: File): Promise<string> {
-    const uniqueFileName = `${uuidv4()}_${file.name}`; // Add unique ID to the file name
+    const compressedFile = await this.compressImage(file, 1); // Compress before upload
+    const uniqueFileName = `${uuidv4()}_${compressedFile.name}`;
     const firebaseUrl = `https://firebasestorage.googleapis.com/v0/b/${this.firebaseConfig.storageBucket}/o?name=${encodeURIComponent(path + uniqueFileName)}`;
 
     const response = await fetch(firebaseUrl, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${await this.user.getIdToken()}`,
-        "Content-Type": file.type,
+        "Content-Type": compressedFile.type,
       },
-      body: file,
+      body: compressedFile,
     });
 
     if (!response.ok) {

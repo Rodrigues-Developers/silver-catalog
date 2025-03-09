@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from "@angular/forms";
 import { ApiService } from "src/app/api.service";
 import { Product } from "src/app/interfaces/products.interface";
 import { Category } from "src/app/interfaces/category.interface";
@@ -30,6 +30,11 @@ export class ProductManagementComponent implements OnInit {
   showCategorySelect = false;
   editingIndex: number | null = null;
   editName = "";
+  additionalImageFiles: File[] = []; // Store files to upload later
+  additionalImagesPreview: string[] = []; // Store previews
+  originalAdditionalImages: string[] = []; // Store original additional images
+  additionalImagesToDelete: string[] = [];
+  currentProduct: Product | null = null;
 
   constructor(private api: ApiService, private fb: FormBuilder, private storageService: FirebaseStorageService, private toastr: ToastrService) {
     this.productForm = this.fb.group({
@@ -39,6 +44,7 @@ export class ProductManagementComponent implements OnInit {
       availability: [true, Validators.required],
       category: [""],
       image: [null],
+      additionalImages: this.fb.array([null, null, null]), // Array of three possible additional images
     });
   }
 
@@ -68,20 +74,26 @@ export class ProductManagementComponent implements OnInit {
       category: this.selectedCategories.map((cat) => cat.id),
     };
 
-    if (this.imageFile) {
-      this.storageService
-        .uploadFile("images/" + this.imageFile.name, this.imageFile)
-        .then((url) => {
-          product.image = url;
-          this.saveProduct(product);
-        })
-        .catch((err) => {
-          this.showToast("Erro ao fazer upload da imagem do produto.");
-          console.error("Error uploading image:", err);
+    const uploadAdditionalImages = this.additionalImageFiles.map((file) => {
+      if (file) {
+        return this.storageService.uploadFile(`images/${file.name}`, file);
+      }
+      return Promise.resolve(null); // If no file is selected, resolve with null
+    });
+
+    Promise.all(uploadAdditionalImages)
+      .then((urls) => {
+        this.deleteAdditionalImages().then(() => {
+          const updatedAdditionalImages = this.currentProduct.additionalImages.map((url, index) => (urls[index] !== undefined ? urls[index] : url));
+
+          product.additionalImages = updatedAdditionalImages;
+          return this.saveProduct(product);
         });
-    } else {
-      this.saveProduct(product);
-    }
+      })
+      .catch((err) => {
+        this.showToast("Erro ao fazer upload das imagens adicionais.");
+        console.error("Error uploading additional images:", err);
+      });
   }
 
   onEditProduct(product: Product) {
@@ -102,10 +114,43 @@ export class ProductManagementComponent implements OnInit {
     for (const categoryID of product.category) {
       this.selectedCategories.push(getCategory(categoryID, this.categories));
     }
+
+    this.additionalImagesPreview = product?.additionalImages || [];
+    this.additionalImagesToDelete = [];
+    this.currentProduct = product;
   }
 
   onDeleteProduct(product: Product) {
     if (confirm(`Tem certeza que gostaria de excluir o produto "${product.name}"?`)) {
+      const promises: Promise<void>[] = [];
+
+      if (product.image) {
+        promises.push(
+          this.storageService.deleteFile(product.image).catch((err) => {
+            this.showToast("Erro ao excluir a imagem do produto.");
+            console.error("Error deleting image:", err);
+          })
+        );
+      }
+
+      if (product.additionalImages) {
+        for (const additionalImage of product.additionalImages) {
+          promises.push(
+            this.storageService.deleteFile(additionalImage).catch((err) => {
+              this.showToast("Erro ao excluir a imagem adicional do produto.");
+              console.error("Error deleting additional image:", err);
+            })
+          );
+        }
+      }
+
+      Promise.all(promises)
+        .then(() => deleteProduct())
+        .catch(() => {
+          this.showToast("Erro ao excluir as imagens.");
+          console.error("Error deleting images.");
+        });
+
       const deleteProduct = () => {
         this.api.deleteProduct(product.id).subscribe({
           next: () => {
@@ -118,18 +163,6 @@ export class ProductManagementComponent implements OnInit {
           },
         });
       };
-
-      if (product.image) {
-        this.storageService
-          .deleteFile(product.image)
-          .then(() => deleteProduct())
-          .catch((err) => {
-            this.showToast("Erro ao excluir a imagem do produto.");
-            console.error("Error deleting image:", err);
-          });
-      } else {
-        deleteProduct();
-      }
     }
   }
 
@@ -186,6 +219,8 @@ export class ProductManagementComponent implements OnInit {
     this.imagePreview = null;
     this.imageFile = null;
     this.selectedCategories = [];
+    this.additionalImageFiles = []; // Reset additional images
+    this.additionalImagesPreview = []; // Reset additional images previews
   }
 
   onImageChange(event: Event): void {
@@ -201,6 +236,27 @@ export class ProductManagementComponent implements OnInit {
       reader.readAsDataURL(this.imageFile);
     }
   }
+
+  // Handle the additional image changes
+  onAdditionalImageChange(index: number, event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input?.files?.length) {
+      const file = input.files[0];
+      const fileReader = new FileReader();
+      fileReader.onload = (e) => {
+        this.additionalImagesPreview[index] = e.target?.result as string;
+      };
+      fileReader.readAsDataURL(file);
+
+      // Update form control
+      const additionalImagesControl = this.productForm.controls["additionalImages"] as FormArray;
+      additionalImagesControl.at(index).setValue(file);
+
+      // Store selected file for uploading later
+      this.additionalImageFiles[index] = file;
+    }
+  }
+
   // Show toast message using ngx-toastr
   showToast(message: string, type?: boolean) {
     if (type) {
@@ -239,5 +295,33 @@ export class ProductManagementComponent implements OnInit {
       categoryNameList.push(getCategory(catID, this.categories)?.name || "");
     }
     return categoryNameList.join(", ");
+  }
+
+  removeAdditonalImage(index: number): void {
+    // If the image already exists, add to the list of images to delete
+    if (this.additionalImagesPreview[index]?.includes("firebasestorage.googleapis.com")) {
+      this.additionalImagesToDelete.push(this.additionalImagesPreview[index]);
+    }
+    // Reset the form control and file array
+    const additionalImagesControl = this.productForm.controls["additionalImages"] as FormArray;
+    additionalImagesControl.at(index).setValue(null);
+    this.additionalImageFiles[index] = null;
+
+    // Reset the actual file input element
+    const fileInput = document.getElementById("additionalImage" + index) as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = "";
+    }
+
+    // remove the preview
+    this.additionalImagesPreview.splice(index, 1, "");
+  }
+
+  deleteAdditionalImages(): Promise<void[]> {
+    const promises: Promise<void>[] = [];
+    for (const imageURL of this.additionalImagesToDelete) {
+      promises.push(this.storageService.deleteFile(imageURL));
+    }
+    return Promise.all(promises);
   }
 }

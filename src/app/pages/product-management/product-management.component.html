@@ -55,8 +55,8 @@
 
 
       <div class="form-group">
-        <label for="image">Imagem:</label>
-        <input id="image" type="file" (change)="onImageChange($event)" accept="image/*" /> <!-- Allow image change only during editing -->
+        <label for="image">Imagem Principal:</label>
+        <input id="image" type="file" (change)="onImageChange($event)" accept="image/*" />
       </div>
 
       <!-- Display the current image if available -->
@@ -64,11 +64,49 @@
         <img [src]="imagePreview" alt="Imagem do Produto">
       </div>
 
+      <div class="form-group">
+        <label for="additionalImages">Imagens Adicionais:</label>
+        <section class="additional-images">
+          <!-- Input for Image 1 -->
+          <div>
+            <input type="file" (change)="onAdditionalImageChange(0, $event)" accept="image/*" [attr.id]="'additionalImage0'" />
+            <div *ngIf="additionalImagesPreview[0]">
+              <img [src]="additionalImagesPreview[0]" alt="Preview Image 1" class="preview-image" />
+            </div>
+            <div class="delete-additional-image" (click)="removeAdditonalImage(0)">
+              <mat-icon>delete </mat-icon>
+            </div>
+          </div>
+
+          <!-- Input for Image 2 -->
+          <div>
+            <input type="file" (change)="onAdditionalImageChange(1, $event)" accept="image/*" [attr.id]="'additionalImage1'" />
+            <div *ngIf="additionalImagesPreview[1]">
+              <img [src]="additionalImagesPreview[1]" alt="Preview Image 2" class="preview-image" />
+            </div>
+            <div class="delete-additional-image" (click)="removeAdditonalImage(1)">
+              <mat-icon>delete </mat-icon>
+            </div>
+          </div>
+
+          <!-- Input for Image 3 -->
+          <div>
+            <input type="file" (change)="onAdditionalImageChange(2, $event)" accept="image/*" [attr.id]="'additionalImage2'" />
+            <div *ngIf="additionalImagesPreview[2]">
+              <img [src]="additionalImagesPreview[2]" alt="Preview Image 3" class="preview-image" />
+            </div>
+            <div class="delete-additional-image" (click)="removeAdditonalImage(2)">
+              <mat-icon>delete </mat-icon>
+            </div>
+          </div>
+        </section>
+      </div>
+
       <button type="submit" class="btn btn-primary">
         {{ editingProduct ? "Atualizar" : "Criar" }}
       </button>
       <button *ngIf="editingProduct" type="button" class="btn btn-secondary" (click)="cancelEdit()">
-        Cancel
+        Cancelar
       </button>
     </form>
   </div>

@@ -6,11 +6,9 @@
 @spacing: 1rem;
 @thumbnail-spacing: 1.5rem;
 
-
 .product-list {
   width: 100%;
 }
-
 
 .product-details {
   margin: 0 5rem;
@@ -37,10 +35,14 @@
       object-fit: cover;
       margin-bottom: @spacing;
       border: 1px solid #e0e0e0;
-      /* Light border for separation */
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      /* Subtle shadow for depth */
+      /* Add a fade & zoom animation */
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      &.fading {
+        opacity: 0;
+        transform: scale(1.1);
+      }
     }
 
     .additional-images {
@@ -56,6 +58,7 @@
         img {
           object-fit: cover;
           width: 100%;
+          height: 106px;
           border-radius: 8px;
           box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
         }
@@ -88,7 +91,6 @@
       color: @text-color;
     }
   }
-
 
   @media @mobile {
     flex-direction: column;
