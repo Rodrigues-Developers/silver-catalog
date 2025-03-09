@@ -17,6 +17,7 @@ import { CapitalizePipe } from "../../shared/pipes/capitalize.pipe";
 export class CategoryDetailsComponent implements OnInit {
   hasApiError = false;
   categoryList: Category[] = [];
+  selectedItem: Category | null = null;
 
   constructor(private api: ApiService) {}
 
@@ -36,5 +37,13 @@ export class CategoryDetailsComponent implements OnInit {
   categorySelected() {
     const categoryId = window.location.href.split("/").pop();
     return this.categoryList.filter((category) => category.id === categoryId)[0]?.name;
+  }
+
+  onItemClick(item: any) {
+    if (this.selectedItem === item) {
+      this.selectedItem = null;
+      return;
+    }
+    this.selectedItem = item as Category;
   }
 }

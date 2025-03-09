@@ -30,7 +30,8 @@ export class BannerManagementComponent implements OnInit {
     private toastr: ToastrService // Inject ToastrService here
   ) {
     this.bannerForm = this.fb.group({
-      image: [null, Validators.required],
+      link: ["", [Validators.required]],
+      image: [null],
     });
   }
 
@@ -66,7 +67,7 @@ export class BannerManagementComponent implements OnInit {
         this.saveBanner(banner);
       }
     } else {
-      this.showToast("Não é possível criar um banner sem uma imagem.");
+      this.showToast("Não é possível criar um banner sem uma imagem ou link");
       console.error("Form is not valid");
     }
   }
@@ -75,6 +76,10 @@ export class BannerManagementComponent implements OnInit {
     this.editingBanner = true;
     this.editingBannerId = banner.id;
     this.oldImage = banner.image;
+
+    this.bannerForm.patchValue({
+      link: banner.link,
+    });
 
     this.imagePreview = banner.image || null;
   }
@@ -109,20 +114,25 @@ export class BannerManagementComponent implements OnInit {
   }
 
   saveBanner(banner: Banner) {
+    // Flag to check if image has changed
+    const isImageUpdated = !!this.imageFile;
+
     if (this.editingBanner) {
       this.api.updateBanner(this.editingBannerId!, banner).subscribe({
         next: () => {
           this.fetchBanners();
           this.resetForm();
           this.showToast("Banner atualizado com sucesso!", true);
-          this.storageService
-            .deleteFile(this.oldImage)
-            .then(() => {
-              this.resetForm();
-            })
-            .catch((err) => {
-              console.error("Error deleting old image:", err);
-            });
+          if (isImageUpdated && this.oldImage && banner.image !== this.oldImage) {
+            this.storageService
+              .deleteFile(this.oldImage)
+              .then(() => {
+                this.resetForm();
+              })
+              .catch((err) => {
+                console.error("Error deleting old image:", err);
+              });
+          }
         },
         error: (err) => {
           console.error("Error updating banner:", err);
