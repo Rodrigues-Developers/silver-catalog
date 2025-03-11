@@ -43,7 +43,7 @@ export class ProductListComponent implements OnInit {
     });
 
     this.filterService.searchQuery$.subscribe((query) => {
-      this.onSearchInput(query);
+      this.onSearchClick(query);
     });
   }
 
@@ -67,16 +67,6 @@ export class ProductListComponent implements OnInit {
       });
     } else {
       this.filteredProductsList = this.productsList.filter((product) => product.price >= minPrice && product.price <= maxPrice);
-    }
-  }
-
-  onSearchInput(value: string) {
-    if (value.trim() === "") {
-      this.applyFilters();
-    } else {
-      this.filteredProductsList = this.productsList.filter((product) =>
-        product.name.toLowerCase().includes(value.toLowerCase())
-      );
     }
   }
 
