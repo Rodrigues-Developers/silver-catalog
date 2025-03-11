@@ -99,11 +99,15 @@ export class SideBarComponent implements OnInit {
   }
 
   onSearchClick() {
+    console.log("Search button clicked or Enter key pressed");
     this.filterService.setSearchQuery(this.searchQuery.value);
   }
 
   onSearchKeyPress(event: KeyboardEvent) {
+    console.log("Key pressed:", event.key);
     if (event.key === "Enter") {
+      event.preventDefault(); // Prevent default action
+      event.stopPropagation(); // Stop propagation
       this.onSearchClick();
     }
   }

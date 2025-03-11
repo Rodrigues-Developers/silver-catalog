@@ -1,33 +1,33 @@
 @import "../styles/colors.less";
-@import "../styles/media-query.less";
+@import "../../../shared/styles/breakpoints.less";
 
 .sidebar-container {
   width: 15vw;
 
   .search {
-      display: flex;
-      align-items: center;
-      background-color: #fff;
-      border-radius: 5px;
-      padding: 5px 0;
-      margin-bottom: 20px;
-  
-      input {
-        border: none;
-        background: transparent;
-        outline: none;
-        flex: 1;
-        padding: 5px;
-        font-size: 14px;
-        color: #333;
-      }
-  
-      mat-icon {
-        color: #757575;
-        cursor: pointer;
-flex-shrink: 0; // Prevent the icon from shrinking
-      }
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 5px 0;
+    margin-bottom: 20px;
+
+    input {
+      border: none;
+      background: transparent;
+      outline: none;
+      flex: 1;
+      padding: 5px;
+      font-size: 14px;
+      color: #333;
     }
+
+    mat-icon {
+      color: #757575;
+      cursor: pointer;
+      flex-shrink: 0; // Prevent the icon from shrinking
+    }
+  }
 
   h3 {
     color: #000;
@@ -51,6 +51,7 @@ flex-shrink: 0; // Prevent the icon from shrinking
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       label {
         color: #757575;
         font-weight: normal;
@@ -72,14 +73,13 @@ flex-shrink: 0; // Prevent the icon from shrinking
         line-height: 25px;
         font-size: 12px;
       }
-
-      }
+    }
   }
 
   .price-range {
     position: relative;
     height: 5px;
-      /* Adjust the total height for visual clarity */
+    /* Adjust the total height for visual clarity */
 
     .slider-container {
       position: relative;
@@ -92,14 +92,14 @@ flex-shrink: 0; // Prevent the icon from shrinking
       position: absolute;
       height: 5px;
       background: #ddd;
-        /* Lighter color for contrast */
-        z-index: -1;
-        /* Send it behind everything */
+      /* Lighter color for contrast */
+      z-index: -1;
+      /* Send it behind everything */
       width: 100%;
       border-radius: 5px;
-        /* Rounded edges */
-        transform: translateY(-2px);
-        /* Center adjust */
+      /* Rounded edges */
+      transform: translateY(-2px);
+      /* Center adjust */
       pointer-events: none;
     }
 
@@ -109,10 +109,10 @@ flex-shrink: 0; // Prevent the icon from shrinking
       height: 5px;
       background: #4d565b;
       z-index: 1;
-        /* Sit above the track */
+      /* Sit above the track */
       border-radius: 5px;
       transform: translateY(-2px);
-        /* Center adjust */
+      /* Center adjust */
     }
 
     .slider {
@@ -143,7 +143,7 @@ flex-shrink: 0; // Prevent the icon from shrinking
     }
   }
 
-  @media (max-width: 1316px) {
+  @media @tablet-m, @tablet-l {
     width: 100%; // Adjust the width to fit the screen
 
     .search {
@@ -182,7 +182,9 @@ flex-shrink: 0; // Prevent the icon from shrinking
     }
   }
 
-  @media (max-width: 768px) {
+  @media @mobile {
+    width: 100%; // Adjust the width to fit the screen
+
     .search {
       flex-direction: row; // Ensure the input and icon are in a row
       padding: 5px;
