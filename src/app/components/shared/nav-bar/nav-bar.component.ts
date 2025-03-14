@@ -4,6 +4,7 @@ import { User } from "firebase/auth"; // Import User type from Firebase
 import { MatIconModule } from "@angular/material/icon"; // Import MatIconModule
 import { NgIf } from "@angular/common"; // Import NgIf for structural directives
 import { RouterLink } from "@angular/router";
+import { CartService } from "src/app/core/services/cart.service";
 
 @Component({
   selector: "app-nav-bar",
@@ -18,7 +19,7 @@ export class NavBarComponent implements OnInit {
   user: User | null = null; // Start user as null to reflect auth state properly
   isUserAdmin = false; // Default to false
 
-  constructor(private authService: AuthService, private eRef: ElementRef) {}
+  constructor(private authService: AuthService, private eRef: ElementRef, public cartService: CartService) {}
 
   ngOnInit(): void {
     // Directly subscribe to user from AuthService using signal
@@ -59,5 +60,9 @@ export class NavBarComponent implements OnInit {
 
   get isAuthenticated(): boolean {
     return this.user !== null; // Return true if user is not null
+  }
+
+  toggleCart() {
+    this.cartService.toggleCart();
   }
 }

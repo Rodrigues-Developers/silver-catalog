@@ -35,7 +35,7 @@
     <div>
       <mat-icon>star</mat-icon>
     </div>
-    <div>
+    <div (click)="toggleCart()" class="cart-area">
       <mat-icon>shopping_cart</mat-icon>
     </div>
     }
@@ -90,7 +90,7 @@
         <mat-icon>home</mat-icon>
         <a routerLink="/" class="nav-link" (click)="isCollapsed = !isCollapsed">Home</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" (click)="toggleCart()">
         <mat-icon>shopping_cart</mat-icon>
         <a routerLink="external-api" class="nav-link" (click)="isCollapsed = !isCollapsed">Loja</a>
       </li>
