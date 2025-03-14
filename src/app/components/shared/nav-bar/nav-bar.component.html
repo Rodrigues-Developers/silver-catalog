@@ -36,6 +36,7 @@
       <mat-icon>star</mat-icon>
     </div>
     <div (click)="toggleCart()" class="cart-area">
+      <div class="cart-count">{{ cartService.items().length }}</div>
       <mat-icon>shopping_cart</mat-icon>
     </div>
     }

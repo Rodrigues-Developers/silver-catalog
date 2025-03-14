@@ -1,11 +1,12 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component, OnDestroy } from "@angular/core";
+import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 import { ApiService } from "src/app/api.service";
 import { Product } from "src/app/interfaces/products.interface";
 import { CommonModule } from "@angular/common";
 import { SideBarComponent } from "../shared/side-bar/side-bar.component";
 import { ProductListComponent } from "../product-list/product-list.component";
 import { CartService } from "src/app/core/services/cart.service";
+import { filter, Subscription } from "rxjs";
 
 @Component({
   selector: "app-product-details",
@@ -14,19 +15,28 @@ import { CartService } from "src/app/core/services/cart.service";
   standalone: true,
   imports: [CommonModule, SideBarComponent, ProductListComponent],
 })
-export class ProductDetailsComponent implements OnInit {
-  productId: string | null = null;
-  product: Product;
-  images: string[] = [];
+export class ProductDetailsComponent implements OnDestroy {
+  product: Product | null = null;
   selectedImage: string | null = null;
+  private routeSub: Subscription;
 
-  constructor(private route: ActivatedRoute, private api: ApiService, private router: Router, private cartService: CartService) {}
+  constructor(private route: ActivatedRoute, private api: ApiService, private router: Router, private cartService: CartService) {
+    // Reload the product when the route changes withing the same route but different id
+    this.routeSub = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+      this.loadProduct();
+    });
 
-  ngOnInit(): void {
-    this.productId = this.route.snapshot.paramMap.get("id");
-    this.api.getProduct(this.productId).subscribe({
+    this.loadProduct();
+  }
+
+  private loadProduct() {
+    const productId = this.route.snapshot.paramMap.get("id");
+    if (!productId) return;
+
+    this.api.getProduct(productId).subscribe({
       next: (res) => {
         this.product = res;
+        this.selectedImage = null;
       },
       error: () => console.error("Error fetching product details"),
     });
@@ -54,6 +64,12 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   addToCart() {
-    this.cartService.addToCart(this.product);
+    if (this.product) {
+      this.cartService.addToCart(this.product);
+    }
+  }
+
+  ngOnDestroy() {
+    this.routeSub.unsubscribe();
   }
 }
