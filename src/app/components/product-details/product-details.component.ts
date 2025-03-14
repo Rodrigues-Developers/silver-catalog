@@ -5,6 +5,7 @@ import { Product } from "src/app/interfaces/products.interface";
 import { CommonModule } from "@angular/common";
 import { SideBarComponent } from "../shared/side-bar/side-bar.component";
 import { ProductListComponent } from "../product-list/product-list.component";
+import { CartService } from "src/app/core/services/cart.service";
 
 @Component({
   selector: "app-product-details",
@@ -19,7 +20,7 @@ export class ProductDetailsComponent implements OnInit {
   images: string[] = [];
   selectedImage: string | null = null;
 
-  constructor(private route: ActivatedRoute, private api: ApiService, private router: Router) {}
+  constructor(private route: ActivatedRoute, private api: ApiService, private router: Router, private cartService: CartService) {}
 
   ngOnInit(): void {
     this.productId = this.route.snapshot.paramMap.get("id");
@@ -50,5 +51,9 @@ export class ProductDetailsComponent implements OnInit {
         this.selectedImage = image;
       }
     }
+  }
+
+  addToCart() {
+    this.cartService.addToCart(this.product);
   }
 }

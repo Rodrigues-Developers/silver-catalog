@@ -1,0 +1,25 @@
+<div class="cart-sidebar" [class.open]="cartService.isCartVisible()">
+  <button mat-icon-button class="close-btn" (click)="cartService.toggleCart()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <h3>Shopping Cart</h3>
+  @if (cartService.items().length) {
+  <div>
+    @for (item of cartService.items(); track $index) {
+    <div>
+      <p>{{ item.name }} - ${{ item.price }}</p>
+      <button mat-icon-button color="warn" (click)="removeItem($index)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    }
+  </div>
+  }
+  @else {
+  <div #emptyCart>
+    <p>No items in cart.</p>
+  </div>
+  }
+
+</div>
