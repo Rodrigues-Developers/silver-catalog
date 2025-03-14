@@ -6,6 +6,11 @@
     <form [formGroup]="bannerForm" (ngSubmit)="onSubmitBannerForm()">
 
       <div class="form-group">
+        <label for="link">Link:</label>
+        <input id="link" type="text" formControlName="link" required placeholder="Link do Banner" />
+      </div>
+
+      <div class="form-group">
         <label for="image">Imagem:</label>
         <input id="image" type="file" (change)="onImageChange($event)" accept="image/*" /> <!-- Allow image change only during editing -->
       </div>
