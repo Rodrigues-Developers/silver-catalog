@@ -65,6 +65,9 @@ export class ProductDetailsComponent implements OnDestroy {
 
   addToCart() {
     if (this.product) {
+      if (!this.cartService.isCartVisible()) {
+        this.cartService.toggleCart();
+      }
       this.cartService.addToCart(this.product);
     }
   }
