@@ -1,7 +1,7 @@
 <div class="sidebar-container">
   <div class="search">
     <input type="text" [formControl]="searchQuery" (keydown)="onSearchKeyPress($event)" placeholder="Search..."
-      autocomplete="off">
+      aria-autocomplete="none" autocomplete="off">
     <mat-icon (click)="onSearchClick()">search</mat-icon>
   </div>
   <h3> CATEGORIAS </h3>
@@ -11,7 +11,8 @@
       <label [class.selected]="selectedCategory === category.id"> {{ category.name | titlecase }} </label>
       <div class="amount"> {{ category.amount }} </div>
     </li>
-    }
+}
+
   </ul>
 
   <h3>PREÇO</h3>
