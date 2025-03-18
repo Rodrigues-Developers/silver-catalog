@@ -7,6 +7,8 @@ import { FilterService } from "src/app/core/services/filter.service";
 import { ApiService } from "src/app/api.service";
 import { Category } from "src/app/interfaces/category.interface";
 import { ReactiveFormsModule, FormControl } from "@angular/forms";
+import { forkJoin } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: "app-side-bar",
@@ -46,6 +48,24 @@ export class SideBarComponent implements OnInit {
 
     this.apiService.getCategories().subscribe((categories) => {
       this.categories = categories;
+      this.loadProductCounts();
+    });
+  }
+
+  loadProductCounts(): void {
+    const countRequests = this.categories.map(category => 
+      this.apiService.getProductCountByCategory(category.id).pipe(
+        map(count => ({ id: category.id, count }))
+      )
+    );
+
+    forkJoin(countRequests).subscribe(counts => {
+      counts.forEach(count => {
+        const category = this.categories.find(cat => cat.id === count.id);
+        if (category) {
+          category.amount = count.count;
+        }
+      });
     });
   }
 

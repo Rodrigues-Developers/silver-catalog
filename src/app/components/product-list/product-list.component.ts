@@ -28,7 +28,9 @@ export class ProductListComponent implements OnInit {
         this.applyFilters();
       },
       error: () => (this.hasApiError = true),
+      
     });
+
 
     this.filterService.minPrice$.subscribe(() => {
       this.applyFilters();
@@ -48,6 +50,8 @@ export class ProductListComponent implements OnInit {
   }
 
   applyFilters() {
+    console.log("applyFilters");
+
     if (this.productsList.length === 0) {
       return;
     }
