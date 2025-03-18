@@ -4,10 +4,12 @@ import { MatIconModule } from "@angular/material/icon";
 import { ToastrService } from "ngx-toastr";
 import { CommonModule } from "@angular/common";
 import { Router } from "@angular/router";
-import { Cart } from "src/app/interfaces/cart.interface";
+import { CartItem } from "src/app/interfaces/cart-item.interface";
 import { AuthService } from "src/app/core/services/auth.service";
 import { User } from "firebase/auth";
 import { Subscription } from "rxjs";
+import { Order } from "src/app/interfaces/order.interface";
+import { ApiService } from "src/app/api.service";
 @Component({
   selector: "app-cart",
   standalone: true,
@@ -19,7 +21,7 @@ export class CartComponent implements OnDestroy {
   currentUser: User | null = null;
   currentUserSubscription: Subscription;
 
-  constructor(public cartService: CartService, private toastr: ToastrService, private router: Router, private authService: AuthService) {
+  constructor(public cartService: CartService, private toastr: ToastrService, private router: Router, private authService: AuthService, private api: ApiService) {
     effect(() => {
       if (this.cartService.cartLimitReached()) {
         this.toastr.error("Você atingiu o limite máximo de items no carrinho.", "", {
@@ -37,7 +39,7 @@ export class CartComponent implements OnDestroy {
     this.cartService.removeFromCart(index);
   }
 
-  redirectToItem(item: Cart) {
+  redirectToItem(item: CartItem) {
     this.router.navigate(["/product", item.product.id]);
   }
 
@@ -48,24 +50,45 @@ export class CartComponent implements OnDestroy {
     }
 
     const baseURL = window.location.origin;
-    const order = this.cartService.items().map((item) => {
+
+    const cartItemList: CartItem[] = this.cartService.items().map((item) => {
       return {
-        name: item.product.name,
-        price: item.product.price,
-        quantity: item.amount,
+        amount: item.amount,
+        product: item.product,
         url: `${baseURL}/product/${item.product.id}`,
-        imageUrl: item.product.image, // Assuming each product has an 'image' property
       };
     });
 
-    order["total"] = this.cartService.totalSum();
+    const order: Order = {
+      userId: this.currentUser.uid,
+      cartItems: cartItemList,
+      total: this.cartService.total(),
+    };
 
-    // 📝 Format WhatsApp message
-    let message = ` *Novo Pedido* \n\n`;
-    order.forEach((item) => {
-      message += `*${item.name}*\n R$${item.price.toFixed(2)} x ${item.quantity}\n ${item.url}\n ${item.imageUrl}\n\n`;
+    this.createOrder(baseURL, order);
+  }
+
+  createOrder(baseURL: string, order: Order) {
+    this.api.createOrder(order).subscribe({
+      next: () => {
+        this.cartService.clearCart();
+        this.showToast("Pedido salvo com sucesso!", true);
+        this.sendWhatsAppMessage(baseURL, order);
+      },
+      error: (err) => {
+        console.error("Error creating banner:", err);
+        this.showToast("Erro ao enviar o pedido!");
+      },
     });
-    message += ` *Total:* R$${order["total"].toFixed(2)}`;
+  }
+
+  sendWhatsAppMessage(baseURL: string, order: Order) {
+    let message = ` *Novo Pedido* \n\n`;
+    message += `Link do pedido: ${baseURL}/orders/${this.currentUser.uid} \n\n`;
+    order.cartItems.forEach((item) => {
+      message += `*${item.product.name}*\n R$${item.product.price.toFixed(2)} x ${item.amount}\n ${item.url}\n\n`;
+    });
+    message += ` *Total:* R$${order.total.toFixed(2)}`;
 
     // Encode message for URL
     const encodedMessage = encodeURIComponent(message);
@@ -75,6 +98,14 @@ export class CartComponent implements OnDestroy {
 
     // Open WhatsApp chat with formatted message
     window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, "_blank");
+  }
+
+  showToast(message: string, type?: boolean) {
+    if (type) {
+      this.toastr.success(message, "", { timeOut: 3000 });
+    } else {
+      this.toastr.error(message, "", { timeOut: 3000 });
+    }
   }
 
   ngOnDestroy(): void {

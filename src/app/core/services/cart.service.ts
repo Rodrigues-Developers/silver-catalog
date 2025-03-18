@@ -1,18 +1,18 @@
 import { computed, Injectable, signal } from "@angular/core";
 import { Product } from "src/app/interfaces/products.interface";
-import { Cart } from "src/app/interfaces/cart.interface"; // Import the new Cart interface
+import { CartItem } from "src/app/interfaces/cart-item.interface"; // Import the new Cart interface
 
 @Injectable({
   providedIn: "root",
 })
 export class CartService {
-  private cartItems = signal<Cart[]>([]);
+  private cartItems = signal<CartItem[]>([]);
   private showCart = signal(false);
   private maxItems = 30;
   private maxAmountPerProduct = 10; // Max quantity per product
   cartLimitReached = signal(false);
 
-  totalSum = computed(() => this.cartItems().reduce((acc, item) => acc + item.product.price * item.amount, 0));
+  private totalSum = computed(() => this.cartItems().reduce((acc, item) => acc + item.product.price * item.amount, 0));
 
   get items() {
     return this.cartItems;
@@ -81,5 +81,9 @@ export class CartService {
 
   resetCartLimitWarning() {
     this.cartLimitReached.set(false);
+  }
+
+  clearCart() {
+    this.cartItems.set([]);
   }
 }
