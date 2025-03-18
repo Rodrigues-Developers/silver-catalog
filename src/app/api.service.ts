@@ -8,6 +8,7 @@ import { Category } from "../app/interfaces/category.interface"; // Import the C
 import { AuthService } from "../app/core/services/auth.service"; // Import the AuthService
 import { environment } from "../environments/environment";
 import { Banner } from "./interfaces/banner.interface";
+import { Order } from "./interfaces/order.interface";
 
 @Injectable({
   providedIn: "root",
@@ -159,6 +160,56 @@ export class ApiService {
     return this.getFirebaseToken().pipe(
       switchMap((token) =>
         this.http.delete<void>(`${this.config.apiUri}/api/Banner/${bannerId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+      )
+    );
+  }
+
+  getOrders(): Observable<Order[]> {
+    return this.getFirebaseToken().pipe(
+      switchMap((token) =>
+        this.http.get<Order[]>(`${this.config.apiUri}/api/Order`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+      )
+    );
+  }
+
+  getOrder(orderId: string): Observable<Order> {
+    return this.getFirebaseToken().pipe(
+      switchMap((token) =>
+        this.http.get<Order>(`${this.config.apiUri}/api/Order/${orderId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+      )
+    );
+  }
+
+  createOrder(order: Order): Observable<Order> {
+    return this.getFirebaseToken().pipe(
+      switchMap((token) =>
+        this.http.post<Order>(`${this.config.apiUri}/api/Order`, order, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+      )
+    );
+  }
+
+  updateOrder(orderId: string, order: Partial<Order>): Observable<void> {
+    return this.getFirebaseToken().pipe(
+      switchMap((token) =>
+        this.http.put<void>(`${this.config.apiUri}/api/Order/${orderId}`, order, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+      )
+    );
+  }
+
+  deleteOrder(orderId: string): Observable<void> {
+    return this.getFirebaseToken().pipe(
+      switchMap((token) =>
+        this.http.delete<void>(`${this.config.apiUri}/api/Order/${orderId}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
       )

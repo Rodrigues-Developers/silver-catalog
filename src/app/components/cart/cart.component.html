@@ -1,0 +1,44 @@
+<div class="cart-sidebar" [class.open]="cartService.isCartVisible()">
+  <div class="header">
+    <button mat-icon-button class="close-btn" (click)="cartService.toggleCart()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <p>Total: {{cartService.total() | currency: 'BRL'}}</p>
+  </div>
+
+  <h3>Shopping Cart</h3>
+  @if (cartService.items().length) {
+  <div>
+    @for (item of cartService.items(); track $index) {
+    <div class="cart-item">
+      <div class="product-info" (click)="redirectToItem(item)">
+        <img src="{{item.product.image}}">
+        <p>{{ item.product.price | currency: 'BRL' }}</p>
+      </div>
+
+      <div class="quantity-controls">
+        <button mat-icon-button color="primary" (click)="cartService.decreaseAmount($index)">
+          <mat-icon>remove</mat-icon>
+        </button>
+
+        <p>{{ item.amount }}</p>
+
+        <button mat-icon-button color="primary" (click)="cartService.increaseAmount($index)" [disabled]="item.amount >= 10">
+          <mat-icon>add</mat-icon>
+        </button>
+
+        <button mat-icon-button color="warn" (click)="cartService.removeFromCart($index)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+    }
+    <button class="submit btn btn-primary" (click)="onSubmit()">Finalizar pedido</button>
+  </div>
+  }
+  @else {
+  <div #emptyCart>
+    <p>No items in cart.</p>
+  </div>
+  }
+</div>

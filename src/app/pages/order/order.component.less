@@ -1,0 +1,80 @@
+h2,
+h3 {
+  color: #333;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  table-layout: fixed; // ✅ Ensures consistent column widths across orders
+
+  th,
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    vertical-align: middle; // ✅ Aligns content properly
+    word-wrap: break-word; // ✅ Prevents long text from breaking layout
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  // ✅ Define column widths to keep them consistent
+  th:nth-child(1),
+  td:nth-child(1) {
+    width: 30%;
+  } // Product name
+  th:nth-child(2),
+  td:nth-child(2) {
+    width: 10%;
+    text-align: center;
+  } // Image column
+  th:nth-child(3),
+  td:nth-child(3) {
+    width: 15%;
+  } // Price column
+  th:nth-child(4),
+  td:nth-child(4) {
+    width: 15%;
+  } // Quantity column
+  th:nth-child(5),
+  td:nth-child(5) {
+    width: 15%;
+    text-align: center;
+  } // "Ver detalhes"
+
+  // ✅ Keep image small and centered
+  td:nth-child(2) img {
+    display: block;
+    margin: auto;
+    max-width: 50px; // Ensures image does not exceed 50px width
+    height: auto;
+  }
+
+  // ✅ Keep "Ver detalhes" link from stretching
+  td:nth-child(5) a {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+    white-space: nowrap; // Prevents wrapping
+  }
+
+  td:nth-child(5) a:hover {
+    background-color: #0056b3;
+  }
+}

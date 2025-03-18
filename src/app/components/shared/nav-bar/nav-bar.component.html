@@ -31,11 +31,9 @@
     </ul>
   </div>
   <div class="user-dashboard">
-    @if (isAuthenticated && isUserAdmin) {
-    <div>
-      <mat-icon>star</mat-icon>
-    </div>
-    <div>
+    @if (isAuthenticated) {
+    <div (click)="toggleCart()" class="cart-area">
+      <div class="cart-count">{{ cartService.items().length }}</div>
       <mat-icon>shopping_cart</mat-icon>
     </div>
     }
@@ -54,24 +52,30 @@
       <div [class.hidden]="userCollapsed" [class.user-menu]="!userCollapsed">
         <ul class="user-submenu">
           <li class="nav-item">
-            <a href="" class="nav-link">{{ user?.displayName }}</a>
+            <a class="nav-link">{{ user?.displayName }}</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <mat-icon>person</mat-icon>
             <a routerLink="/profile" class="nav-link">Perfil</a>
-          </li>
+          </li> -->
           @if(isAuthenticated && isUserAdmin){
           <li class="nav-item">
-            <mat-icon routerLink="product-management">settings</mat-icon>
+            <mat-icon routerLink="product-management">storefront</mat-icon>
             <a routerLink="/product-management" class="nav-link">Gerenciar Produtos</a>
           </li>
           <li class="nav-item">
-            <mat-icon routerLink="category-management">settings</mat-icon>
+            <mat-icon routerLink="category-management">widgets</mat-icon>
             <a routerLink="/category-management" class="nav-link">Gerenciar Categorias</a>
           </li>
           <li class="nav-item">
-            <mat-icon routerLink="banner-management">settings</mat-icon>
+            <mat-icon routerLink="banner-management">wallpaper</mat-icon>
             <a routerLink="/banner-management" class="nav-link">Gerenciar Banner</a>
+          </li>
+          }
+          @if(isAuthenticated && !isUserAdmin){
+          <li class="nav-item">
+            <mat-icon>fact_check</mat-icon>
+            <a routerLink="{{'/orders/' + user.uid}}" class="nav-link">Pedidos</a>
           </li>
           }
           <li class="nav-item" (click)="logout()">
@@ -90,7 +94,7 @@
         <mat-icon>home</mat-icon>
         <a routerLink="/" class="nav-link" (click)="isCollapsed = !isCollapsed">Home</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" (click)="toggleCart()">
         <mat-icon>shopping_cart</mat-icon>
         <a routerLink="external-api" class="nav-link" (click)="isCollapsed = !isCollapsed">Loja</a>
       </li>

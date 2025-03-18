@@ -100,6 +100,21 @@
       color: @color-primary;
     }
 
+    .cart-area {
+      &:hover {
+        cursor: pointer;
+      }
+      .cart-count {
+        position: absolute;
+        top: 24%;
+        background: #f1df00;
+        border-radius: 50%;
+        width: 20px;
+        text-align: center;
+        margin-left: 15px;
+      }
+    }
+
     .user-area {
       display: flex;
       align-items: center;
@@ -133,6 +148,7 @@
       .user-submenu {
         display: flex;
         flex-direction: column;
+        padding: 0 2rem;
 
         .nav-item {
           display: flex;

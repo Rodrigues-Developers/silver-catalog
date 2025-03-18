@@ -13,6 +13,7 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     const requiredRole = route.data["role"]; // Get the required role from route data
+    const isOrderRoute = route.routeConfig?.path?.startsWith("order");
 
     return user(this.auth).pipe(
       switchMap((firebaseUser) => {
@@ -25,17 +26,26 @@ export class AuthGuard implements CanActivate {
           const claims = idTokenResult.claims;
 
           // If no specific role is required, just check authentication
-          if (!requiredRole) {
+          if (!requiredRole && !isOrderRoute) {
             return true;
           }
 
           // Check if the user's role matches the required role
-          if ((claims[requiredRole] as string).includes("admin")) {
+          if (requiredRole && (claims[requiredRole] as string)?.includes("admin")) {
             return true;
-          } else {
-            this.router.navigate(["/forbidden"]); // Redirect if not authorized
-            return false;
           }
+
+          // Check if the user is accessing their own orders or is an admin
+          if (isOrderRoute) {
+            const userId = firebaseUser.uid;
+            const orderId = route.params["id"];
+            if (claims["admin"] || orderId === userId) {
+              return true;
+            }
+          }
+
+          this.router.navigate(["/forbidden"]); // Redirect if not authorized
+          return false;
         });
       })
     );
