@@ -22,10 +22,10 @@
 
       <!-- Minimum Thumb -->
       <input type="range" class="slider thumb-min" [min]="baseMinPrice" [max]="baseMaxPrice" [value]="minPrice"
-        (input)="onMinPriceChange($event)" title="Minimum Price" />
+        (input)="onMinPriceChange($event)" (mouseup)="onPriceChangeEnd()" (touchend)="onPriceChangeEnd()" title="Minimum Price" />
       <!-- Maximum Thumb -->
       <input type="range" class="slider thumb-max" [min]="baseMinPrice" [max]="baseMaxPrice" [value]="maxPrice"
-        (input)="onMaxPriceChange($event)" title="Maximum Price" />
+        (input)="onMaxPriceChange($event)" (mouseup)="onPriceChangeEnd()" (touchend)="onPriceChangeEnd()" title="Maximum Price" />
       <!-- Range Highlight -->
       <div class="slider-range" [style.left.%]="((minPrice - baseMinPrice) / (baseMaxPrice - baseMinPrice)) * 100"
         [style.width.%]="((maxPrice - minPrice) / (baseMaxPrice - baseMinPrice)) * 100"></div>

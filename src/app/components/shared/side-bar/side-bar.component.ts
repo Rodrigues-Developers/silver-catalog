@@ -87,7 +87,6 @@ export class SideBarComponent implements OnInit {
       // Force the slider back if it overlaps
       (event.target as HTMLInputElement).value = this.minPrice.toString();
     }
-    this.filterService.setMinPrice(this.minPrice);
   }
 
   // Handler for max price slider
@@ -100,6 +99,10 @@ export class SideBarComponent implements OnInit {
       // Force the slider back if it overlaps
       (event.target as HTMLInputElement).value = this.maxPrice.toString();
     }
+  }
+
+  onPriceChangeEnd(): void {
+    this.filterService.setMinPrice(this.minPrice);
     this.filterService.setMaxPrice(this.maxPrice);
   }
 
