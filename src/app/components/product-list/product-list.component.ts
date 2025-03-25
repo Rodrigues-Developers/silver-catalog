@@ -1,10 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ApiService } from "src/app/api.service";
 import { Product } from "src/app/interfaces/products.interface";
 import { CapitalizePipe } from "src/app/shared/pipes/capitalize.pipe";
 import { Router } from "@angular/router";
 import { FilterService } from "src/app/core/services/filter.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-product-list",
@@ -13,10 +14,14 @@ import { FilterService } from "src/app/core/services/filter.service";
   styleUrls: ["./product-list.component.less"],
   standalone: true,
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent implements OnInit, OnDestroy {
   hasApiError = false;
   productsList: Product[] = [];
   filteredProductsList: Product[] = [];
+  minPriceSubsCription: Subscription;
+  maxPriceSubsCription: Subscription;
+  selectedCategoriesSubsCription: Subscription;
+  searchQuerySubsCription: Subscription;
 
   constructor(private api: ApiService, private router: Router, private filterService: FilterService) {}
 
@@ -25,32 +30,29 @@ export class ProductListComponent implements OnInit {
       next: (res) => {
         this.hasApiError = false;
         this.productsList = res as Product[];
-        this.applyFilters();
+        this.filteredProductsList = this.productsList;
       },
       error: () => (this.hasApiError = true),
-      
     });
 
-
-    this.filterService.minPrice$.subscribe(() => {
+    this.minPriceSubsCription = this.filterService.minPrice$.subscribe(() => {
       this.applyFilters();
     });
 
-    this.filterService.maxPrice$.subscribe(() => {
+    this.maxPriceSubsCription = this.filterService.maxPrice$.subscribe(() => {
       this.applyFilters();
     });
 
-    this.filterService.selectedCategories$.subscribe(() => {
+    this.selectedCategoriesSubsCription = this.filterService.selectedCategories$.subscribe(() => {
       this.applyFilters();
     });
 
-    this.filterService.searchQuery$.subscribe((query) => {
+    this.searchQuerySubsCription = this.filterService.searchQuery$.subscribe((query) => {
       this.onSearchClick(query);
     });
   }
 
   applyFilters() {
-
     if (this.productsList.length === 0) {
       return;
     }
@@ -91,4 +93,10 @@ export class ProductListComponent implements OnInit {
     this.router.navigate(["/product", product.id]);
   }
 
+  ngOnDestroy(): void {
+    this.minPriceSubsCription?.unsubscribe();
+    this.maxPriceSubsCription?.unsubscribe();
+    this.selectedCategoriesSubsCription?.unsubscribe();
+    this.searchQuerySubsCription?.unsubscribe();
+  }
 }
