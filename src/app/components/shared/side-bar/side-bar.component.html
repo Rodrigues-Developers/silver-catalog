@@ -1,7 +1,7 @@
 <div class="sidebar-container">
   <div class="search">
-    <input type="text" placeholder="Pesquisar" (input)="onSearchInput($event.target.value)"
-      (keyup.enter)="onSearchClick()" />
+    <input type="text" [formControl]="searchQuery" (keydown)="onSearchKeyPress($event)" placeholder="Search..."
+      aria-autocomplete="none" autocomplete="off">
     <mat-icon (click)="onSearchClick()">search</mat-icon>
   </div>
   <h3> CATEGORIAS </h3>
@@ -9,10 +9,10 @@
     @for (category of categories; track $index) {
     <li class="category-item" (click)="onCategoryClick(category.id)">
       <label [class.selected]="selectedCategory === category.id"> {{ category.name | titlecase }} </label>
-      <!-- <div class="amount"> {{ category.amount }} </div> -->
+      <div class="amount"> {{ category.amount }} </div>
     </li>
-    
-    }
+}
+
   </ul>
 
   <h3>PREÇO</h3>
@@ -22,10 +22,10 @@
 
       <!-- Minimum Thumb -->
       <input type="range" class="slider thumb-min" [min]="baseMinPrice" [max]="baseMaxPrice" [value]="minPrice"
-        (input)="onMinPriceChange($event)" title="Minimum Price" />
+        (input)="onMinPriceChange($event)" (mouseup)="onPriceChangeEnd()" (touchend)="onPriceChangeEnd()" title="Minimum Price" />
       <!-- Maximum Thumb -->
       <input type="range" class="slider thumb-max" [min]="baseMinPrice" [max]="baseMaxPrice" [value]="maxPrice"
-        (input)="onMaxPriceChange($event)" title="Maximum Price" />
+        (input)="onMaxPriceChange($event)" (mouseup)="onPriceChangeEnd()" (touchend)="onPriceChangeEnd()" title="Maximum Price" />
       <!-- Range Highlight -->
       <div class="slider-range" [style.left.%]="((minPrice - baseMinPrice) / (baseMaxPrice - baseMinPrice)) * 100"
         [style.width.%]="((maxPrice - minPrice) / (baseMaxPrice - baseMinPrice)) * 100"></div>
