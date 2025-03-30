@@ -9,6 +9,7 @@ import { ProductDetailsComponent } from "./components/product-details/product-de
 import { CategoryManagementComponent } from "./components/category-management/category-management.component";
 import { CategoryDetailsComponent } from "./components/category-details/category-details.component";
 import { BannerManagementComponent } from "./pages/banner-management/banner-management.component";
+import { OrderComponent } from "./pages/order/order.component";
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -21,10 +22,16 @@ export const routes: Routes = [
     component: CategoryDetailsComponent,
   },
   {
-    path: "profile",
-    component: ProfileComponent,
-    canActivate: [AuthGuard], // Protect the route with AuthGuard if needed
+    path: "orders/:id", // Order details
+    component: OrderComponent,
+    data: { role: "role" },
+    canActivate: [AuthGuard],
   },
+  // {
+  //   path: "profile",
+  //   component: ProfileComponent,
+  //   canActivate: [AuthGuard], // Protect the route with AuthGuard if needed
+  // },
   {
     path: "external-api",
     component: ExternalApiComponent,

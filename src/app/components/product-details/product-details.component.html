@@ -9,6 +9,7 @@
           <img [src]="image" alt="Thumbnail" />
         </div>
         }
+
       </div>
     </div>
 
@@ -17,8 +18,10 @@
       <h1>{{ product?.name }}</h1>
       <p class="price">{{ product?.price | currency: 'BRL' }}</p>
       <p class="description">{{ product?.description }}</p>
+      <button class="btn btn-primary" (click)="addToCart()">Adicionar ao carrinho</button>
     </div>
   </section>
+
 
 
   <h3> Veja Também</h3>
