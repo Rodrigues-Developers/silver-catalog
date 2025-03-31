@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from "@angular/core";
 import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 import { ApiService } from "src/app/api.service";
+import { FilterService } from "src/app/core/services/filter.service";
 import { Product } from "src/app/interfaces/products.interface";
 import { CommonModule } from "@angular/common";
 import { SideBarComponent } from "../shared/side-bar/side-bar.component";
@@ -16,11 +17,13 @@ import { filter, Subscription } from "rxjs";
   imports: [CommonModule, SideBarComponent, ProductListComponent],
 })
 export class ProductDetailsComponent implements OnDestroy {
+  productId: string | null = null;
   product: Product | null = null;
+  images: string[] = [];
   selectedImage: string | null = null;
   private routeSub: Subscription;
 
-  constructor(private route: ActivatedRoute, private api: ApiService, private router: Router, private cartService: CartService) {
+  constructor(private route: ActivatedRoute, private api: ApiService, private router: Router, private cartService: CartService, private filterService: FilterService) {
     // Reload the product when the route changes withing the same route but different id
     this.routeSub = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       this.loadProduct();
@@ -74,5 +77,6 @@ export class ProductDetailsComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.routeSub.unsubscribe();
+    this.filterService.resetFilters();
   }
 }

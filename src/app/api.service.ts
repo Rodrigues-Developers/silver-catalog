@@ -19,6 +19,7 @@ export class ApiService {
     appUri: environment.appUri,
     errorPath: environment.errorPath,
   };
+
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   // Method to get the current Firebase token for the authenticated user
@@ -214,5 +215,9 @@ export class ApiService {
         })
       )
     );
+  }
+
+  getProductCountByCategory(id: string): Observable<number> {
+    return this.http.get<number>(`${this.config.apiUri}/api/Product/category-count/${id}`);
   }
 }

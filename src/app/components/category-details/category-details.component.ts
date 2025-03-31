@@ -1,30 +1,32 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { SideBarComponent } from "../shared/side-bar/side-bar.component";
 import { ProductListComponent } from "../product-list/product-list.component";
-import { CategoryListComponent } from "../category-list/category-list.component";
 import { HorizontalSliderComponent } from "../horizontal-slider/horizontal-slider.component";
 import { ApiService } from "src/app/api.service";
 import { Category } from "src/app/interfaces/category.interface";
 import { CapitalizePipe } from "../../shared/pipes/capitalize.pipe";
+import { FilterService } from "../../core/services/filter.service";
 
 @Component({
   selector: "app-category-details",
   standalone: true,
-  imports: [SideBarComponent, ProductListComponent, CategoryListComponent, HorizontalSliderComponent, CapitalizePipe],
+  imports: [SideBarComponent, ProductListComponent, HorizontalSliderComponent, CapitalizePipe],
   templateUrl: "./category-details.component.html",
   styleUrls: ["./category-details.component.less"],
 })
-export class CategoryDetailsComponent implements OnInit {
+export class CategoryDetailsComponent implements OnInit, OnDestroy {
   hasApiError = false;
   categoryList: Category[] = [];
   selectedItem: Category | null = null;
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private filterService: FilterService) {}
 
   ngOnInit(): void {
     this.fetchCategories();
   }
-
+  ngOnDestroy(): void {
+    this.filterService.resetFilters();
+  }
   fetchCategories(): void {
     this.api.getCategories().subscribe({
       next: (res) => {
