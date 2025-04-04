@@ -177,13 +177,21 @@ export class ApiService {
   }
 
   //Orders
-  getOrders(): Observable<Order[]> {
+  getOrders(sortBy?: keyof Order, ascending = false): Observable<Order[]> {
     return this.getFirebaseToken().pipe(
-      switchMap((token) =>
-        this.http.get<Order[]>(`${this.config.apiUri}/api/Order`, {
+      switchMap((token) => {
+        let params = new HttpParams();
+
+        if (sortBy) {
+          params = params.set("sortBy", sortBy);
+          params = params.set("ascending", ascending.toString());
+        }
+
+        return this.http.get<Order[]>(`${this.config.apiUri}/api/Order`, {
           headers: { Authorization: `Bearer ${token}` },
-        })
-      )
+          params,
+        });
+      })
     );
   }
 

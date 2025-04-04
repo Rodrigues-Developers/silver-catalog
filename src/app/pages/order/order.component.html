@@ -2,7 +2,7 @@
   <h2>Lista de pedidos</h2>
   @for (order of orders; track $index) {
 
-  <h4>{{"Detalhes do pedido " + ($index +1) }}</h4>
+  <h4>{{"Detalhes do pedido " + (orders.length - $index) }}</h4>
   <p><strong>Total:</strong> {{ order.total| currency: 'BRL' }}</p>
   <p><strong>Pedido em:</strong> {{ order.createdAt | date: 'dd/MM/yyyy' }}</p>
 
@@ -21,7 +21,7 @@
       <tr>
         <td>{{ cartItems.product.name }}</td>
         <td><img [src]="cartItems.product.image" alt="{{ cartItems.product.name }}"></td>
-        <td>{{ cartItems.product.price| currency: 'BRL' }}</td>
+        <td>{{ cartItems.product.price - (cartItems.product.price * cartItems.product.discount) / 100| currency: 'BRL' }}</td>
         <td>{{ cartItems.amount }}</td>
         <td><a [routerLink]="['/product', cartItems.product.id]">Ver detalhes</a></td>
       </tr>

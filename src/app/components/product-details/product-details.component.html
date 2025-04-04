@@ -5,11 +5,11 @@
       <img [src]="selectedImage || product?.image" alt="Product Image" class="main-image" />
       <div class="additional-images">
         @for (image of product?.additionalImages; track $index) {
-          @if(image){
-            <div class="thumbnail" (click)="swapImage(image)">
-              <img [src]="image" alt="Thumbnail" />
-            </div>
-          }
+        @if(image){
+        <div class="thumbnail" (click)="swapImage(image)">
+          <img [src]="image" alt="Thumbnail" />
+        </div>
+        }
         }
 
       </div>
@@ -18,7 +18,8 @@
     <!-- Right Section: Details -->
     <div class="product-info">
       <h1>{{ product?.name }}</h1>
-      <p class="price">{{ product?.price | currency: 'BRL' }}</p>
+      <p ngClass="{{product?.discount > 0? 'discount': 'price'}}">{{ product?.price | currency: 'BRL' }}</p>
+      <p *ngIf="product?.discount > 0" class="price">{{ product?.price - (product?.price * product.discount / 100) | currency: 'BRL'}}</p>
       <p class="description">{{ product?.description }}</p>
       <button class="btn btn-primary" (click)="addToCart()">Adicionar ao carrinho</button>
     </div>
