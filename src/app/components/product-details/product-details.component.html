@@ -5,9 +5,11 @@
       <img [src]="selectedImage || product?.image" alt="Product Image" class="main-image" />
       <div class="additional-images">
         @for (image of product?.additionalImages; track $index) {
-        <div class="thumbnail" (click)="swapImage(image)">
-          <img [src]="image" alt="Thumbnail" />
-        </div>
+          @if(image){
+            <div class="thumbnail" (click)="swapImage(image)">
+              <img [src]="image" alt="Thumbnail" />
+            </div>
+          }
         }
 
       </div>

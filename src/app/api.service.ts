@@ -38,9 +38,15 @@ export class ApiService {
     );
   }
 
-  // Products
-  getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.config.apiUri}/api/Product`);
+  getProducts(sortBy?: keyof Product, ascending = false): Observable<Product[]> {
+    let params = new HttpParams();
+
+    if (sortBy) {
+      params = params.set("sortBy", sortBy);
+      params = params.set("ascending", ascending.toString());
+    }
+
+    return this.http.get<Product[]>(`${this.config.apiUri}/api/Product`, { params });
   }
 
   getProduct(productId: string): Observable<Product> {

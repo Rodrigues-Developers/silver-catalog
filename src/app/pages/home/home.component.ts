@@ -3,8 +3,6 @@ import { AuthService } from "../../core/services/auth.service";
 import { User } from "firebase/auth";
 import { CommonModule } from "@angular/common";
 import { LoadingComponent } from "../../components/shared/loading/loading.component";
-import { ProductListComponent } from "../../components/product-list/product-list.component";
-
 import { firstValueFrom } from "rxjs"; // For async-await observable handling
 import { DynamicTextComponent } from "src/app/components/dynamic-text/dynamic-text.component";
 import { CategoryListComponent } from "../../components/category-list/category-list.component";
@@ -12,7 +10,7 @@ import { HorizontalSliderComponent } from "../../components/horizontal-slider/ho
 import { ApiService } from "src/app/api.service";
 import { Banner } from "src/app/interfaces/banner.interface";
 import { Router } from "@angular/router";
-import { TopProduct } from "src/app/interfaces/products.interface";
+import { Product, TopProduct } from "src/app/interfaces/products.interface";
 import { ItemListComponent } from "src/app/components/item-list/item-list.component";
 
 @Component({
@@ -20,7 +18,7 @@ import { ItemListComponent } from "src/app/components/item-list/item-list.compon
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.less"],
   standalone: true,
-  imports: [CommonModule, LoadingComponent, ProductListComponent, DynamicTextComponent, CategoryListComponent, HorizontalSliderComponent, ItemListComponent],
+  imports: [CommonModule, LoadingComponent, DynamicTextComponent, CategoryListComponent, HorizontalSliderComponent, ItemListComponent],
 })
 export class HomeComponent implements OnInit {
   user: User | null = null;
@@ -28,6 +26,7 @@ export class HomeComponent implements OnInit {
   hasApiError = false;
   bannerList: Banner[] = [];
   topProducts: TopProduct[] = [];
+  discountedProducts: Product[] = [];
   constructor(private authService: AuthService, private api: ApiService, private router: Router) {}
 
   async ngOnInit(): Promise<void> {
@@ -42,6 +41,7 @@ export class HomeComponent implements OnInit {
 
     this.fetchBanners();
     this.fetchTopProducts();
+    this.fetchDiscountedProducts();
   }
 
   get isAuthenticated(): boolean {
@@ -74,7 +74,21 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  fetchDiscountedProducts(): void {
+    this.api.getProducts("discount").subscribe({
+      next: (res) => {
+        this.hasApiError = false;
+        this.discountedProducts = res as Product[];
+      },
+      error: () => (this.hasApiError = true),
+    });
+  }
+
   onTopProductClick(product: TopProduct): void {
     this.router.navigate([`/product/${product._id}`]);
+  }
+
+  onDiscountClick(product: Product): void {
+    this.router.navigate([`/product/${product.id}`]);
   }
 }

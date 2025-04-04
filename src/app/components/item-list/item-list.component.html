@@ -12,7 +12,8 @@
         <!-- Dynamically Show Extra Fields -->
         @for (field of extraFields; track $index) {
         @if (field === "price") {
-        <p *ngIf="item[field]" class="price">{{ item[field] | currency: 'BRL'}}</p>
+        <p *ngIf="item[field]" ngClass="{{item?.discount > 0? 'discount': 'price'}}">{{ item[field] | currency: 'BRL'}}</p>
+        <p *ngIf="item?.discount > 0" class="price">{{ item[field] - (item[field] * item.discount / 100) | currency: 'BRL'}}</p>
         }
         @else {
         <p *ngIf="item[field]">{{ item[field]}}</p>

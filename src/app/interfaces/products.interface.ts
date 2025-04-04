@@ -7,6 +7,7 @@ export interface Product {
   category: string[];
   image: string;
   additionalImages?: string[];
+  discount?: number;
 }
 
 export interface TopProduct {
@@ -16,5 +17,6 @@ export interface TopProduct {
   price: number;
   description: string;
   availability: boolean;
+  discount?: number;
   totalSold: number;
 }

@@ -28,6 +28,15 @@
       </div>
 
       <div class="form-group">
+        <label for="discount">Desconto:</label>
+        <select id="discount" formControlName="discount">
+          @for (value of discountValues; track $index) {
+          <option [ngValue]="value">{{value}}%</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-group">
         <label for="categories">Categorias:</label>
         @for (category of selectedCategories; track $index) {
         <div class="selected-category">
