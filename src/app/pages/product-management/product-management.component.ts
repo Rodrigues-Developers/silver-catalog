@@ -84,9 +84,11 @@ export class ProductManagementComponent implements OnInit {
     Promise.all(uploadAdditionalImages)
       .then((urls) => {
         this.deleteAdditionalImages().then(() => {
-          const updatedAdditionalImages = this.currentProduct.additionalImages.map((url, index) => (urls[index] !== undefined ? urls[index] : url));
+          if (this.currentProduct) {
+            const updatedAdditionalImages = this.currentProduct.additionalImages.map((url, index) => (urls[index] !== undefined ? urls[index] : url));
 
-          product.additionalImages = updatedAdditionalImages;
+            product.additionalImages = updatedAdditionalImages;
+          }
           return this.saveProduct(product);
         });
       })
@@ -189,16 +191,22 @@ export class ProductManagementComponent implements OnInit {
         },
       });
     } else {
-      this.api.createProduct(product).subscribe({
-        next: () => {
-          this.fetchProducts();
-          this.showToast("Produto criado com sucesso!", true);
-        },
-        error: (err) => {
-          console.error("Error creating product:", err);
-          this.showToast("Erro ao criar o produto.");
-        },
-      });
+      // save the main image
+      if (isImageUpdated) {
+        this.storageService
+          .uploadFile("images/" + this.imageFile.name, this.imageFile)
+          .then((url) => {
+            product.image = url;
+            this.createProduct(product);
+          })
+          .catch((err) => {
+            this.showToast("Erro ao fazer upload da imagem do produto.");
+            console.error("Error uploading image:", err);
+          });
+      } else {
+        // no image to upload, just create the product
+        this.createProduct(product);
+      }
     }
   }
 
@@ -323,5 +331,19 @@ export class ProductManagementComponent implements OnInit {
       promises.push(this.storageService.deleteFile(imageURL));
     }
     return Promise.all(promises);
+  }
+
+  createProduct(product: Product) {
+    this.api.createProduct(product).subscribe({
+      next: () => {
+        this.resetForm();
+        this.fetchProducts();
+        this.showToast("Produto criado com sucesso!", true);
+      },
+      error: (err) => {
+        console.error("Error creating product:", err);
+        this.showToast("Erro ao criar o produto.");
+      },
+    });
   }
 }
