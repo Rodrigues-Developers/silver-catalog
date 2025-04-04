@@ -40,8 +40,7 @@ export class HomeComponent implements OnInit {
     }
 
     this.fetchBanners();
-    this.fetchTopProducts();
-    this.fetchDiscountedProducts();
+    this.fetchProductData();
   }
 
   get isAuthenticated(): boolean {
@@ -64,24 +63,26 @@ export class HomeComponent implements OnInit {
     if (adaptedLink) this.router.navigate([adaptedLink]);
   }
 
-  fetchTopProducts(): void {
-    this.api.getTopSellers().subscribe({
-      next: (res) => {
+  async fetchTopProducts(): Promise<void> {
+    return firstValueFrom(this.api.getTopSellers())
+      .then((res) => {
         this.hasApiError = false;
         this.topProducts = res as TopProduct[];
-      },
-      error: () => (this.hasApiError = true),
-    });
+      })
+      .catch(() => {
+        this.hasApiError = true;
+      });
   }
 
-  fetchDiscountedProducts(): void {
-    this.api.getProducts("discount").subscribe({
-      next: (res) => {
+  async fetchDiscountedProducts(): Promise<void> {
+    return firstValueFrom(this.api.getProducts("discount"))
+      .then((res) => {
         this.hasApiError = false;
         this.discountedProducts = res as Product[];
-      },
-      error: () => (this.hasApiError = true),
-    });
+      })
+      .catch(() => {
+        this.hasApiError = true;
+      });
   }
 
   onTopProductClick(product: TopProduct): void {
@@ -90,5 +91,25 @@ export class HomeComponent implements OnInit {
 
   onDiscountClick(product: Product): void {
     this.router.navigate([`/product/${product.id}`]);
+  }
+
+  updateDiscount(): void {
+    const discountMap = new Map(this.discountedProducts.map((product) => [product.id, product.discount]));
+
+    this.topProducts.forEach((topProduct) => {
+      const discount = discountMap.get(topProduct._id);
+      if (discount !== undefined) {
+        topProduct.discount = discount;
+      }
+    });
+  }
+
+  fetchProductData(): void {
+    const requests = [];
+    requests.push(this.fetchDiscountedProducts());
+    requests.push(this.fetchTopProducts());
+    Promise.all(requests).then(() => {
+      this.updateDiscount();
+    });
   }
 }
