@@ -3,8 +3,6 @@ import { AuthService } from "../../core/services/auth.service";
 import { User } from "firebase/auth";
 import { CommonModule } from "@angular/common";
 import { LoadingComponent } from "../../components/shared/loading/loading.component";
-import { ProductListComponent } from "../../components/product-list/product-list.component";
-import { MainBannerComponent } from "../../components/main-banner/main-banner.component";
 import { firstValueFrom } from "rxjs"; // For async-await observable handling
 import { DynamicTextComponent } from "src/app/components/dynamic-text/dynamic-text.component";
 import { CategoryListComponent } from "../../components/category-list/category-list.component";
@@ -12,19 +10,23 @@ import { HorizontalSliderComponent } from "../../components/horizontal-slider/ho
 import { ApiService } from "src/app/api.service";
 import { Banner } from "src/app/interfaces/banner.interface";
 import { Router } from "@angular/router";
+import { Product, TopProduct } from "src/app/interfaces/products.interface";
+import { ItemListComponent } from "src/app/components/item-list/item-list.component";
 
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.less"],
   standalone: true,
-  imports: [CommonModule, LoadingComponent, MainBannerComponent, ProductListComponent, DynamicTextComponent, CategoryListComponent, HorizontalSliderComponent],
+  imports: [CommonModule, LoadingComponent, DynamicTextComponent, CategoryListComponent, HorizontalSliderComponent, ItemListComponent],
 })
 export class HomeComponent implements OnInit {
   user: User | null = null;
   isLoading = true;
   hasApiError = false;
   bannerList: Banner[] = [];
+  topProducts: TopProduct[] = [];
+  discountedProducts: Product[] = [];
   constructor(private authService: AuthService, private api: ApiService, private router: Router) {}
 
   async ngOnInit(): Promise<void> {
@@ -38,6 +40,7 @@ export class HomeComponent implements OnInit {
     }
 
     this.fetchBanners();
+    this.fetchProductData();
   }
 
   get isAuthenticated(): boolean {
@@ -53,9 +56,60 @@ export class HomeComponent implements OnInit {
       error: () => (this.hasApiError = true),
     });
   }
+
   onBannerClick(banner: Banner): void {
     //remove the domain from the link
-    const adaptedLink = banner.link.replace(/^https?:\/\/[^/]+\//, "");
-    this.router.navigate([adaptedLink]);
+    const adaptedLink = banner.link?.replace(/^https?:\/\/[^/]+\//, "");
+    if (adaptedLink) this.router.navigate([adaptedLink]);
+  }
+
+  async fetchTopProducts(): Promise<void> {
+    return firstValueFrom(this.api.getTopSellers())
+      .then((res) => {
+        this.hasApiError = false;
+        this.topProducts = res as TopProduct[];
+      })
+      .catch(() => {
+        this.hasApiError = true;
+      });
+  }
+
+  async fetchDiscountedProducts(): Promise<void> {
+    return firstValueFrom(this.api.getProducts("discount"))
+      .then((res) => {
+        this.hasApiError = false;
+        this.discountedProducts = res as Product[];
+      })
+      .catch(() => {
+        this.hasApiError = true;
+      });
+  }
+
+  onTopProductClick(product: TopProduct): void {
+    this.router.navigate([`/product/${product._id}`]);
+  }
+
+  onDiscountClick(product: Product): void {
+    this.router.navigate([`/product/${product.id}`]);
+  }
+
+  updateDiscount(): void {
+    const discountMap = new Map(this.discountedProducts.map((product) => [product.id, product.discount]));
+
+    this.topProducts.forEach((topProduct) => {
+      const discount = discountMap.get(topProduct._id);
+      if (discount !== undefined) {
+        topProduct.discount = discount;
+      }
+    });
+  }
+
+  fetchProductData(): void {
+    const requests = [];
+    requests.push(this.fetchDiscountedProducts());
+    requests.push(this.fetchTopProducts());
+    Promise.all(requests).then(() => {
+      this.updateDiscount();
+    });
   }
 }

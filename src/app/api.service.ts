@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { from } from "rxjs";
 import { switchMap } from "rxjs/operators";
-import { Product } from "../app/interfaces/products.interface";
+import { Product, TopProduct } from "../app/interfaces/products.interface";
 import { Category } from "../app/interfaces/category.interface"; // Import the Category interface
 import { AuthService } from "../app/core/services/auth.service"; // Import the AuthService
 import { environment } from "../environments/environment";
@@ -38,8 +38,15 @@ export class ApiService {
     );
   }
 
-  getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.config.apiUri}/api/Product`);
+  getProducts(sortBy?: keyof Product, ascending = false): Observable<Product[]> {
+    let params = new HttpParams();
+
+    if (sortBy) {
+      params = params.set("sortBy", sortBy);
+      params = params.set("ascending", ascending.toString());
+    }
+
+    return this.http.get<Product[]>(`${this.config.apiUri}/api/Product`, { params });
   }
 
   getProduct(productId: string): Observable<Product> {
@@ -95,6 +102,7 @@ export class ApiService {
     return this.http.get<Product[]>(`${this.config.apiUri}/api/Product/product-search`, { params });
   }
 
+  // Categories
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(`${this.config.apiUri}/api/Category`);
   }
@@ -133,6 +141,7 @@ export class ApiService {
     );
   }
 
+  //Banners
   getBanners(): Observable<Banner[]> {
     return this.http.get<Banner[]>(`${this.config.apiUri}/api/Banner`);
   }
@@ -167,13 +176,22 @@ export class ApiService {
     );
   }
 
-  getOrders(): Observable<Order[]> {
+  //Orders
+  getOrders(sortBy?: keyof Order, ascending = false): Observable<Order[]> {
     return this.getFirebaseToken().pipe(
-      switchMap((token) =>
-        this.http.get<Order[]>(`${this.config.apiUri}/api/Order`, {
+      switchMap((token) => {
+        let params = new HttpParams();
+
+        if (sortBy) {
+          params = params.set("sortBy", sortBy);
+          params = params.set("ascending", ascending.toString());
+        }
+
+        return this.http.get<Order[]>(`${this.config.apiUri}/api/Order`, {
           headers: { Authorization: `Bearer ${token}` },
-        })
-      )
+          params,
+        });
+      })
     );
   }
 
@@ -219,5 +237,9 @@ export class ApiService {
 
   getProductCountByCategory(id: string): Observable<number> {
     return this.http.get<number>(`${this.config.apiUri}/api/Product/category-count/${id}`);
+  }
+
+  getTopSellers(): Observable<TopProduct[]> {
+    return this.http.get<TopProduct[]>(`${this.config.apiUri}/api/Order/top-selling`);
   }
 }

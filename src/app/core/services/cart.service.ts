@@ -12,8 +12,7 @@ export class CartService {
   private maxAmountPerProduct = 10; // Max quantity per product
   cartLimitReached = signal(false);
 
-  private totalSum = computed(() => this.cartItems().reduce((acc, item) => acc + item.product.price * item.amount, 0));
-
+  private totalSum = computed(() => this.cartItems().reduce((acc, item) => acc + (item.product.price - (item.product.price * (item.product.discount ?? 0)) / 100) * item.amount, 0));
   get items() {
     return this.cartItems;
   }

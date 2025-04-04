@@ -86,7 +86,7 @@ export class CartComponent implements OnDestroy {
     let message = ` *Novo Pedido* \n\n`;
     message += `Link do pedido: ${baseURL}/orders/${this.currentUser.uid} \n\n`;
     order.cartItems.forEach((item) => {
-      message += `*${item.product.name}*\n R$${item.product.price.toFixed(2)} x ${item.amount}\n ${item.url}\n\n`;
+      message += `*${item.product.name}*\n R$${(item.product.price - (item.product.price * item.product.discount) / 100).toFixed(2)} x ${item.amount}\n ${item.url}\n\n`;
     });
     message += ` *Total:* R$${order.total.toFixed(2)}`;
 

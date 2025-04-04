@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { ActivatedRoute, Router, RouterModule } from "@angular/router";
+import { ActivatedRoute, RouterModule } from "@angular/router";
 import { MatIconModule } from "@angular/material/icon";
 import { CommonModule } from "@angular/common";
 import { AuthService } from "src/app/core/services/auth.service";
@@ -29,13 +29,11 @@ export class OrderComponent implements OnInit, OnDestroy {
     this.currentUserSubscription = this.authService.user$.subscribe((user) => {
       this.currentUser = user;
       this.fetchOrder();
-      // if (this.orderId) {
-      // }
     });
   }
 
   fetchOrder(): void {
-    this.api.getOrders().subscribe({
+    this.api.getOrders("createdAt").subscribe({
       next: (res) => {
         this.orders = res as Order[];
       },

@@ -35,6 +35,7 @@ export class ProductManagementComponent implements OnInit {
   originalAdditionalImages: string[] = []; // Store original additional images
   additionalImagesToDelete: string[] = [];
   currentProduct: Product | null = null;
+  discountValues: number[] = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95]; // Discount values from 0% to 95%
 
   constructor(private api: ApiService, private fb: FormBuilder, private storageService: FirebaseStorageService, private toastr: ToastrService) {
     this.productForm = this.fb.group({
@@ -45,6 +46,7 @@ export class ProductManagementComponent implements OnInit {
       category: [""],
       image: [null],
       additionalImages: this.fb.array([null, null, null]), // Array of three possible additional images
+      discount: [0], // Set the initial value of the discount to 0
     });
   }
 
@@ -84,9 +86,11 @@ export class ProductManagementComponent implements OnInit {
     Promise.all(uploadAdditionalImages)
       .then((urls) => {
         this.deleteAdditionalImages().then(() => {
-          const updatedAdditionalImages = this.currentProduct.additionalImages.map((url, index) => (urls[index] !== undefined ? urls[index] : url));
+          if (this.currentProduct?.additionalImages) {
+            const updatedAdditionalImages = this.currentProduct.additionalImages.map((url, index) => (urls[index] !== undefined ? urls[index] : url));
 
-          product.additionalImages = updatedAdditionalImages;
+            product.additionalImages = updatedAdditionalImages;
+          }
           return this.saveProduct(product);
         });
       })
@@ -107,6 +111,7 @@ export class ProductManagementComponent implements OnInit {
       price: product.price,
       availability: product.availability,
       category: product.category,
+      discount: product.discount,
     });
 
     this.imagePreview = product.image || null;
@@ -189,16 +194,22 @@ export class ProductManagementComponent implements OnInit {
         },
       });
     } else {
-      this.api.createProduct(product).subscribe({
-        next: () => {
-          this.fetchProducts();
-          this.showToast("Produto criado com sucesso!", true);
-        },
-        error: (err) => {
-          console.error("Error creating product:", err);
-          this.showToast("Erro ao criar o produto.");
-        },
-      });
+      // save the main image
+      if (isImageUpdated) {
+        this.storageService
+          .uploadFile("images/" + this.imageFile.name, this.imageFile)
+          .then((url) => {
+            product.image = url;
+            this.createProduct(product);
+          })
+          .catch((err) => {
+            this.showToast("Erro ao fazer upload da imagem do produto.");
+            console.error("Error uploading image:", err);
+          });
+      } else {
+        // no image to upload, just create the product
+        this.createProduct(product);
+      }
     }
   }
 
@@ -213,6 +224,7 @@ export class ProductManagementComponent implements OnInit {
       price: 0,
       availability: true,
       category: "",
+      discount: 0,
     });
     this.editingProduct = false;
     this.editingProductId = null;
@@ -323,5 +335,19 @@ export class ProductManagementComponent implements OnInit {
       promises.push(this.storageService.deleteFile(imageURL));
     }
     return Promise.all(promises);
+  }
+
+  createProduct(product: Product) {
+    this.api.createProduct(product).subscribe({
+      next: () => {
+        this.resetForm();
+        this.fetchProducts();
+        this.showToast("Produto criado com sucesso!", true);
+      },
+      error: (err) => {
+        console.error("Error creating product:", err);
+        this.showToast("Erro ao criar o produto.");
+      },
+    });
   }
 }

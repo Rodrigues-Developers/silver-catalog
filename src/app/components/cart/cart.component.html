@@ -13,7 +13,7 @@
     <div class="cart-item">
       <div class="product-info" (click)="redirectToItem(item)">
         <img src="{{item.product.image}}">
-        <p>{{ item.product.price | currency: 'BRL' }}</p>
+        <p>{{ item.product.price - (item.product.price * item.product.discount) / 100 | currency: 'BRL' }}</p>
       </div>
 
       <div class="quantity-controls">

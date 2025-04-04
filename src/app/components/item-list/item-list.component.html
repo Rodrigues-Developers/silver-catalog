@@ -1,0 +1,31 @@
+<div class="product-list">
+  @if (items.length > 0) {
+  <ul class="list">
+    @for (item of items; track $index) {
+    <li (click)="onItemClicked(item)">
+      <img
+        [src]="item.image || 'https://firebasestorage.googleapis.com/v0/b/rodriguesdev-2d63d.appspot.com/o/images%2Fno_image.png?alt=media&token=4af2c1c2-3f7c-439a-8f43-26183123748d'"
+        alt="Imagem do Produto" />
+      <div class="product-details">
+        <h3 class="card-title">{{ item.name | capitalize }}</h3>
+
+        <!-- Dynamically Show Extra Fields -->
+        @for (field of extraFields; track $index) {
+        @if (field === "price") {
+        <p *ngIf="item[field]" ngClass="{{item?.discount > 0? 'discount': 'price'}}">{{ item[field] | currency: 'BRL'}}</p>
+        <p *ngIf="item?.discount > 0" class="price">{{ item[field] - (item[field] * item.discount / 100) | currency: 'BRL'}}</p>
+        }
+        @else {
+        <p *ngIf="item[field]">{{ item[field]}}</p>
+        }
+        }
+      </div>
+    </li>
+    }
+  </ul>
+  } @else {
+  <div class="no-products-message">
+    <p>Não existem itens para o filtro selecionado.</p>
+  </div>
+  }
+</div>
