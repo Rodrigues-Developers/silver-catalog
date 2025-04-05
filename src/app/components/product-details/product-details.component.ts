@@ -8,13 +8,14 @@ import { SideBarComponent } from "../shared/side-bar/side-bar.component";
 import { ProductListComponent } from "../product-list/product-list.component";
 import { CartService } from "src/app/core/services/cart.service";
 import { filter, Subscription } from "rxjs";
+import { LoadingComponent } from "../shared/loading/loading.component";
 
 @Component({
   selector: "app-product-details",
   templateUrl: "./product-details.component.html",
   styleUrls: ["./product-details.component.less"],
   standalone: true,
-  imports: [CommonModule, SideBarComponent, ProductListComponent],
+  imports: [CommonModule, SideBarComponent, ProductListComponent, LoadingComponent],
 })
 export class ProductDetailsComponent implements OnDestroy {
   productId: string | null = null;
@@ -22,6 +23,7 @@ export class ProductDetailsComponent implements OnDestroy {
   images: string[] = [];
   selectedImage: string | null = null;
   private routeSub: Subscription;
+  loading = true;
 
   constructor(private route: ActivatedRoute, private api: ApiService, private router: Router, private cartService: CartService, private filterService: FilterService) {
     // Reload the product when the route changes withing the same route but different id
@@ -40,6 +42,8 @@ export class ProductDetailsComponent implements OnDestroy {
       next: (res) => {
         this.product = res;
         this.selectedImage = null;
+        this.loading = false;
+        window.scrollTo(0, 0);
       },
       error: () => console.error("Error fetching product details"),
     });

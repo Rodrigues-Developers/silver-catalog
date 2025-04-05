@@ -1,8 +1,9 @@
-<section>
-  <h2>{{ categorySelected() | capitalize }}</h2>
+@if(!loading){
+
+<section class="category-details">
+  <h2>{{ selectedCategoryName | capitalize }}</h2>
   <app-horizontal-slider [items]="categoryList" (itemClicked)="onItemClick($event)"></app-horizontal-slider>
 </section>
-
 <section class="related-products">
   <div class="sidebar-section">
     <app-side-bar class="sidebar-component" [selectedItem]="selectedItem"></app-side-bar>
@@ -11,3 +12,9 @@
     <app-product-list></app-product-list>
   </div>
 </section>
+}
+@else {
+<div class="category-details">
+  <app-loading></app-loading>
+</div>
+}
