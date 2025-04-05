@@ -5,6 +5,7 @@ import { MatIconModule } from "@angular/material/icon"; // Import MatIconModule
 import { NgIf } from "@angular/common"; // Import NgIf for structural directives
 import { RouterLink } from "@angular/router";
 import { CartService } from "src/app/core/services/cart.service";
+import { BreakpointObserver } from "@angular/cdk/layout";
 
 @Component({
   selector: "app-nav-bar",
@@ -19,7 +20,7 @@ export class NavBarComponent implements OnInit {
   user: User | null = null; // Start user as null to reflect auth state properly
   isUserAdmin = false; // Default to false
 
-  constructor(private authService: AuthService, private eRef: ElementRef, public cartService: CartService) {}
+  constructor(private authService: AuthService, private eRef: ElementRef, public cartService: CartService, private breakpointObserver: BreakpointObserver) {}
 
   ngOnInit(): void {
     // Directly subscribe to user from AuthService using signal
@@ -29,6 +30,12 @@ export class NavBarComponent implements OnInit {
         user.getIdTokenResult().then((idTokenResult) => {
           this.isUserAdmin = idTokenResult.claims["role"] === "admin"; // Check if user is admin
         });
+      }
+    });
+
+    this.breakpointObserver.observe(["(min-width: 767px)"]).subscribe((result) => {
+      if (result.matches) {
+        this.isCollapsed = true;
       }
     });
   }
@@ -64,5 +71,19 @@ export class NavBarComponent implements OnInit {
 
   toggleCart() {
     this.cartService.toggleCart();
+    this.isCollapsed = true;
+    this.userCollapsed = true;
+  }
+
+  toggleMenu() {
+    this.isCollapsed = !this.isCollapsed;
+    this.userCollapsed = true;
+    this.cartService.hideCart();
+  }
+
+  toggleUserMenu() {
+    this.userCollapsed = !this.userCollapsed;
+    this.isCollapsed = true;
+    this.cartService.hideCart();
   }
 }

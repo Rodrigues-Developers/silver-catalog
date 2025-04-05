@@ -112,6 +112,7 @@
         width: 20px;
         text-align: center;
         margin-left: 15px;
+        z-index: 1;
       }
     }
 
@@ -131,6 +132,7 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         opacity: 1;
         transition: opacity 0.5s ease, transform 0.5s ease;
+        z-index: 1;
       }
 
       .hidden {
@@ -181,18 +183,17 @@
     border-radius: 50%;
   }
 
-  .menu {
+  .menu-container {
     position: absolute;
     top: 6rem;
     width: 100%;
-    left: 50%;
     background-color: white;
     z-index: 2;
     // visibility: hidden;
     opacity: 0;
     pointer-events: none;
-    transform: translateX(-50%) translateY(-3rem);
-    transition: all 0.5s ease-in-out;
+    transform: translateX(-100%);
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
 
     .navbar-menu {
       padding: 1rem;
@@ -224,11 +225,10 @@
   }
 
   .active {
-    // visibility: visible;
     opacity: 1;
     pointer-events: all;
-    transform: translateX(-50%) translateY(0.7rem);
-    transition: all 0.5s ease-in-out;
+    transform: translateX(-22px);
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
 
     &:focus {
       border: none;
@@ -241,106 +241,170 @@
   .navbar {
     justify-content: space-between;
     position: inherit;
+    .nav-menu-brand {
+      display: flex;
+      align-items: center;
+      .navbar-brand {
+        margin: 0.5rem;
+        display: inherit;
+        cursor: pointer;
 
-    // #navbarNav {
-    //   &.show {
-    //     visibility: visible;
-    //     pointer-events: auto;
-    //     transform: translate(-10%, 65%);
-    //     transition: all 0.3s ease;
-    //     z-index: 3;
-    //     background: white;
-    //     width: 115%;
-    //     display: flex;
-    //     justify-content: center;
-    //   }
-    // }
+        .logo-image {
+          display: block;
+        }
 
-    .navbar-brand {
-      margin: 0.5rem;
-      display: inherit;
-      cursor: pointer;
-
-      .logo-image {
-        display: block;
+        .logo-image--nome {
+          display: none;
+        }
       }
 
-      .logo-image--nome {
-        display: none;
+      .navbar-toggler {
+        display: block;
+        border: none;
+        margin: 0.5rem;
+        padding: 0;
+
+        &:focus {
+          border: none;
+          outline: none;
+        }
+
+        .nav-hamburger {
+          display: block;
+          position: relative;
+          background: black;
+          width: 30px;
+          height: 2px;
+          transition: all 0.3s ease-in-out;
+
+          &::before,
+          &::after {
+            position: absolute;
+            background: black;
+            content: "";
+            display: block;
+            width: 100%;
+            height: 100%;
+            transition: all 0.3s ease-in-out;
+          }
+
+          &::after {
+            transform: translateY(10px);
+          }
+
+          &::before {
+            transform: translateY(-10px);
+          }
+        }
+
+        .active {
+          display: block;
+          position: relative;
+          background: rgba(0, 0, 0, 0);
+          width: 30px;
+          height: 2px;
+          transform: rotate(0deg);
+          transition: all 0.3s ease-in-out;
+
+          &::after,
+          &::before {
+            position: absolute;
+            background: black;
+            content: "";
+            display: block;
+            width: 100%;
+            height: 100%;
+            transition: all 0.3s ease-in-out;
+          }
+
+          &::after {
+            transform: rotate(45deg) translateY(0px);
+          }
+
+          &::before {
+            transform: rotate(-45deg) translateY(0px);
+          }
+        }
       }
     }
 
-    .navbar-toggler {
-      display: block;
-      border: none;
-      margin: 0.5rem;
-      padding: 0;
-
-      &:focus {
-        border: none;
-        outline: none;
-      }
-
-      .nav-hamburger {
-        display: block;
-        position: relative;
-        background: black;
-        width: 30px;
-        height: 2px;
-        transition: all 0.3s ease-in-out;
-
-        &::before,
-        &::after {
-          position: absolute;
-          background: black;
-          content: "";
-          display: block;
-          width: 100%;
-          height: 100%;
-          transition: all 0.3s ease-in-out;
-        }
-
-        &::after {
-          transform: translateY(10px);
-        }
-
-        &::before {
-          transform: translateY(-10px);
+    .user-dashboard {
+      .cart-area {
+        .cart-count {
+          top: 3.5%;
         }
       }
-
-      .active {
-        display: block;
-        position: relative;
-        background: rgba(0, 0, 0, 0);
-        width: 30px;
-        height: 2px;
-        transform: rotate(0deg);
-        transition: all 0.3s ease-in-out;
-
-        &::after,
-        &::before {
-          position: absolute;
-          background: black;
-          content: "";
-          display: block;
-          width: 100%;
-          height: 100%;
-          transition: all 0.3s ease-in-out;
+      .user-area {
+        .user-menu {
+          right: -5.5rem;
         }
 
-        &::after {
-          transform: rotate(45deg) translateY(0px);
+        .hidden {
+          right: -5.5rem;
+        }
+      }
+    }
+    .menu-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background-color: #fff;
+      padding: 1rem;
+      z-index: 11;
+
+      .menu-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: bold;
+        font-size: 1.2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #d7d4d4;
+      }
+
+      .navbar-menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        .nav-item {
+          display: flex;
+          align-items: center;
+          gap: 0.8rem;
+          margin: 1rem 0;
+
+          mat-icon {
+            font-size: 24px;
+          }
+
+          .nav-link {
+            text-decoration: none;
+            font-size: 1rem;
+            color: #333;
+            transition: color 0.2s ease;
+
+            &:hover {
+              color: #000;
+            }
+          }
         }
 
-        &::before {
-          transform: rotate(-45deg) translateY(0px);
+        mat-divider {
+          margin: 1rem 0;
+          background: #ddd;
         }
+      }
+
+      .menu-footer {
+        text-align: center;
+        padding-top: 1rem;
+        font-size: 0.9rem;
+        color: #777;
+        border-top: 1px solid #d7d4d4;
       }
     }
 
     .search,
-    .user-dashboard,
     .side-menu {
       display: none;
     }
