@@ -1,15 +1,16 @@
-<div class="container" *ngIf="isLoading; else loaded">
+@if(!loading){
+<app-horizontal-slider [items]="bannerList" [visibleItems]="1" [itemWidth]="90" itemWidthUnit="vw" [itemHeight]="550" maxWidth="90" maxWidthUnit="vw"
+  [translateDistance]="100/bannerList.length" (itemClicked)="onBannerClick($event)">
+</app-horizontal-slider>
+<app-dynamic-text></app-dynamic-text>
+<app-category-list></app-category-list>
+<h4>Melhores ofertas</h4>
+<app-item-list [items]="discountedProducts" [extraFields]="['price']" (itemClicked)="onDiscountClick($event)"></app-item-list>
+<h4>Peças mais procuradas</h4>
+<app-item-list [items]="topProducts" [extraFields]="['price']" (itemClicked)="onTopProductClick($event)"></app-item-list>
+}
+@else {
+<div class="container">
   <app-loading></app-loading>
 </div>
-
-<ng-template #loaded>
-  <app-horizontal-slider [items]="bannerList" [visibleItems]="1" [itemWidth]="90" itemWidthUnit="vw" [itemHeight]="550" maxWidth="90" maxWidthUnit="vw"
-    [translateDistance]="100/bannerList.length" (itemClicked)="onBannerClick($event)">
-  </app-horizontal-slider>
-  <app-dynamic-text></app-dynamic-text>
-  <app-category-list></app-category-list>
-  <h4>Melhores ofertas</h4>
-  <app-item-list [items]="discountedProducts" [extraFields]="['price']" (itemClicked)="onDiscountClick($event)"></app-item-list>
-  <h4>Peças mais procuradas</h4>
-  <app-item-list [items]="topProducts" [extraFields]="['price']" (itemClicked)="onTopProductClick($event)"></app-item-list>
-</ng-template>
+}

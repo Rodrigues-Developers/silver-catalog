@@ -1,3 +1,5 @@
+@if(!loading){
+
 <div class="product-details-container">
   <section class="product-details">
     <!-- Left Section: Images -->
@@ -37,3 +39,9 @@
     </div>
   </section>
 </div>
+}
+@else {
+<div class="product-details-container">
+  <app-loading></app-loading>
+</div>
+}

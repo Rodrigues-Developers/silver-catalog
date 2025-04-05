@@ -22,7 +22,7 @@ import { ItemListComponent } from "src/app/components/item-list/item-list.compon
 })
 export class HomeComponent implements OnInit {
   user: User | null = null;
-  isLoading = true;
+  loading = true;
   hasApiError = false;
   bannerList: Banner[] = [];
   topProducts: TopProduct[] = [];
@@ -31,14 +31,10 @@ export class HomeComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     try {
-      // Wait for the user data to be fetched
       this.user = await firstValueFrom(this.authService.user$);
     } catch (error) {
       console.error("Error fetching user data:", error);
-    } finally {
-      this.isLoading = false;
     }
-
     this.fetchBanners();
     this.fetchProductData();
   }
@@ -102,6 +98,7 @@ export class HomeComponent implements OnInit {
         topProduct.discount = discount;
       }
     });
+    this.loading = false;
   }
 
   fetchProductData(): void {
