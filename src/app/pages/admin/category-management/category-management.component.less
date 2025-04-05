@@ -72,6 +72,35 @@
         opacity: 0.9;
       }
     }
+
+    .loading-text {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      .dot {
+        animation: blink 1.4s infinite;
+        opacity: 0;
+      }
+
+      .dot.one {
+        animation-delay: 0s;
+      }
+      .dot.two {
+        animation-delay: 0.2s;
+      }
+      .dot.three {
+        animation-delay: 0.4s;
+      }
+    }
+    @keyframes blink {
+      0%,
+      100% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
   }
 
   .category-table {
