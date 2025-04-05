@@ -11,7 +11,7 @@
 
       <div class="form-group">
         <label for="description">Descrição:</label>
-        <textarea id="description" formControlName="description" rows="3" placeholder="Descrição do Produto"></textarea>
+        <textarea id="description" formControlName="description" rows="3" placeholder="Descrição da Categoria"></textarea>
       </div>
 
       <div class="form-group">
@@ -25,7 +25,12 @@
       </div>
 
       <button type="submit" class="btn btn-primary">
+        @if(!loading){
         {{ editingCategory ? "Atualizar" : "Criar" }}
+        }
+        @else {
+        <span class="loading-text">Atualizando<span class="dot one">.</span><span class="dot two">.</span><span class="dot three">.</span></span>
+        }
       </button>
       <button *ngIf="editingCategory" type="button" class="btn btn-secondary" (click)="cancelEdit()">
         Cancel

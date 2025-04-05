@@ -23,6 +23,7 @@ export class CategoryManagementComponent implements OnInit {
   imagePreview: string | ArrayBuffer | null = null;
   imageFile: File | null = null;
   oldImage: string | null = null;
+  loading = false;
 
   constructor(
     private api: ApiService,
@@ -49,27 +50,30 @@ export class CategoryManagementComponent implements OnInit {
   }
 
   onSubmitCategoryForm() {
-    if (this.categoryForm.valid) {
-      const category: Category = {
-        ...this.categoryForm.value,
-      };
+    if (this.categoryForm.invalid) {
+      this.showToast("Formulário inválido. Verifique os campos obrigatórios.");
+      this.loading = false;
+      return;
+    }
+    this.loading = true;
 
-      if (this.imageFile) {
-        this.storageService
-          .uploadFile("images/" + this.imageFile.name, this.imageFile)
-          .then((url) => {
-            category.image = url;
-            this.saveCategory(category);
-          })
-          .catch((err) => {
-            this.showToast("Erro ao fazer upload da imagem da categoria.");
-            console.error("Error uploading image:", err);
-          });
-      } else {
-        this.saveCategory(category);
-      }
+    const category: Category = {
+      ...this.categoryForm.value,
+    };
+
+    if (this.imageFile) {
+      this.storageService
+        .uploadFile("categories/" + this.imageFile.name, this.imageFile)
+        .then((url) => {
+          category.image = url;
+          this.saveCategory(category);
+        })
+        .catch((err) => {
+          this.showToast("Erro ao fazer upload da imagem da categoria.");
+          console.error("Error uploading image:", err);
+        });
     } else {
-      console.error("Form is not valid");
+      this.saveCategory(category);
     }
   }
 
@@ -123,11 +127,6 @@ export class CategoryManagementComponent implements OnInit {
   }
 
   saveCategory(category: Category) {
-    if (this.categoryForm.invalid) {
-      console.error("Form is not valid");
-      return;
-    }
-
     // Flag to check if image changed
     const isImageUpdated = !!this.imageFile;
 
@@ -143,7 +142,6 @@ export class CategoryManagementComponent implements OnInit {
               console.error("Error deleting old image:", err);
             });
           }
-
           this.resetForm();
         },
         error: (err) => {
@@ -156,6 +154,7 @@ export class CategoryManagementComponent implements OnInit {
         next: () => {
           this.fetchCategories();
           this.showToast("Categoria criada com sucesso!", true);
+          this.resetForm();
         },
         error: (err) => {
           console.error("Error creating category:", err);
@@ -178,6 +177,7 @@ export class CategoryManagementComponent implements OnInit {
     this.editingCategoryId = null;
     this.imagePreview = null;
     this.imageFile = null;
+    this.loading = false;
   }
 
   onImageChange(event: Event): void {

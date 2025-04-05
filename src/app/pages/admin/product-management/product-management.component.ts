@@ -36,6 +36,7 @@ export class ProductManagementComponent implements OnInit {
   additionalImagesToDelete: string[] = [];
   currentProduct: Product | null = null;
   discountValues: number[] = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95]; // Discount values from 0% to 95%
+  loading = false;
 
   constructor(private api: ApiService, private fb: FormBuilder, private storageService: FirebaseStorageService, private toastr: ToastrService) {
     this.productForm = this.fb.group({
@@ -67,9 +68,11 @@ export class ProductManagementComponent implements OnInit {
 
   onSubmitProductForm() {
     if (this.productForm.invalid) {
-      console.error("Form is not valid");
+      this.showToast("Formulário inválido. Verifique os campos obrigatórios.");
+      this.loading = false;
       return;
     }
+    this.loading = true;
 
     const product: Product = {
       ...this.productForm.value,
@@ -78,7 +81,7 @@ export class ProductManagementComponent implements OnInit {
 
     const uploadAdditionalImages = this.additionalImageFiles.map((file) => {
       if (file) {
-        return this.storageService.uploadFile(`images/${file.name}`, file);
+        return this.storageService.uploadFile(`products/${file.name}`, file);
       }
       return Promise.resolve(null); // If no file is selected, resolve with null
     });
@@ -86,6 +89,7 @@ export class ProductManagementComponent implements OnInit {
     Promise.all(uploadAdditionalImages)
       .then((urls) => {
         this.deleteAdditionalImages().then(() => {
+          product.additionalImages = urls;
           if (this.currentProduct?.additionalImages) {
             const updatedAdditionalImages = this.currentProduct.additionalImages.map((url, index) => (urls[index] !== undefined ? urls[index] : url));
 
@@ -197,7 +201,7 @@ export class ProductManagementComponent implements OnInit {
       // save the main image
       if (isImageUpdated) {
         this.storageService
-          .uploadFile("images/" + this.imageFile.name, this.imageFile)
+          .uploadFile("products/" + this.imageFile.name, this.imageFile)
           .then((url) => {
             product.image = url;
             this.createProduct(product);
@@ -233,6 +237,7 @@ export class ProductManagementComponent implements OnInit {
     this.selectedCategories = [];
     this.additionalImageFiles = []; // Reset additional images
     this.additionalImagesPreview = []; // Reset additional images previews
+    this.loading = false;
   }
 
   onImageChange(event: Event): void {

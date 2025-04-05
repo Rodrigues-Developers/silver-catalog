@@ -22,6 +22,7 @@ export class BannerManagementComponent implements OnInit {
   imagePreview: string | ArrayBuffer | null = null;
   imageFile: File | null = null;
   oldImage: string | null = null;
+  loading = false;
 
   constructor(
     private api: ApiService,
@@ -47,28 +48,33 @@ export class BannerManagementComponent implements OnInit {
   }
 
   onSubmitBannerForm() {
-    if (this.bannerForm.valid) {
-      const banner: Banner = {
-        ...this.bannerForm.value,
-      };
+    this.loading = true;
+    if (this.bannerForm.invalid) {
+      this.showToast("Formulário inválido. Verifique os campos obrigatórios.");
+      this.loading = false;
+      return;
+    }
 
-      if (this.imageFile) {
-        this.storageService
-          .uploadFile("images/" + this.imageFile.name, this.imageFile)
-          .then((url) => {
-            banner.image = url;
-            this.saveBanner(banner);
-          })
-          .catch((err) => {
-            this.showToast("Erro ao fazer upload da imagem do banner.");
-            console.error("Error uploading image:", err);
-          });
-      } else {
-        this.saveBanner(banner);
-      }
+    const banner: Banner = {
+      ...this.bannerForm.value,
+    };
+
+    if (this.imageFile) {
+      this.storageService
+        .uploadFile("banners/" + this.imageFile.name, this.imageFile)
+        .then((url) => {
+          banner.image = url;
+          this.saveBanner(banner);
+        })
+        .catch((err) => {
+          this.showToast("Erro ao fazer upload da imagem do banner.");
+          console.error("Error uploading image:", err);
+        })
+        .finally(() => {
+          this.resetForm();
+        });
     } else {
-      this.showToast("Não é possível criar um banner sem uma imagem ou link");
-      console.error("Form is not valid");
+      this.saveBanner(banner);
     }
   }
 
@@ -124,14 +130,9 @@ export class BannerManagementComponent implements OnInit {
           this.resetForm();
           this.showToast("Banner atualizado com sucesso!", true);
           if (isImageUpdated && this.oldImage && banner.image !== this.oldImage) {
-            this.storageService
-              .deleteFile(this.oldImage)
-              .then(() => {
-                this.resetForm();
-              })
-              .catch((err) => {
-                console.error("Error deleting old image:", err);
-              });
+            this.storageService.deleteFile(this.oldImage).catch((err) => {
+              console.error("Error deleting old image:", err);
+            });
           }
         },
         error: (err) => {
@@ -142,6 +143,7 @@ export class BannerManagementComponent implements OnInit {
     } else {
       this.api.createBanner(banner).subscribe({
         next: () => {
+          this.resetForm();
           this.fetchBanners();
           this.showToast("Banner criado com sucesso!", true);
         },
@@ -165,6 +167,7 @@ export class BannerManagementComponent implements OnInit {
     this.editingBannerId = null;
     this.imagePreview = null;
     this.imageFile = null;
+    this.loading = false;
   }
 
   onImageChange(event: Event): void {

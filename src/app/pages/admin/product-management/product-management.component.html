@@ -44,21 +44,21 @@
           <input *ngIf="editingIndex === $index" [value]="editName" (input)="editName = $event.target.value" (blur)="saveEdit($index)" (keydown.enter)="saveEdit($index)" />
 
           <div class="category-actions">
-            <mat-icon class="btn btn-warning-icon" (click)="startEdit($index, category.name)">edit</mat-icon>
+            <!-- <mat-icon class="btn btn-warning-icon" (click)="startEdit($index, category.name)">edit</mat-icon> -->
             <mat-icon class="btn btn-danger-icon" (click)="removeCategory($index)">delete_outline</mat-icon>
           </div>
         </div>
         }
 
         <div class="add-category-container">
-          <mat-icon type="button" class="add-category" (click)="showCategorySelect = !showCategorySelect">add</mat-icon>
-          <div *ngIf="showCategorySelect">
-            <select (change)="addCategory($event.target.value)">
+          <div>
+            <select #categoriesSelect>
               @for (category of categories; track category.id) {
-              <option [value]="category.id">{{ category.name }}</option>
+              <option [value]="category.id">{{ category.name | capitalize }}</option>
               }
             </select>
           </div>
+          <mat-icon type="button" class="add-category" (click)="addCategory(categoriesSelect.value)">add</mat-icon>
         </div>
       </div>
 
@@ -111,8 +111,13 @@
         </section>
       </div>
 
-      <button type="submit" class="btn btn-primary">
+      <button type="submit" class="btn btn-primary" [class.loading]="loading">
+        @if(!loading){
         {{ editingProduct ? "Atualizar" : "Criar" }}
+        }
+        @else {
+        <span class="loading-text">Atualizando<span class="dot one">.</span><span class="dot two">.</span><span class="dot three">.</span></span>
+        }
       </button>
       <button *ngIf="editingProduct" type="button" class="btn btn-secondary" (click)="cancelEdit()">
         Cancelar

@@ -21,7 +21,12 @@
       </div>
 
       <button type="submit" class="btn btn-primary">
+        @if(!loading){
         {{ editingBanner ? "Atualizar" : "Criar" }}
+        }
+        @else {
+        <span class="loading-text">Atualizando<span class="dot one">.</span><span class="dot two">.</span><span class="dot three">.</span></span>
+        }
       </button>
       <button *ngIf="editingBanner" type="button" class="btn btn-secondary" (click)="cancelEdit()">
         Cancel
