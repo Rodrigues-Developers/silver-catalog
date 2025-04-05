@@ -4,11 +4,11 @@ import { ApiService } from "src/app/api.service";
 import { FilterService } from "src/app/core/services/filter.service";
 import { Product } from "src/app/interfaces/products.interface";
 import { CommonModule } from "@angular/common";
-import { SideBarComponent } from "../shared/side-bar/side-bar.component";
-import { ProductListComponent } from "../product-list/product-list.component";
+import { SideBarComponent } from "../../components/shared/side-bar/side-bar.component";
+import { ProductListComponent } from "../../components/product-list/product-list.component";
 import { CartService } from "src/app/core/services/cart.service";
 import { filter, Subscription } from "rxjs";
-import { LoadingComponent } from "../shared/loading/loading.component";
+import { LoadingComponent } from "../../components/shared/loading/loading.component";
 
 @Component({
   selector: "app-product-details",

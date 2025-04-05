@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } fr
 import { ApiService } from "src/app/api.service";
 import { Product } from "src/app/interfaces/products.interface";
 import { Category } from "src/app/interfaces/category.interface";
-import { CapitalizePipe } from "../../shared/pipes/capitalize.pipe";
+import { CapitalizePipe } from "src/app/shared/pipes/capitalize.pipe";
 import { MatIconModule } from "@angular/material/icon";
 import { FirebaseStorageService } from "src/app/core/services/firebase-storage.service";
 import { ToastrService } from "ngx-toastr";
