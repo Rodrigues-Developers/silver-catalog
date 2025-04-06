@@ -1,3 +1,5 @@
+@import "../../shared/styles/breakpoints.less";
+
 h2 {
   margin: 1rem 0;
   text-align: center;
@@ -11,8 +13,75 @@ h2 {
   display: flex;
   justify-content: center;
   margin: 0 5rem;
+  .sidebar-icon {
+    display: none;
+  }
+  .sidebar-section {
+    .sibebar-header {
+      display: none;
+    }
+  }
 
   .product-list {
     width: 100%;
+  }
+}
+
+@media @mobile {
+  .related-products {
+    display: block;
+    gap: 0;
+    margin: 0 1rem;
+    .sidebar-icon {
+      display: block;
+      font-size: xx-large;
+      width: 36px;
+      height: 36px;
+      margin-bottom: 0.5rem;
+    }
+    .sidebar-section {
+      position: fixed;
+      width: 300px;
+      background: white;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      z-index: 11;
+      padding: 1rem;
+      .sibebar-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        font-weight: bold;
+        font-size: 1.2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #d7d4d4;
+        .close-btn {
+          border: none;
+          background: transparent;
+          padding: 0;
+          &:hover {
+            color: rgb(129, 123, 123);
+            cursor: pointer;
+          }
+          mat-icon {
+            padding-top: 3px;
+          }
+        }
+      }
+      &.hidden {
+        transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        transform: translate(-100%);
+        visibility: hidden;
+        pointer-events: none;
+      }
+      &.visible {
+        transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        transform: translate(0);
+        visibility: visible;
+        pointer-events: inherit;
+      }
+    }
   }
 }

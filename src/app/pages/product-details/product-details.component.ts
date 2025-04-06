@@ -9,13 +9,14 @@ import { ProductListComponent } from "../../components/product-list/product-list
 import { CartService } from "src/app/core/services/cart.service";
 import { filter, Subscription } from "rxjs";
 import { LoadingComponent } from "../../components/shared/loading/loading.component";
+import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: "app-product-details",
   templateUrl: "./product-details.component.html",
   styleUrls: ["./product-details.component.less"],
   standalone: true,
-  imports: [CommonModule, SideBarComponent, ProductListComponent, LoadingComponent],
+  imports: [CommonModule, SideBarComponent, ProductListComponent, LoadingComponent, MatIcon],
 })
 export class ProductDetailsComponent implements OnDestroy {
   productId: string | null = null;
@@ -24,6 +25,7 @@ export class ProductDetailsComponent implements OnDestroy {
   selectedImage: string | null = null;
   private routeSub: Subscription;
   loading = true;
+  showFilter = false;
 
   constructor(private route: ActivatedRoute, private api: ApiService, private router: Router, private cartService: CartService, private filterService: FilterService) {
     // Reload the product when the route changes withing the same route but different id
@@ -77,6 +79,10 @@ export class ProductDetailsComponent implements OnDestroy {
       }
       this.cartService.addToCart(this.product);
     }
+  }
+
+  toggleFilter() {
+    this.showFilter = !this.showFilter;
   }
 
   ngOnDestroy() {

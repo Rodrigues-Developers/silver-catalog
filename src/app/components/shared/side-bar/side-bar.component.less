@@ -143,6 +143,9 @@
       font-size: 12px;
     }
   }
+  .sibebar-footer {
+    display: none;
+  }
 
   @media @tablet-m, @tablet-l {
     width: 100%; // Adjust the width to fit the screen
@@ -189,6 +192,7 @@
     .search {
       flex-direction: row; // Ensure the input and icon are in a row
       padding: 5px;
+      background: #dfdcdc;
 
       input {
         font-size: 12px; // Adjust font size for smaller screens
@@ -218,6 +222,22 @@
     .price-range {
       p {
         font-size: 10px; // Adjust price range text size for smaller screens
+      }
+    }
+    .sibebar-footer {
+      display: block;
+      position: absolute;
+      text-align: center;
+      padding-top: 1rem;
+      font-size: 0.9rem;
+      color: #777;
+      border-top: 1px solid #d7d4d4;
+      bottom: 0;
+      width: 90%;
+      padding-bottom: 1rem;
+
+      span {
+        font-size: 0.9rem;
       }
     }
   }

@@ -3,6 +3,7 @@
 @import "../../../shared/styles/top-left-text.less";
 
 .navbar {
+  z-index: 11;
   display: flex;
   position: absolute;
   width: 100%;
@@ -11,7 +12,6 @@
   background-color: @color-secondary;
   align-items: center;
   justify-content: center;
-  z-index: 3;
   box-shadow: none;
 
   .search {
@@ -86,6 +86,7 @@
   }
 
   .user-dashboard {
+    z-index: 11;
     display: flex;
     gap: 6%;
 
@@ -124,22 +125,21 @@
 
       .user-menu {
         display: flex;
-        position: absolute;
-        background-color: #eff1f5;
+        position: fixed;
         top: 5.7rem;
-        right: 0.5rem;
+        right: 0;
+        background-color: #eff1f5;
         padding: 0.5rem;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         opacity: 1;
         transition: opacity 0.5s ease, transform 0.5s ease;
-        z-index: 1;
       }
 
       .hidden {
         display: flex;
-        position: absolute;
+        position: fixed;
+        right: 0;
         top: 5.7rem;
-        right: 0.5rem;
         padding: 0.5rem;
         opacity: 0;
         transform: translateY(-20px);
@@ -334,15 +334,6 @@
           top: 3.5%;
         }
       }
-      .user-area {
-        .user-menu {
-          right: -5.5rem;
-        }
-
-        .hidden {
-          right: -5.5rem;
-        }
-      }
     }
     .menu-container {
       display: flex;
@@ -395,7 +386,7 @@
         }
       }
 
-      .menu-footer {
+      .nav-footer {
         text-align: center;
         padding-top: 1rem;
         font-size: 0.9rem;
