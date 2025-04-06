@@ -31,7 +31,14 @@
 
   <h3> Veja Também</h3>
   <section class="related-products">
-    <div class="sidebar-section">
+    <mat-icon class="sidebar-icon" (click)="toggleFilter()">manage_search</mat-icon>
+    <div class="sidebar-section" [class.hidden]="!showFilter" [class.visible]="showFilter">
+      <div class="sibebar-header">
+        <span class="filter-title">Filtro</span>
+        <button mat-icon-button class="close-btn" (click)="toggleFilter()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
       <app-side-bar class="sidebar-component"></app-side-bar>
     </div>
     <div class="product-list">

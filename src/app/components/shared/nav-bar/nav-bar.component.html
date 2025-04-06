@@ -10,14 +10,16 @@
     </ul>
   </div>
 
-  <div class="navbar-brand" routerLink="/">
-    <img src="../../../../assets/logo-ags.png" alt="logo image" class="logo-image" routerLink="/" />
-    <img src="../../../../assets/logo-ags-nome.png" alt="logo image" class="logo-image--nome" routerLink="/" />
-  </div>
+  <section class="nav-menu-brand">
+    <div class="navbar-brand" routerLink="/">
+      <img src="../../../../assets/logo-ags.png" alt="logo image" class="logo-image" routerLink="/" />
+      <img src="../../../../assets/logo-ags-nome.png" alt="logo image" class="logo-image--nome" routerLink="/" />
+    </div>
 
-  <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed" title="Menu button">
-    <span [class.nav-hamburger]="isCollapsed" [class.active]="!isCollapsed"></span>
-  </button>
+    <button class="navbar-toggler" type="button" (click)="toggleMenu()" title="Menu button">
+      <span [class.nav-hamburger]="isCollapsed" [class.active]="!isCollapsed"></span>
+    </button>
+  </section>
 
 
   <div class="side-menu">
@@ -46,7 +48,7 @@
     }
 
     <!-- If user is authenticated and profile exists, show profile picture and menu -->
-    <div *ngIf="isAuthenticated && user" class="user-area" (click)="userCollapsed = !userCollapsed">
+    <div *ngIf="isAuthenticated && user" class="user-area" (click)="toggleUserMenu()">
       <!-- Profile picture -->
       <img [src]="user?.photoURL" alt="Profile picture" class="user-img" />
       <div [class.hidden]="userCollapsed" [class.user-menu]="!userCollapsed">
@@ -88,37 +90,38 @@
 
   </div>
 
-  <div class="menu " [class.active]="!isCollapsed">
+  <div class="menu-container" [class.active]="!isCollapsed">
+    <!-- Top Header -->
+    <div class="menu-header">
+      <span class="menu-title">Menu</span>
+    </div>
+
     <ul class="navbar-menu">
       <li class="nav-item">
         <mat-icon>home</mat-icon>
         <a routerLink="/" class="nav-link" (click)="isCollapsed = !isCollapsed">Home</a>
       </li>
-      <li class="nav-item" (click)="toggleCart()">
+      <li class="nav-item">
         <mat-icon>shopping_cart</mat-icon>
         <a routerLink="external-api" class="nav-link" (click)="isCollapsed = !isCollapsed">Loja</a>
       </li>
+
+
       <li class="nav-item">
         <mat-icon>perm_phone_msg</mat-icon>
         <a routerLink="/" class="nav-link" (click)="isCollapsed = !isCollapsed">Contato</a>
       </li>
-      <li class="nav-item" *ngIf="isAuthenticated">
-        <mat-icon>settings</mat-icon>
-        <a routerLink="product-management" class="nav-link" (click)="isCollapsed = !isCollapsed">Gerenciar Produtos</a>
-      </li>
-      <li *ngIf="!isAuthenticated" class="nav-item">
-        <mat-icon>account_circle</mat-icon>
-        <a class="nav-link" (click)="loginWithPopup()">Log in</a>
-      </li>
-      <!-- User profile and logout links if authenticated -->
-      <li *ngIf="isAuthenticated && user" class="nav-item">
-        <img [src]="user?.photoURL" alt="Profile picture" class="user-img" />
-        <a routerLink="/profile" class="nav-link">{{ user?.displayName }}</a>
-      </li>
-      <li *ngIf="isAuthenticated && user" class="nav-item">
-        <mat-icon>logout</mat-icon>
-        <a class="nav-link" (click)="logout()">Log out</a>
+      <li class="nav-item">
+        <mat-icon>info</mat-icon>
+        <a routerLink="/" class="nav-link" (click)="isCollapsed = !isCollapsed">Sobre Nós</a>
       </li>
     </ul>
+    <div class="custom-divider"></div>
+
+    <!-- Footer -->
+    <div class="nav-footer">
+      <span>Acesse nossas páginas</span>
+    </div>
   </div>
+
 </nav>

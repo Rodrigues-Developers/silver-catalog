@@ -7,11 +7,12 @@ import { Category } from "src/app/interfaces/category.interface";
 import { CapitalizePipe } from "../../shared/pipes/capitalize.pipe";
 import { FilterService } from "../../core/services/filter.service";
 import { LoadingComponent } from "../../components/shared/loading/loading.component";
+import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: "app-category-details",
   standalone: true,
-  imports: [SideBarComponent, ProductListComponent, HorizontalSliderComponent, CapitalizePipe, LoadingComponent],
+  imports: [SideBarComponent, ProductListComponent, HorizontalSliderComponent, CapitalizePipe, LoadingComponent, MatIcon],
   templateUrl: "./category-details.component.html",
   styleUrls: ["./category-details.component.less"],
 })
@@ -21,6 +22,7 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy {
   selectedItem: Category | null = null;
   selectedCategoryName: string;
   loading = true;
+  showFilter = false;
 
   constructor(private api: ApiService, private filterService: FilterService) {}
 
@@ -52,5 +54,9 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy {
     }
     this.selectedItem = item as Category;
     this.selectedCategoryName = item.name;
+  }
+
+  toggleFilter() {
+    this.showFilter = !this.showFilter;
   }
 }

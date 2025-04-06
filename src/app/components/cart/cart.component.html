@@ -3,10 +3,10 @@
     <button mat-icon-button class="close-btn" (click)="cartService.toggleCart()">
       <mat-icon>close</mat-icon>
     </button>
-    <p>Total: {{cartService.total() | currency: 'BRL'}}</p>
+    <span class="menu-title">Carrinho</span>
   </div>
+  <p>Total: {{cartService.total() | currency: 'BRL'}}</p>
 
-  <h3>Shopping Cart</h3>
   @if (cartService.items().length) {
   <div>
     @for (item of cartService.items(); track $index) {
@@ -38,7 +38,11 @@
   }
   @else {
   <div #emptyCart>
-    <p>No items in cart.</p>
+    <p>Sem items no carrinho.</p>
   </div>
   }
+  <!-- Footer -->
+  <div class="cart-footer">
+    <span>Carrinho de compras</span>
+  </div>
 </div>
