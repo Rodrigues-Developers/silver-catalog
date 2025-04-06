@@ -24,12 +24,7 @@
             "polyfills": ["src/polyfills.ts", "@angular/localize/init"],
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets", "src/staticwebapp.config.json"],
-            "styles": [
-              "src/styles.less",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/highlight.js/styles/monokai-sublime.css",
-              "node_modules/material-icons/iconfont/material-icons.css"
-            ],
+            "styles": ["src/styles.less", "node_modules/bootstrap/dist/css/bootstrap.min.css", "node_modules/material-icons/iconfont/material-icons.css"],
             "scripts": ["node_modules/jquery/dist/jquery.min.js", "node_modules/popper.js/dist/umd/popper.min.js", "node_modules/bootstrap/dist/js/bootstrap.min.js"],
             "extractLicenses": false,
             "sourceMap": true,

@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, HostListener } from "@angular/core";
+import { Component, OnInit, ElementRef, HostListener, OnDestroy } from "@angular/core";
 import { AuthService } from "../../../core/services/auth.service";
 import { User } from "firebase/auth"; // Import User type from Firebase
 import { MatIconModule } from "@angular/material/icon"; // Import MatIconModule
@@ -6,6 +6,7 @@ import { NgIf } from "@angular/common"; // Import NgIf for structural directives
 import { RouterLink } from "@angular/router";
 import { CartService } from "src/app/core/services/cart.service";
 import { BreakpointObserver } from "@angular/cdk/layout";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-nav-bar",
@@ -14,11 +15,12 @@ import { BreakpointObserver } from "@angular/cdk/layout";
   standalone: true,
   imports: [MatIconModule, NgIf, RouterLink], // Import necessary modules
 })
-export class NavBarComponent implements OnInit {
+export class NavBarComponent implements OnInit, OnDestroy {
   isCollapsed = true;
   userCollapsed = true;
   user: User | null = null; // Start user as null to reflect auth state properly
   isUserAdmin = false; // Default to false
+  observerSubscription: Subscription;
 
   constructor(private authService: AuthService, private eRef: ElementRef, public cartService: CartService, private breakpointObserver: BreakpointObserver) {}
 
@@ -33,7 +35,7 @@ export class NavBarComponent implements OnInit {
       }
     });
 
-    this.breakpointObserver.observe(["(min-width: 767px)"]).subscribe((result) => {
+    this.observerSubscription = this.breakpointObserver.observe(["(min-width: 767px)"]).subscribe((result) => {
       if (result.matches) {
         this.isCollapsed = true;
       }
@@ -85,5 +87,11 @@ export class NavBarComponent implements OnInit {
     this.userCollapsed = !this.userCollapsed;
     this.isCollapsed = true;
     this.cartService.hideCart();
+  }
+
+  ngOnDestroy(): void {
+    if (this.observerSubscription) {
+      this.observerSubscription.unsubscribe();
+    }
   }
 }
