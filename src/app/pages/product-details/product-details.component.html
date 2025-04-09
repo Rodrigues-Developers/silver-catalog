@@ -31,11 +31,11 @@
 
   <h3> Veja Também</h3>
   <section class="related-products">
-    <mat-icon class="sidebar-icon" (click)="toggleFilter()">manage_search</mat-icon>
-    <div class="sidebar-section" [class.hidden]="!showFilter" [class.visible]="showFilter">
+    <mat-icon class="sidebar-icon" (click)="toggleFilter(sidebarSection)">manage_search</mat-icon>
+    <div #sidebarSection class="sidebar-section" [class.hidden]="!showFilter" [class.visible]="showFilter">
       <div class="sibebar-header">
         <span class="filter-title">Filtro</span>
-        <button mat-icon-button class="close-btn" (click)="toggleFilter()">
+        <button mat-icon-button class="close-btn" (click)="toggleFilter(sidebarSection)">
           <mat-icon>close</mat-icon>
         </button>
       </div>

@@ -11,13 +11,12 @@ import { MatIconModule } from "@angular/material/icon";
 })
 export class HorizontalSliderComponent implements OnInit {
   @Input() items: { image: string }[] = [];
-  @Input() visibleItems = 4;
   @Input() itemWidth = 100;
   @Input() itemWidthUnit: "vw" | "px" = "px";
   @Input() itemHeight = 100;
-  @Input() translateDistance = 80;
   @Input() maxWidth = 530;
   @Input() maxWidthUnit: "vw" | "px" = "px";
+  @Input() autoSlider = true;
   @Output() itemClicked = new EventEmitter<any>();
   currentIndex = 0;
 
@@ -26,7 +25,7 @@ export class HorizontalSliderComponent implements OnInit {
   }
 
   get maxIndex() {
-    return Math.max(0, this.items.length - this.visibleItems);
+    return Math.max(0, this.items.length - 1);
   }
 
   nextSlide() {
@@ -42,24 +41,26 @@ export class HorizontalSliderComponent implements OnInit {
   }
 
   translateItems() {
-    return `translateX(-${this.currentIndex * (this.translateDistance / this.visibleItems)}%)`;
+    return `translateX(calc(-${this.currentIndex * this.itemWidth}${this.itemWidthUnit} - ${this.currentIndex * 10}px))`;
   }
 
-  getMaxWidth() {
-    return `${this.maxWidth}${this.maxWidthUnit}`;
+  getMaxWidth(): string {
+    return `min(${this.maxWidth}${this.maxWidthUnit}, calc(100vw - 5px))`;
   }
 
   getWidth() {
-    return `${this.itemWidth}${this.maxWidthUnit}`;
+    return `${this.itemWidth}${this.itemWidthUnit}`;
   }
 
   autoSlide() {
-    setInterval(() => {
-      if (this.currentIndex === this.maxIndex) {
-        this.currentIndex = -1;
-      }
-      this.nextSlide();
-    }, 9000);
+    if (this.autoSlider) {
+      setInterval(() => {
+        if (this.currentIndex === this.maxIndex) {
+          this.currentIndex = -1;
+        }
+        this.nextSlide();
+      }, 9000);
+    }
   }
 
   onItemClicked(item: any) {
