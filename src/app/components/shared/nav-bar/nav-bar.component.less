@@ -240,7 +240,7 @@
 @media @mobile {
   .navbar {
     justify-content: space-between;
-    position: inherit;
+    position: fixed;
     .nav-menu-brand {
       display: flex;
       align-items: center;
@@ -342,6 +342,12 @@
       background-color: #fff;
       padding: 1rem;
       z-index: 11;
+
+      &.active {
+        position: fixed;
+        height: calc(100% - 95px);
+        background-color: white;
+      }
 
       .menu-header {
         display: flex;

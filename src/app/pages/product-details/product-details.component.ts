@@ -10,6 +10,7 @@ import { CartService } from "src/app/core/services/cart.service";
 import { filter, Subscription } from "rxjs";
 import { LoadingComponent } from "../../components/shared/loading/loading.component";
 import { MatIcon } from "@angular/material/icon";
+import { handleTranstition } from "src/app/utils/animation";
 
 @Component({
   selector: "app-product-details",
@@ -81,8 +82,9 @@ export class ProductDetailsComponent implements OnDestroy {
     }
   }
 
-  toggleFilter() {
+  toggleFilter(element: HTMLElement) {
     this.showFilter = !this.showFilter;
+    handleTranstition(element);
   }
 
   ngOnDestroy() {

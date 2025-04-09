@@ -8,6 +8,7 @@ import { CapitalizePipe } from "../../shared/pipes/capitalize.pipe";
 import { FilterService } from "../../core/services/filter.service";
 import { LoadingComponent } from "../../components/shared/loading/loading.component";
 import { MatIcon } from "@angular/material/icon";
+import { handleTranstition } from "src/app/utils/animation";
 
 @Component({
   selector: "app-category-details",
@@ -56,7 +57,9 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy {
     this.selectedCategoryName = item.name;
   }
 
-  toggleFilter() {
+  toggleFilter(element: HTMLElement) {
     this.showFilter = !this.showFilter;
+
+    handleTranstition(element);
   }
 }

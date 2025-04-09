@@ -2,14 +2,14 @@
 
 <section class="category-details">
   <h2>{{ selectedCategoryName | capitalize }}</h2>
-  <app-horizontal-slider [items]="categoryList" (itemClicked)="onItemClick($event)"></app-horizontal-slider>
+  <app-horizontal-slider [items]="categoryList" [itemWidth]="100" itemWidthUnit="px" (itemClicked)="onItemClick($event)" [autoSlider]="false"></app-horizontal-slider>
 </section>
 <section class="related-products">
-  <mat-icon class="sidebar-icon" (click)="toggleFilter()">manage_search</mat-icon>
-  <div class="sidebar-section" [class.hidden]="!showFilter" [class.visible]="showFilter">
+  <mat-icon class="sidebar-icon" (click)="toggleFilter(sidebarSection)">manage_search</mat-icon>
+  <div #sidebarSection class="sidebar-section" [class.hidden]="!showFilter" [class.visible]="showFilter">
     <div class="sibebar-header">
       <span class="filter-title">Filtro</span>
-      <button mat-icon-button class="close-btn" (click)="toggleFilter()">
+      <button mat-icon-button class="close-btn" (click)="toggleFilter(sidebarSection)">
         <mat-icon>close</mat-icon>
       </button>
     </div>

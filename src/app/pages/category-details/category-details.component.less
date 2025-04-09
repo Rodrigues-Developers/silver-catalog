@@ -33,19 +33,20 @@ h2 {
     gap: 0;
     margin: 0 1rem;
     .sidebar-icon {
+      background: white;
       display: block;
-      font-size: xx-large;
-      width: 36px;
-      height: 36px;
+      font-size: 60px;
+      width: 60px;
+      height: 60px;
       margin-bottom: 0.5rem;
     }
     .sidebar-section {
+      height: 100%;
       position: fixed;
       width: 300px;
       background: white;
       left: 0;
       top: 0;
-      height: 100vh;
       z-index: 11;
       padding: 1rem;
       .sibebar-header {
@@ -71,13 +72,11 @@ h2 {
         }
       }
       &.hidden {
-        transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
         transform: translate(-100%);
         visibility: hidden;
         pointer-events: none;
       }
       &.visible {
-        transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
         transform: translate(0);
         visibility: visible;
         pointer-events: inherit;
