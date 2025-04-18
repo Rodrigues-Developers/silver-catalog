@@ -69,7 +69,7 @@
       </div>
 
       <!-- Display the current image if available -->
-      <div *ngIf="imagePreview" class="image-preview">
+      <div *ngIf="imagePreview" class="main-image-preview">
         <img [src]="imagePreview" alt="Imagem do Produto">
       </div>
 
@@ -77,7 +77,7 @@
         <label for="additionalImages">Imagens Adicionais:</label>
         <section class="additional-images">
           <!-- Input for Image 1 -->
-          <div>
+          <div class="additional-image-container">
             <input type="file" (change)="onAdditionalImageChange(0, $event)" accept="image/*" [attr.id]="'additionalImage0'" />
             <div *ngIf="additionalImagesPreview[0]">
               <img [src]="additionalImagesPreview[0]" alt="Preview Image 1" class="preview-image" />
@@ -88,7 +88,7 @@
           </div>
 
           <!-- Input for Image 2 -->
-          <div>
+          <div class="additional-image-container">
             <input type="file" (change)="onAdditionalImageChange(1, $event)" accept="image/*" [attr.id]="'additionalImage1'" />
             <div *ngIf="additionalImagesPreview[1]">
               <img [src]="additionalImagesPreview[1]" alt="Preview Image 2" class="preview-image" />
@@ -99,7 +99,7 @@
           </div>
 
           <!-- Input for Image 3 -->
-          <div>
+          <div class="additional-image-container">
             <input type="file" (change)="onAdditionalImageChange(2, $event)" accept="image/*" [attr.id]="'additionalImage2'" />
             <div *ngIf="additionalImagesPreview[2]">
               <img [src]="additionalImagesPreview[2]" alt="Preview Image 3" class="preview-image" />
