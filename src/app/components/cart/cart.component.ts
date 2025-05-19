@@ -10,6 +10,7 @@ import { User } from "firebase/auth";
 import { Subscription } from "rxjs";
 import { Order } from "src/app/interfaces/order.interface";
 import { ApiService } from "src/app/api.service";
+import { executeRecaptcha } from "src/app/utils/reCAPTCHA";
 @Component({
   selector: "app-cart",
   standalone: true,
@@ -69,17 +70,24 @@ export class CartComponent implements OnDestroy {
   }
 
   createOrder(baseURL: string, order: Order) {
-    this.api.createOrder(order).subscribe({
-      next: () => {
-        this.cartService.clearCart();
-        this.showToast("Pedido salvo com sucesso!", true);
-        this.sendWhatsAppMessage(baseURL, order);
-      },
-      error: (err) => {
-        console.error("Error creating banner:", err);
-        this.showToast("Erro ao enviar o pedido!");
-      },
-    });
+    executeRecaptcha("submit_order")
+      .then((token) => {
+        this.api.createOrder(order, token).subscribe({
+          next: () => {
+            this.cartService.clearCart();
+            this.showToast("Pedido salvo com sucesso!", true);
+            this.sendWhatsAppMessage(baseURL, order);
+          },
+          error: (err) => {
+            console.error("Error creating order:", err);
+            this.showToast("Erro ao enviar o pedido!");
+          },
+        });
+      })
+      .catch((error) => {
+        console.error("reCAPTCHA error:", error);
+        this.showToast("Falha na verificação de segurança. Tente novamente.");
+      });
   }
 
   sendWhatsAppMessage(baseURL: string, order: Order) {

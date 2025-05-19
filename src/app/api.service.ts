@@ -205,13 +205,21 @@ export class ApiService {
     );
   }
 
-  createOrder(order: Order): Observable<Order> {
+  createOrder(order: Order, captchaToken?: string): Observable<Order> {
     return this.getFirebaseToken().pipe(
-      switchMap((token) =>
-        this.http.post<Order>(`${this.config.apiUri}/api/Order`, order, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-      )
+      switchMap((firebaseToken) => {
+        const headers: any = {
+          Authorization: `Bearer ${firebaseToken}`,
+        };
+
+        if (captchaToken) {
+          headers["x-captcha-token"] = captchaToken;
+        }
+
+        return this.http.post<Order>(`${this.config.apiUri}/api/Order`, order, {
+          headers,
+        });
+      })
     );
   }
 
