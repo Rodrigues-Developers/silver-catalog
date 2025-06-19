@@ -7,6 +7,11 @@
 <app-item-list [items]="discountedProducts" [extraFields]="['price']" (itemClicked)="onDiscountClick($event)"></app-item-list>
 <h4>Peças mais procuradas</h4>
 <app-item-list [items]="topProducts" [extraFields]="['price']" (itemClicked)="onTopProductClick($event)"></app-item-list>
+
+<section class="instagram-feed">
+  <iframe class="instagram-media instagram-media-rendered" id="instagram-embed-1" src="https://www.instagram.com/ags_prata_925/embed/" allowtransparency="true"
+    allowfullscreen="false" frameborder="0" scrolling="no"></iframe>
+</section>
 }
 @else {
 <div class="container">

@@ -53,13 +53,14 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   applyFilters() {
-    if (this.productsList.length === 0) {
+    const selectedCategories = this.filterService.getSelectedCategoriesSubject().getValue();
+
+    if (this.productsList.length === 0 && selectedCategories.length === 0) {
       return;
     }
 
     const minPrice = this.filterService.getMinPriceSubject().getValue();
     const maxPrice = this.filterService.getMaxPriceSubject().getValue();
-    const selectedCategories = this.filterService.getSelectedCategoriesSubject().getValue();
 
     if (selectedCategories.length > 0) {
       this.api.getProductsByCategory(selectedCategories[0]).subscribe({

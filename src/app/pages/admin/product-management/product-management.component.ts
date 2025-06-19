@@ -127,6 +127,14 @@ export class ProductManagementComponent implements OnInit {
     this.additionalImagesPreview = product?.additionalImages || [];
     this.additionalImagesToDelete = [];
     this.currentProduct = product;
+
+    // Scroll to top of the page
+    setTimeout(() => {
+      const formNameElement = document.getElementById("description");
+      if (formNameElement) {
+        formNameElement.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }, 100);
   }
 
   onDeleteProduct(product: Product) {
