@@ -1,83 +1,95 @@
-# Auth0 Angular SDK sample
+# Silver Catalog
 
-This sample app demonstrates the integration of the [Auth0 Angular SDK](https://github.com/auth0/auth0-angular) into an Angular application created using the Angular CLI. This sample is a companion to the [Auth0 Angular SDK Quickstart](https://auth0.com/docs/quickstart/spa/angular).
+Silver Catalog is a sample Angular application that demonstrates how to build a rich, production-ready catalog platform using a modern Angular frontend with LESS for styling and an integrated Node/Express backend for API handling.
 
-This sample demonstrates the following use cases:
+## Table of Contents
 
-- Login
-- Log out
-- Showing the user profile
-- Protecting routes using the authentication guard
-- Calling APIs with automatically-attached bearer tokens
+- [Introduction](#introduction)
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Development Server](#development-server)
+- [Building for Production](#building-for-production)
+- [Deployment](#deployment)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Configuration
+## Introduction
 
-The sample needs to be configured with your Auth0 domain and client ID in order to work. In the root of the sample, copy `auth_config.json.example` and rename it to `auth_config.json`. Open the file and replace the values with those from your Auth0 tenant:
+Silver Catalog serves as a robust template for developers looking to create dynamic catalog applications. The app leverages Angular with LESS to allow flexible and maintainable styling while using an integrated Node/Express backend to streamline API requests. This setup makes it easier to customize and deploy your catalog application across various environments.
 
-```json
-{
-  "domain": "<YOUR AUTH0 DOMAIN>",
-  "clientId": "<YOUR AUTH0 CLIENT ID>",
-  "audience": "<YOUR AUTH0 API AUDIENCE IDENTIFIER>"
-}
-```
+## Features
 
-## Development server
+- **Modern Angular Frontend**: Developed using Angular CLI with a strong focus on modularity and maintainability.
+- **LESS Styling**: Uses LESS instead of plain CSS to allow for improved style organization and extensibility.
+- **Integrated Node/Express Backend**: A backend that handles API requests seamlessly as part of the application.
+- **Cloud Readiness**: Comes pre-configured for deployment on platforms like Azure Static Web Apps.
 
-Run `npm run dev` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Technology Stack
 
-This will automatically start a Node + Express server as the backend on port `3001`. The Angular application is configured to proxy through to this on any `/api` route.
+- **Frontend**: Angular, TypeScript, HTML, LESS
+- **Backend**: Node.js, Express
+- **CI/CD**: GitHub Actions workflows in the `.github/workflows/` directory
+- **Deployment**: Azure Static Web Apps
 
-## Build
+## Getting Started
 
-Run `npm build` to build the project. The build artifacts will be stored in the `dist/login-demo` directory. Use the `--prod` flag for a production build.
+### Prerequisites
 
-To build and run a production bundle and serve it, run `npm run prod`. The application will run on `http://localhost:3000`.
+- Node.js and npm
+- Angular CLI (global installation is optional but recommended)
 
-## Run Using Docker
+### Installation
 
-You can build and run the sample in a Docker container by using the provided scripts:
+Clone the repository and install the dependencies:
 
 ```bash
-# In Linux / MacOS
-sh exec.sh
-
-# Windows Powershell
-./exec.ps1
+git clone https://github.com/Rodrigues-Developers/silver-catalog.git
+cd silver-catalog
+npm install
 ```
 
-## Further help
+### Development Server
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/main/README.md).
+To run the application in development mode, execute:
 
-## Frequently Asked Questions
+```bash
+npm run dev
+After the server starts, navigate to http://localhost:4200 in your browser to view the app.
+```
 
-We are compiling a list of questions and answers regarding the new JavaScript SDK - if you're having issues running the sample applications, [check the FAQ](https://github.com/auth0/auth0-spa-js/blob/main/FAQ.md)!
+### Building for Production
 
-# What is Auth0?
+To generate a production-ready build, run:
 
-Auth0 helps you to:
+```bash
+npm run build
+The production build artifacts are stored in the dist/ directory.
+```
 
-- Add authentication with [multiple authentication sources](https://auth0.com/docs/identityproviders), either social like **Google, Facebook, Microsoft Account, LinkedIn, GitHub, Twitter, Box, Salesforce, among others**, or enterprise identity systems like **Windows Azure AD, Google Apps, Active Directory, ADFS or any SAML Identity Provider**.
-- Add authentication through more traditional **[username/password databases](https://auth0.com/docs/connections/database/custom-db/create-db-connection)**.
-- Add support for **[linking different user accounts](https://auth0.com/docs/users/user-account-linking)** with the same user.
-- Support for generating signed [Json Web Tokens](https://auth0.com/docs/tokens/json-web-tokens) to call your APIs and **flow the user identity** securely.
-- Analytics of how, when and where users are logging in.
-- Pull data from other sources and add it to the user profile, through [JavaScript rules](https://auth0.com/docs/rules).
+### Deployment
 
-## Create a Free Auth0 Account
+#### Azure Static Web Apps
 
-1. Go to [Auth0](https://auth0.com/signup) and click Sign Up.
-2. Use Google, GitHub or Microsoft Account to login.
+For detailed deployment instructions to Azure, refer to the [Manual publish to azure.md](Manual publish to azure.md) file.
 
-## Issue Reporting
+Project Structure
 
-If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
+```text
+silver-catalog/
+├── .github/workflows/         # CI/CD configuration files
+├── e2e/                       # End-to-end test configuration (if applicable)
+├── src/                       # Angular application source code
+├── angular.json               # Angular CLI configuration
+├── package.json               # npm dependencies and scripts
+├── tsconfig.json              # TypeScript configuration
+├── staticwebapp.config.json   # Azure Static Web Apps configuration
+├── CHANGELOG.md               # Record of changes for each release
+└── LICENSE.md                 # Licensing information
+```
 
-## Author
-
-[Auth0](https://auth0.com)
-
-## License
-
-This project is licensed under the MIT license. See the [LICENSE](../LICENSE) file for more info.
+License
+Silver Catalog is licensed under a custom license. Please refer to the LICENSE.md file for complete details.
