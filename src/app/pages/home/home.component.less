@@ -9,23 +9,36 @@ h4 {
 .instagram-feed {
   display: flex;
   justify-content: center;
+  width: 100%;
   iframe {
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     border: none;
+    border-radius: 12px;
+    width: 80%;
+    height: 61vw;
   }
 }
 
-.instagram-feed iframe {
-  width: 100%;
-  height: clamp(380px, calc(370px + 0.8 * (88vw - 360px)), 2000px);
+@media @tablet-l {
+  .instagram-feed {
+    iframe {
+      height: 66vw;
+    }
+  }
+}
+
+@media @tablet-m {
+  .instagram-feed {
+    iframe {
+      height: 68vw;
+    }
+  }
 }
 
 @media @mobile {
-  h4 {
-    margin: 1rem 0;
-  }
-  .instagram-feed iframe {
-    height: clamp(380px, calc(380px + 0.8 * (95vw - 360px)), 2000px);
+  .instagram-feed {
+    iframe {
+      width: 80%;
+      height: clamp(360px, calc(314px + 0.8 * (95vw - 360px)), 768px);
+    }
   }
 }
