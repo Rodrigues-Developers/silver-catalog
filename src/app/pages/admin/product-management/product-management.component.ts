@@ -90,10 +90,25 @@ export class ProductManagementComponent implements OnInit {
       .then((urls) => {
         this.deleteAdditionalImages().then(() => {
           product.additionalImages = urls;
+          const isImageUpdated = !!this.imageFile;
           if (this.currentProduct?.additionalImages) {
             const updatedAdditionalImages = this.currentProduct.additionalImages.map((url, index) => (urls[index] !== undefined ? urls[index] : url));
 
             product.additionalImages = updatedAdditionalImages;
+          }
+
+          if (isImageUpdated && this.editingProduct) {
+            // if editing and image updated, upload new main image
+            return this.storageService
+              .uploadFile("products/" + this.imageFile.name, this.imageFile)
+              .then((url) => {
+                product.image = url;
+                this.saveProduct(product);
+              })
+              .catch((err) => {
+                this.showToast("Erro ao fazer upload da imagem do produto.");
+                console.error("Error uploading image:", err);
+              });
           }
           return this.saveProduct(product);
         });
