@@ -29,32 +29,38 @@
     }
 
     @media (max-width: (@breakpoint-md - 1)) {
-      grid-template-columns: repeat(1, 1fr); /* Single column on small screens */
+      grid-template-columns: repeat(2, 1fr); /* Single column on small screens */
     }
-
-    .category-item {
-      background: #ffffff; /* Item background */
-      border: 1px solid #e0e0e0; /* Light border for separation */
-      border-radius: 6%;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-      padding: 10px;
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      align-items: center;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      text-align: center;
-      &:hover {
-        transform: translateY(-5px); /* Lift item slightly on hover */
-        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
-        cursor: pointer;
+    .item-container {
+      .category-item {
+        background: #ffffff; /* Item background */
+        border: 1px solid #e0e0e0; /* Light border for separation */
+        border-radius: 6%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        text-align: center;
+        &:hover {
+          transform: translateY(-5px); /* Lift item slightly on hover */
+          box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
+          cursor: pointer;
+        }
+        img {
+          width: 100%;
+          height: 245px; /* Increased height for larger images */
+          object-fit: cover;
+          border-radius: 8px;
+          margin-bottom: 8px;
+        }
       }
-      img {
-        width: 100%;
-        height: 245px; /* Increased height for larger images */
-        object-fit: cover;
-        border-radius: 8px;
-        margin-bottom: 8px;
+      .category-name {
+        color: #6b6b6b;
+        font-weight: bold;
+        font-style: italic;
       }
     }
   }
@@ -63,10 +69,9 @@
     .category-list {
       width: 100%;
       margin-top: 1rem;
-      padding: 0;
+      padding: 10px;
       background: transparent;
       .item-container {
-        padding: 1rem 5rem;
         .category-item {
           border-radius: 0;
           margin-bottom: 0.5rem;

@@ -1,6 +1,6 @@
 @if(!loading){
 <div>
-  <img [src]="bannerList[0].image" alt="Slide Image" class="temp-banner-image">
+  <img [src]="bannerList[0]?.image" alt="Slide Image" class="temp-banner-image">
 </div>
 <!-- <app-horizontal-slider [items]="bannerList" [itemWidth]="100" itemWidthUnit="vw" [itemHeight]="550" maxWidth="79" maxWidthUnit="vw" (itemClicked)="onBannerClick($event)">
 </app-horizontal-slider> -->

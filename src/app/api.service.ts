@@ -243,7 +243,12 @@ export class ApiService {
     return this.http.get<number>(`${this.config.apiUri}/api/Product/category-count/${id}`);
   }
 
-  getTopSellers(): Observable<TopProduct[]> {
-    return this.http.get<TopProduct[]>(`${this.config.apiUri}/api/Order/top-selling`);
+  getTopSellers(options?: { limit?: number }): Observable<TopProduct[]> {
+    let params = new HttpParams();
+
+    if (options?.limit) {
+      params = params.set("limit", options.limit);
+    }
+    return this.http.get<TopProduct[]>(`${this.config.apiUri}/api/Order/top-selling`, { params });
   }
 }

@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit {
   }
 
   async fetchTopProducts(): Promise<void> {
-    return firstValueFrom(this.api.getTopSellers())
+    return firstValueFrom(this.api.getTopSellers({ limit: 10 }))
       .then((res) => {
         this.hasApiError = false;
         this.topProducts = res as TopProduct[];
@@ -80,7 +80,6 @@ export class HomeComponent implements OnInit {
         this.hasApiError = true;
       });
   }
-
   onTopProductClick(product: TopProduct): void {
     this.router.navigate([`/product/${product._id}`]);
   }
