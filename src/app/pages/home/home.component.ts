@@ -71,7 +71,7 @@ export class HomeComponent implements OnInit {
   }
 
   async fetchDiscountedProducts(): Promise<void> {
-    return firstValueFrom(this.api.getProducts("discount"))
+    return firstValueFrom(this.api.getProducts({ sortBy: "discount", limit: 10 }))
       .then((res) => {
         this.hasApiError = false;
         this.discountedProducts = res as Product[];

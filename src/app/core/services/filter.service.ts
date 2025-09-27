@@ -5,7 +5,7 @@ import { BehaviorSubject } from "rxjs";
   providedIn: "root",
 })
 export class FilterService {
-  private minPriceSubject = new BehaviorSubject<number>(50);
+  private minPriceSubject = new BehaviorSubject<number>(0);
   private maxPriceSubject = new BehaviorSubject<number>(10000);
   private selectedCategoriesSubject = new BehaviorSubject<string[]>([]);
   private searchQuerySubject = new BehaviorSubject<string>("");
