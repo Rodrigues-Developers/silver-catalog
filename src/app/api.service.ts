@@ -38,12 +38,16 @@ export class ApiService {
     );
   }
 
-  getProducts(sortBy?: keyof Product, ascending = false): Observable<Product[]> {
+  getProducts(options?: { sortBy?: keyof Product; ascending?: boolean; limit?: number }): Observable<Product[]> {
     let params = new HttpParams();
 
-    if (sortBy) {
-      params = params.set("sortBy", sortBy);
-      params = params.set("ascending", ascending.toString());
+    if (options?.sortBy) {
+      params = params.set("sortBy", options.sortBy);
+      params = params.set("ascending", (options.ascending ?? false).toString());
+    }
+
+    if (options?.limit) {
+      params = params.set("limit", options.limit);
     }
 
     return this.http.get<Product[]>(`${this.config.apiUri}/api/Product`, { params });
