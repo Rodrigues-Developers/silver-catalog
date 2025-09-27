@@ -9,6 +9,7 @@ import { FilterService } from "../../core/services/filter.service";
 import { LoadingComponent } from "../../components/shared/loading/loading.component";
 import { MatIcon } from "@angular/material/icon";
 import { handleTranstition } from "src/app/utils/animation";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-category-details",
@@ -24,15 +25,20 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy {
   selectedCategoryName: string;
   loading = true;
   showFilter = false;
+  filterSub: Subscription;
 
   constructor(private api: ApiService, private filterService: FilterService) {}
 
   ngOnInit(): void {
     this.fetchCategories();
+    this.filterSub = this.updateCategoryFromSideBar();
   }
+
   ngOnDestroy(): void {
     this.filterService.resetFilters();
+    this.filterSub.unsubscribe();
   }
+
   fetchCategories(): void {
     this.api.getCategories().subscribe({
       next: (res) => {
@@ -61,5 +67,11 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy {
     this.showFilter = !this.showFilter;
 
     handleTranstition(element);
+  }
+
+  updateCategoryFromSideBar() {
+    return this.filterService.selectedCategories$.subscribe((categories) => {
+      this.selectedCategoryName = this.categoryList.filter((category) => category.id === categories[0])[0]?.name;
+    });
   }
 }
