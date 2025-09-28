@@ -107,8 +107,18 @@ export class ApiService {
   }
 
   // Categories
-  getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.config.apiUri}/api/Category`);
+  getCategories(options?: { sortBy?: keyof Category; ascending?: boolean; limit?: number }): Observable<Category[]> {
+    let params = new HttpParams();
+
+    if (options?.sortBy) {
+      params = params.set("sortBy", options.sortBy);
+      params = params.set("ascending", (options.ascending ?? false).toString());
+    }
+
+    if (options?.limit) {
+      params = params.set("limit", options.limit);
+    }
+    return this.http.get<Category[]>(`${this.config.apiUri}/api/Category`, { params });
   }
 
   getCategory(categoryId: string): Observable<Category> {

@@ -5,7 +5,7 @@
 <!-- <app-horizontal-slider [items]="bannerList" [itemWidth]="100" itemWidthUnit="vw" [itemHeight]="550" maxWidth="79" maxWidthUnit="vw" (itemClicked)="onBannerClick($event)">
 </app-horizontal-slider> -->
 <app-dynamic-text></app-dynamic-text>
-<app-category-list></app-category-list>
+<app-category-list [limit]="5"></app-category-list>
 <h4>Melhores ofertas</h4>
 <app-item-list [items]="discountedProducts" [extraFields]="['price']" (itemClicked)="onDiscountClick($event)"></app-item-list>
 <h4>Peças mais procuradas</h4>
