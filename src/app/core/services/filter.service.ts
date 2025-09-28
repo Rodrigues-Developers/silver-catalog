@@ -32,7 +32,7 @@ export class FilterService {
   }
 
   resetFilters() {
-    this.minPriceSubject.next(50);
+    this.minPriceSubject.next(0);
     this.maxPriceSubject.next(10000);
     this.selectedCategoriesSubject.next([]);
     this.searchQuerySubject.next("");

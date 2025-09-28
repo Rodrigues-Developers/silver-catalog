@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { ApiService } from "src/app/api.service";
 import { Category } from "src/app/interfaces/category.interface";
@@ -12,13 +12,18 @@ import { CommonModule } from "@angular/common";
   templateUrl: "./category-list.component.html",
   styleUrls: ["./category-list.component.less"],
 })
-export class CategoryListComponent {
+export class CategoryListComponent implements OnInit {
+  @Input() limit: number;
+  @Input() sortBy: string;
+  @Input() ascending: boolean;
+  @Input() customClass?: string = "";
   hasApiError = false;
   categoryList: Category[];
-  @Input() customClass?: string = "";
 
-  constructor(private api: ApiService, private router: Router) {
-    this.api.getCategories().subscribe({
+  constructor(private api: ApiService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.api.getCategories({ sortBy: this.sortBy as keyof Category, ascending: this.ascending, limit: this.limit }).subscribe({
       next: (res) => {
         this.hasApiError = false;
         this.categoryList = res as Category[];

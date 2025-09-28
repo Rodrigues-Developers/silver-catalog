@@ -94,7 +94,7 @@ export class CartComponent implements OnDestroy {
     const encodedMessage = encodeURIComponent(message);
 
     // Recipient number
-    const phoneNumber = "559581122871";
+    const phoneNumber = "559591428927";
 
     // Open WhatsApp chat with formatted message
     window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, "_blank");
