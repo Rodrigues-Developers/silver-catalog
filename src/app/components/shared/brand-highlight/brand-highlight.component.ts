@@ -12,7 +12,7 @@ export class BrandHighlightComponent implements AfterViewInit {
   isVisible = false;
 
   stats = [
-    { value: "100%", label: "Prata 925" },
+    { value: "100%", label: "Prata" },
     { value: "+1.000", label: "Clientes satisfeitas" },
     { value: "Alta", label: "Durabilidade" },
   ];
