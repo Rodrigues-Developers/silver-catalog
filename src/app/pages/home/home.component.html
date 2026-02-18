@@ -1,22 +1,67 @@
-@if(!loading){
-<div>
-  <img [src]="bannerList[0]?.image" alt="Slide Image" class="temp-banner-image">
-</div>
-<!-- <app-horizontal-slider [items]="bannerList" [itemWidth]="100" itemWidthUnit="vw" [itemHeight]="550" maxWidth="79" maxWidthUnit="vw" (itemClicked)="onBannerClick($event)">
-</app-horizontal-slider> -->
-<app-dynamic-text></app-dynamic-text>
-<app-category-list [limit]="5"></app-category-list>
-<h4>Melhores ofertas</h4>
-<app-item-list [items]="discountedProducts" [extraFields]="['price']" (itemClicked)="onDiscountClick($event)"></app-item-list>
-<h4>Peças mais procuradas</h4>
-<app-item-list [items]="topProducts" [extraFields]="['price']" (itemClicked)="onTopProductClick($event)"></app-item-list>
+@if (!loading) {
 
-<section class="instagram-feed">
-  <iframe class="instagram-media instagram-media-rendered" id="instagram-embed-1" src="https://www.instagram.com/ags_prata_925/embed/" allowtransparency="true"
-    allowfullscreen="false" frameborder="0" scrolling="no"></iframe>
-</section>
-}
-@else {
+<div class="home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <img [src]="bannerList[0]?.image" alt="Banner" />
+
+    <div class="hero-overlay">
+      <h1>Joias que destacam sua beleza</h1>
+      <p>Peças delicadas, modernas e atemporais</p>
+      <button (click)="onCollectionClick()">Ver coleção</button>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="section categories">
+    <div class="section-header">
+      <h2>Categorias</h2>
+      <p>Explore nossas coleções</p>
+    </div>
+
+    <app-category-list [limit]="5"></app-category-list>
+  </section>
+
+  <!-- BEST OFFERS -->
+  <section class="section products">
+    <div class="section-header">
+      <h2>Melhores ofertas</h2>
+      <p>Descubra nossas peças em destaque</p>
+    </div>
+
+    <app-item-list [items]="discountedProducts" [extraFields]="['price']" (itemClicked)="onDiscountClick($event)">
+    </app-item-list>
+  </section>
+
+  <!-- MOST WANTED -->
+  <section class="section products alt">
+    <div class="section-header">
+      <h2>Peças mais procuradas</h2>
+      <p>As favoritas das nossas clientes</p>
+    </div>
+
+    <app-item-list [items]="topProducts" [extraFields]="['price']" (itemClicked)="onTopProductClick($event)">
+    </app-item-list>
+  </section>
+  <!-- BRAND HIGHLIGHT -->
+  <section>
+    <app-brand-highlight></app-brand-highlight>
+  </section>
+
+  <!-- INSTAGRAM -->
+  <section class="section instagram">
+    <div class="section-header">
+      <h2>Instagram</h2>
+      <p>Siga-nos para mais inspirações</p>
+    </div>
+
+    <iframe src="https://www.instagram.com/ags_prata_925/embed/" frameborder="0">
+    </iframe>
+  </section>
+</div>
+
+} @else {
 <div class="container">
   <app-loading></app-loading>
 </div>

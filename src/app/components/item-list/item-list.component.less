@@ -15,7 +15,7 @@
   .list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
-    gap: 10px;
+    gap: 14px;
     width: 80%;
     list-style: none;
     padding: 10px 0;
@@ -41,18 +41,25 @@
     }
 
     li {
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
       text-align: center;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.05);
+      color: #88761c;
       .discount {
         text-decoration: line-through;
       }
-
       &:hover {
         transform: translateY(-5px);
         cursor: pointer;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
         .price {
           color: #0f7c03;
         }
@@ -62,8 +69,6 @@
         width: 100%;
         height: 245px;
         object-fit: cover;
-        border-radius: 8px;
-        margin-bottom: 8px;
       }
 
       .product-details {

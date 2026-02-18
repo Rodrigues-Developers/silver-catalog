@@ -12,13 +12,14 @@ import { Banner } from "src/app/interfaces/banner.interface";
 import { Router } from "@angular/router";
 import { Product, TopProduct } from "src/app/interfaces/products.interface";
 import { ItemListComponent } from "src/app/components/item-list/item-list.component";
+import { BrandHighlightComponent } from "src/app/components/shared/brand-highlight/brand-highlight.component";
 
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.less"],
   standalone: true,
-  imports: [CommonModule, LoadingComponent, DynamicTextComponent, CategoryListComponent, HorizontalSliderComponent, ItemListComponent],
+  imports: [CommonModule, LoadingComponent, DynamicTextComponent, CategoryListComponent, HorizontalSliderComponent, ItemListComponent, BrandHighlightComponent],
 })
 export class HomeComponent implements OnInit {
   user: User | null = null;
@@ -27,7 +28,11 @@ export class HomeComponent implements OnInit {
   bannerList: Banner[] = [];
   topProducts: TopProduct[] = [];
   discountedProducts: Product[] = [];
-  constructor(private authService: AuthService, private api: ApiService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private api: ApiService,
+    private router: Router,
+  ) {}
 
   async ngOnInit(): Promise<void> {
     try {
@@ -57,6 +62,10 @@ export class HomeComponent implements OnInit {
     //remove the domain from the link
     const adaptedLink = banner.link?.replace(/^https?:\/\/[^/]+\//, "");
     if (adaptedLink) this.router.navigate([adaptedLink]);
+  }
+
+  onCollectionClick(): void {
+    this.router.navigate(["/category/0"]);
   }
 
   async fetchTopProducts(): Promise<void> {

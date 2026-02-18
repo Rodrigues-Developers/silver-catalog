@@ -4,7 +4,7 @@
 body {
   background-color: @body-bg;
   color: @text-color;
-  font-family: Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 ul,
@@ -19,6 +19,12 @@ html,
 body {
   height: 100%;
   background: rgb(237 237 237);
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Playfair Display", serif;
 }
 
 mat-icon {
@@ -57,7 +63,9 @@ mat-icon {
     justify-content: space-between;
     width: auto;
     /* Dynamically adjust width */
-    animation: fade-in 0.5s ease, fade-out 0.5s 3s ease forwards;
+    animation:
+      fade-in 0.5s ease,
+      fade-out 0.5s 3s ease forwards;
     /* Entry & exit animations */
 
     &.toast-success {
