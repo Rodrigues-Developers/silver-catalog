@@ -1,0 +1,26 @@
+<section class="brand-highlight" #sectionRef [class.visible]="isVisible">
+
+  <div class="content">
+
+    <div class="text">
+      <h2>Elegância em cada detalhe</h2>
+
+      <p>
+        Trabalhamos com prata de alta qualidade,
+        garantindo brilho duradouro, sofisticação
+        e acabamento impecável em cada peça.
+      </p>
+    </div>
+
+    <div class="stats">
+      @for (stat of stats; track $index) {
+      <div class="stat">
+        <span class="number">{{ stat.value }}</span>
+        <span class="label">{{ stat.label }}</span>
+      </div>
+      }
+    </div>
+
+  </div>
+
+</section>

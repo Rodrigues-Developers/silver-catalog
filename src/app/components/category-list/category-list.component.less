@@ -33,16 +33,14 @@
     }
     .item-container {
       .category-item {
-        background: #ffffff; /* Item background */
-        border: 1px solid #e0e0e0; /* Light border for separation */
-        border-radius: 6%;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
         padding: 10px;
         display: flex;
         justify-content: center;
         flex-direction: column;
         align-items: center;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
         text-align: center;
         &:hover {
           transform: translateY(-5px); /* Lift item slightly on hover */
