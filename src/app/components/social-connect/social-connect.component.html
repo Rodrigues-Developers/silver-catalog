@@ -1,0 +1,21 @@
+<div class="social-connect">
+
+  <div class="header fade-in">
+    <h2>Nossas redes sociais</h2>
+    <p>Siga-nos para mais inspirações e novidades</p>
+  </div>
+
+  <div class="social-grid">
+
+    @for (social of socialLinks; track $index) {
+    <div class="social-card fade-in" [style.transitionDelay.ms]="$index * 150" (click)="open(social.url)">
+      <div class="icon-wrapper">
+        <mat-icon>{{ social.icon }}</mat-icon>
+      </div>
+      <span>{{ social.label }}</span>
+    </div>
+    }
+
+  </div>
+
+</div>

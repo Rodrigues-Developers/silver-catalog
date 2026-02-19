@@ -38,7 +38,7 @@
   <section class="section products alt">
     <div class="section-header">
       <h2>Peças mais procuradas</h2>
-      <p>As favoritas das nossas clientes</p>
+      <p>As favoritas de nossos clientes</p>
     </div>
 
     <app-item-list [items]="topProducts" [extraFields]="['price']" (itemClicked)="onTopProductClick($event)">
@@ -49,16 +49,11 @@
     <app-brand-highlight></app-brand-highlight>
   </section>
 
-  <!-- INSTAGRAM -->
-  <section class="section instagram">
-    <div class="section-header">
-      <h2>Instagram</h2>
-      <p>Siga-nos para mais inspirações</p>
-    </div>
-
-    <iframe src="https://www.instagram.com/ags_prata_925/embed/" frameborder="0">
-    </iframe>
+  <!-- Social Media -->
+  <section>
+    <app-social-connect></app-social-connect>
   </section>
+
 </div>
 
 } @else {

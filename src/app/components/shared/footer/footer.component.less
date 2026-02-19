@@ -20,8 +20,8 @@
     position: relative;
     width: 100%;
     background: #4d565b;
-    min-height: 100px;
-    padding: 20px 50px;
+    min-height: 80px;
+    padding: 8px 50px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -71,13 +71,16 @@
 
     p {
       color: #fff;
-      margin: 15px 0 10px 0;
       font-size: 1rem;
       font-weight: 300;
+      margin-bottom: 0;
+      a {
+        color: #abccfd;
+      }
       &.hidden-msg {
         position: absolute;
         color: transparent;
-        margin-top: 5rem;
+        transform: translateY(16px);
       }
     }
   }

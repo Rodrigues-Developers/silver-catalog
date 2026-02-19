@@ -13,13 +13,23 @@ import { Router } from "@angular/router";
 import { Product, TopProduct } from "src/app/interfaces/products.interface";
 import { ItemListComponent } from "src/app/components/item-list/item-list.component";
 import { BrandHighlightComponent } from "src/app/components/shared/brand-highlight/brand-highlight.component";
+import { SocialConnectComponent } from "src/app/components/social-connect/social-connect.component";
 
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.less"],
   standalone: true,
-  imports: [CommonModule, LoadingComponent, DynamicTextComponent, CategoryListComponent, HorizontalSliderComponent, ItemListComponent, BrandHighlightComponent],
+  imports: [
+    CommonModule,
+    LoadingComponent,
+    DynamicTextComponent,
+    CategoryListComponent,
+    HorizontalSliderComponent,
+    ItemListComponent,
+    BrandHighlightComponent,
+    SocialConnectComponent,
+  ],
 })
 export class HomeComponent implements OnInit {
   user: User | null = null;
