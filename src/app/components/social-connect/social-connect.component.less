@@ -1,0 +1,120 @@
+.social-connect {
+  text-align: center;
+  background: #fafafa;
+  .header {
+    h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 36px;
+      color: #222;
+      margin-bottom: 12px;
+    }
+
+    p {
+      color: #777;
+      font-size: 16px;
+    }
+  }
+
+  .social-grid {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .social-card {
+    width: 140px;
+    height: 140px;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+    overflow: hidden;
+
+    /* Soft glow animation */
+    &::before {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(201, 169, 110, 0.15), transparent 60%);
+      top: -50%;
+      left: -50%;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    &:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.08);
+
+      &::before {
+        opacity: 1;
+      }
+
+      .icon-wrapper {
+        transform: scale(1.15);
+      }
+
+      mat-icon {
+        color: #c9a96e;
+      }
+    }
+
+    .icon-wrapper {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #f8f8f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 12px;
+      transition: transform 0.4s ease;
+    }
+
+    mat-icon {
+      font-size: 28px;
+      transition: color 0.4s ease;
+      color: #444;
+    }
+
+    span {
+      font-size: 14px;
+      color: #555;
+      font-weight: 500;
+    }
+  }
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .social-connect {
+    .social-grid {
+      gap: 25px;
+    }
+
+    .social-card {
+      width: 120px;
+      height: 120px;
+    }
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 2s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fade-in.show {
+  opacity: 1;
+  transform: translateY(0);
+}
